@@ -10,6 +10,8 @@
 
 > **Alcance.** Describe el diseño actual observable y distingue implementación, decisiones de diseño y aceptación pendiente. Las pantallas y pruebas automatizadas no se interpretan por sí solas como aceptación operativa.
 
+> **Cambios posteriores al corte:** consultar el [addendum de arquitectura HU-48](../03_Analisis_Software/Arquitectura_Implementada_2026-10-27.md) y su [evaluación con evidencia local](../03_Analisis_Software/Evaluacion_Arquitectura_y_Brechas_HU48.md). Las condiciones descritas al 27 de octubre no sustituyen el estado del árbol actual.
+
 ---
 
 ## 1. Resumen y decisiones vigentes

@@ -65,24 +65,24 @@ coincidía con uno de los archivos importados se conserva como
 
 Los documentos actualizados están organizados dentro de las carpetas numeradas originales, en el mismo orden de la carpeta de entrega. La fecha de corte es 27 de octubre de 2026.
 
-| Orden | Carpeta | Documento Markdown actualizado |
+| Orden | Carpeta | Documento de referencia |
 |---:|---|---|
 | 01 | 01_Documento_General_Proyecto | [Estado general y alcance](01_Documento_General_Proyecto/Estado_General_Actualizado_2026-10-27.md) |
-| 02 | 02_Especificacion_Requisitos | [Trazabilidad del SRS V4](02_Especificacion_Requisitos/Trazabilidad_SRS_V4_Actualizada_2026-10-27.md) · [SRS V4 baseline editable](02_Especificacion_Requisitos/SRS_V4_Base_2026-10-13.md) |
-| 03 | 03_Analisis_Software | [Arquitectura implementada](03_Analisis_Software/Arquitectura_Implementada_2026-10-27.md) |
-| 04 | 04_Propuesta_Tecnica | [Propuesta técnica actualizada](04_Propuesta_Tecnica/Propuesta_Tecnica_Actualizada_2026-10-27.md) |
-| 05 | 05_Diseno_Software | [Diseño funcional y flujos](05_Diseno_Software/Flujos_Funcionales_Actualizados_2026-10-27.md) |
-| 06 | 06_Base_Datos | [Base de datos y migraciones](06_Base_Datos/Base_Datos_Migraciones_Actualizadas_2026-10-27.md) |
-| 07 | 07_Pruebas | [Pruebas y evidencias](07_Pruebas/Pruebas_Evidencias_Actualizadas_2026-10-27.md) |
-| 08 | 08_Calidad_Mejoras | [Calidad, seguridad y mejoras](08_Calidad_Mejoras/Calidad_Seguridad_Mejoras_Actualizadas_2026-10-27.md) |
-| 09 | 09_Implementacion | [Implementación realizada](09_Implementacion/Implementacion_Realizada_2026-10-27.md) |
-| 10 | 10_Manual_Tecnico | [Manual técnico](10_Manual_Tecnico/Manual_Tecnico_Actualizado_2026-10-27.md) |
-| 11 | 11_Manual_Instalacion | [Manual de instalación](11_Manual_Instalacion/Manual_Instalacion_Actualizado_2026-10-27.md) |
-| 12 | 12_Manual_Usuario | [Manual de usuario](12_Manual_Usuario/Manual_Usuario_Actualizado_2026-10-27.md) |
-| 13 | 13_Articulo_Proyecto | [Artículo: resultados y límites](13_Articulo_Proyecto/Articulo_Resultados_Actualizados_2026-10-27.md) |
-| 14 | 14_Anexos | [Licencias, costos y dependencias](14_Anexos/Licencias_Costos_Dependencias_2026-10-27.md) |
-| 15 | 15_Link_Repositorios | [Repositorios y versiones](15_Link_Repositorios/Repositorios_y_Versiones_2026-10-27.md) |
+| 02 | 02_Especificacion_Requisitos | [SRS V4 y trazabilidad](02_Especificacion_Requisitos/SRS_FaceLit_V4.md) |
+| 03 | 03_Analisis_Software | [Arquitectura HU-48](03_Analisis_Software/Arquitectura_HU48.md) (vigente) / [corte anterior](03_Analisis_Software/Arquitectura_Implementada_2026-10-27.md) · [Evaluación arquitectónica y brechas HU-48](03_Analisis_Software/Evaluacion_Arquitectura_y_Brechas_HU48.md) |
+| 04 | 04_Propuesta_Tecnica | [Propuesta técnica actualizada](04_Propuesta_Tecnica/04_Propuesta_Tecnica.md) |
+| 05 | 05_Diseno_Software | [Diseño funcional y flujos](05_Diseno_Software/Flujos_Funcionales.md) |
+| 06 | 06_Base_Datos | [Base de datos y migraciones](06_Base_Datos/Base_Datos_Migraciones.md) |
+| 07 | 07_Pruebas | [Pruebas y evidencias](07_Pruebas/Pruebas_Evidencias_Actualizadas.md) |
+| 08 | 08_Calidad_Mejoras | [Calidad, seguridad y mejoras](08_Calidad_Mejoras/08_Calidad_Mejoras.md) |
+| 09 | 09_Implementacion | [Implementación realizada](09_Implementacion/09_Implementacion.md) |
+| 10 | 10_Manual_Tecnico | [Manual técnico](10_Manual_Tecnico/10_Manual_Tecnico.md) |
+| 11 | 11_Manual_Instalacion | [Manual de instalación](11_Manual_Instalacion/11_Manual_Instalacion.md) |
+| 12 | 12_Manual_Usuario | [Manual de usuario](12_Manual_Usuario/12_Manual_Usuario.md) |
+| 13 | 13_Articulo_Proyecto | [Artículo: resultados y límites](13_Articulo_Proyecto/13_Articulo_Proyecto.pdf) |
+| 14 | 14_Anexos | [Licencias, costos y dependencias](14_Anexos/Licencia_de_Software_Propuesta.md) |
+| 15 | 15_Link_Repositorios | [Repositorios y versiones](15_Link_Repositorios/Repositorios_del_proyecto.md) |
 | 16 | 16_Diseño_Visual | [Sistema visual e interfaz](16_Diseño_Visual/Sistema_Visual_UI_2026-10-27.md) |
-| 17 | 17_Despliegue | [Despliegue Hostinger](17_Despliegue/Despliegue_Hostinger_2026-10-27.md) |
+| 17 | 17_Despliegue | [Despliegue Hostinger](17_Despliegue/Despliegue_Hostinger.md) |
 
 Los documentos describen el corte reportado, diferencian lo implementado de lo pendiente y conservan el SRS V4 como baseline de requisitos. Los PDF/Word originales permanecen intactos; cuando su contenido describa una plataforma o estado anterior, debe marcarse como histórico antes de distribuir la carpeta. La matriz SRS V4 tiene fecha 13 de octubre y requiere revisión requisito por requisito contra el corte actual. La actualización documental no equivale a aceptación oficial ni a una nueva prueba del sistema.

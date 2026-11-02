@@ -25,7 +25,7 @@ La arquitectura de ejecución se documenta como cliente Expo → API Spring Boot
 
 El flujo facial vigente usa los retos `MOVE_UP`, `MOVE_DOWN`, `MOVE_CLOSER` y `MOVE_AWAY`; la secuencia documentada pide dos retos distintos con siete imágenes por reto. El umbral observado `0.65` es de similitud, no una medida de precisión. Estos datos describen el flujo y sus límites, no patrones de diseño adicionales.
 
-Para diseño funcional, consulte [flujos funcionales actualizados](Flujos_Funcionales_Actualizados_2026-10-27.md). Para la propuesta consolidada, consulte [Diseño de Software actualizado (PDF)](05_Diseno_Software_Actualizado_2026-10-27.pdf). La presencia de despliegue y chequeos técnicos no sustituye la aceptación manual pendiente para login real, CSV, SMTP, cámara/asistencia y restauración.
+Para diseño funcional, consulte [flujos funcionales](Flujos_Funcionales.md). Para la propuesta consolidada, consulte [Diseño de Software](05_Diseno_Software.md). El [addendum HU-48 de arquitectura](../03_Analisis_Software/Arquitectura_Implementada_2026-10-27.md#addendum-hu-48--límites-de-dominio-y-catálogo-de-ambientes) registra los cambios posteriores a este corte. La presencia de despliegue y chequeos técnicos no sustituye la aceptación manual pendiente para login real, CSV, SMTP, cámara/asistencia y restauración.
 
 ## Resultado por repositorio
 

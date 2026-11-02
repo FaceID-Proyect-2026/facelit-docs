@@ -3,9 +3,11 @@
 **Corte de referencia:** 27 de octubre de 2026.  
 **Distinción:** este documento registra la arquitectura descrita para el sistema actual; la propuesta de Render/Vercel de los documentos previos se conserva como antecedente histórico.
 
+> Estado consolidado de los árboles HU-48: [Arquitectura HU-48](Arquitectura_HU48.md). El contenido fechado del 27 de octubre se conserva como referencia histórica.
+
 ## Arquitectura lógica
 
-FaceLit se organiza en cuatro componentes desplegables y una base compartida:
+FaceLit se organiza en tres componentes de ejecución y un repositorio de migraciones para la base compartida:
 
 1. **Cliente FaceLit:** Expo/React Native. La versión web entrega pantallas y controla navegación, captura, estado y solicitudes HTTP.
 2. **Backend FaceLit-Backend:** Java 17 y Spring Boot 3.4.1. Es un monolito modular organizado en autenticación, gestión académica, ambientes/sesiones, facial/asistencia, notificaciones y módulos compartidos.
@@ -72,3 +74,31 @@ Las tres capas son una separación lógica dentro de las aplicaciones, no tres s
 ## Referencias de código
 
 SHA de referencia: FaceLit 5f7d6fe, FaceLit-Backend 2ab0bcd, micro-facial 1e12c6c y FaceLit-DB 41a063f. Ejemplos verificables en esos repositorios: FaceLit/features/facial/livenessChallenges.ts; FaceLit-Backend/.../FacialEmbeddingVerificationClient.java; micro-facial/app/services/liveness_validator.py; FaceLit-DB/06_migrations/.
+
+## Addendum HU-48 — límites de dominio y catálogo de ambientes
+
+**Corte del addendum:** 2 de noviembre de 2026. Complementa la referencia histórica anterior; los cambios de HU-48 aún requieren revisión y validación de integración.
+
+### Responsabilidad por dominio
+
+| Componente | Autoridad | Datos que puede solicitar o persistir |
+|---|---|---|
+| FaceLit | Experiencia, captura, validación de formulario y presentación de resultados | No consulta la base ni conserva credenciales de micro-facial |
+| FaceLit-Backend | Identidad autenticada, roles, ficha/sesión, elegibilidad y reglas de asistencia | Resuelve `apprentice_id`, construye el alcance autorizado y persiste el evento |
+| micro-facial | Inferencia, liveness, comparación y ciclo de vida de la plantilla facial | Recibe IDs ya resueltos; opera en el código sobre `facialrecognition.user_face` y `facialrecognition.face_reset_request` |
+| FaceLit-DB | Esquema, relaciones, restricciones, permisos y migraciones | Liquibase versiona contratos relacionales; CI debe validar cambios compatibles |
+
+### Contratos internos de HU-48
+
+- Para enrolamiento, Spring deriva el aprendiz del JWT validado y envía `apprentice_id`; el `reset_owner_user_id` también proviene del principal autenticado, no del cuerpo del cliente. El microservicio consume el token de reemplazo solo para ese propietario.
+- Para asistencia, Spring valida sesión, ficha y operador. Envía a FastAPI `candidate_apprentice_ids` de aprendices activos de esa ficha. FastAPI compara solo contra esa lista; ya no recibe ni consulta el ID de sesión.
+- Spring comprueba nuevamente el resultado antes de persistir asistencia. El vector facial no se devuelve al cliente.
+- La gestión de catálogo del coordinador vive en `/api/admin/environments/**`; `/api/environment/**` permanece como operación de sesión del instructor. Desactivar conserva historial y se bloquea mientras haya sesiones activas o programadas.
+
+### Límite pendiente de despliegue
+
+El código de micro-facial deja de consultar tablas de `security`, `academic` y `environment`. FaceLit-DB ahora versiona un rol de grupo y grants limitados a los objetos de `facialrecognition`; incluye un script para provisionar el login dedicado. El workflow de micro-facial prepara ese rol en PostgreSQL efímero y comprueba acceso permitido y denegado. Ambos procesos siguen conectados al mismo PostgreSQL físico, así que hay aislamiento de privilegios por esquema, no aislamiento físico.
+
+El usuario de ejecución puede leer/escribir las plantillas y consumir tokens de reset aprobados; no recibe acceso a identidad, fichas, ambientes ni asistencia. La CI incorpora una comprobación de privilegios antes de la suite, pero aún debe ejecutarse en el commit final. Los flujos de enrolamiento, reset y asistencia necesitan aprobación de integración con la credencial restringida antes de declarar cerrado el gate de despliegue.
+
+La evaluación de estadísticas y la matriz completa de brechas está en [Evaluación arquitectónica y brechas HU-48](Evaluacion_Arquitectura_y_Brechas_HU48.md).
