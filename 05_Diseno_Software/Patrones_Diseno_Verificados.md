@@ -112,7 +112,7 @@ Los DTO transportan datos del contrato de entrada/salida; su existencia por sí 
 
 ### Repository, Service Layer y dependencias
 
-[facial_embeddings.py](../../micro-facial/app/api/v1/routes/facial_embeddings.py) obtiene la sesión con `Depends(db_session)` y llama a `FacialEmbeddingService`. [facial_embedding_service.py](../../micro-facial/app/services/facial_embedding_service.py) coordina validaciones, generación de embeddings y persistencia. [FacialEmbeddingRepository](../../micro-facial/app/repositories/facial_embedding_repository.py) encapsula consultas SQL. El servicio realiza commit/rollback en sus operaciones de escritura.
+[facial_embeddings.py](../../micro-facial/app/api/v1/routes/facial_embeddings.py) recibe `FacialEmbeddingService` mediante `Depends(facial_service)`. El proveedor en `app/api/dependencies.py` recibe la sesión y conecta el repositorio, el trabajador y la política de detección de vida. El servicio usa un protocolo de transacción para confirmar o revertir cambios. [facial_embedding_service.py](../../micro-facial/app/services/facial_embedding_service.py) coordina validaciones, generación de embeddings y persistencia. [FacialEmbeddingRepository](../../micro-facial/app/repositories/facial_embedding_repository.py) encapsula consultas SQL. El servicio realiza commit/rollback en sus operaciones de escritura.
 
 [session.py](../../micro-facial/app/db/session.py) define el engine y `async_sessionmaker`, y entrega sesiones con un generador asíncrono. La sesión de cada solicitud no debe describirse como una única sesión global compartida.
 
