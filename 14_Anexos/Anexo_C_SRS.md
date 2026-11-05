@@ -1,136 +1,121 @@
-# Anexo C — Inventario funcional actual
+# Anexo C Inventario funcional y técnico de FaceLit
 
-**FaceLit | Documentación del proyecto | Corte 27 oct 2026**
-Capacidades localizadas en los cuatro repositorios FaceLit | Corte 27 de octubre de 2026
+Revisión integral del 5 de noviembre de 2026. Este inventario reúne componentes, versiones, roles, funciones, datos e integraciones de la entrega documentada. Complementa los criterios del SRS V4.1 y los mapas de la carpeta 16.
 
-Este inventario distingue interfaz, contratos API y persistencia en código. La presencia de una pantalla, endpoint o migracion no prueba por si sola que un flujo se haya aceptado en producción.
+## 1 Componentes y revisiones fuente
 
-## C.1 Arquitectura del sistema
+Los cuatro checkouts locales revisados están en main. El manifiesto de empaquetado registra generatedAtUtc igual a 2026-11-05T03:13:24.4999680Z, equivalente al 4 de noviembre de 2026 en Colombia. Sus commits base coinciden con esta tabla.
 
-| Capa | Responsabilidad actual | Tecnologías |
+| Repositorio | Rama | SHA completo |
 |---|---|---|
-| Interfaz web/móvil | Rutas por rol, formularios, consultas, captura facial en web y preferencias. | Expo Router, React Native, TypeScript |
-| API de negocio | Autenticacion, usuarios, gestión académica, sesiones, eventos faciales/asistencia, notificaciones y perfil. | Java 17, Spring Boot 3.4.1, JWT, JDBC/JPA |
-| Servicio facial | Embeddings, retos de prueba de vida y matching de candidatos de sesión. | Python 3.11, FastAPI, InsightFace, MediaPipe, ONNX |
-| Datos/migraciones | Esquema relacional compartido, pgvector, catalogos e historico de cambios. | PostgreSQL 16 + pgvector, Liquibase |
+| FaceLit | main | 6efd92cdd7e4e358b131cbe860cd8585d13e5550 |
+| FaceLit-Backend | main | 2ba739853a808c8e5902f70eae98706a612f91e6 |
+| micro-facial | main | 166e4a7f2245456277d57015259c678d8febfa9f |
+| FaceLit-DB | main | 422aac6da27e3b6b7009f6335e9a887763943089 |
 
-### Flujo de reconocimiento
+El frontend incorpora un ajuste local sin commit que consulta aprendices en lotes de hasta 80 fichas. FaceLit-DB tiene el commit local de compatibilidad de privacidad 422aac6, diferente de la referencia remota cd069ae0cb4947d4b7ebbff17e9d6dc280ab86fd descrita en el informe de despliegue. El manifiesto marca cambios locales en frontend; el árbol limpio de BD corresponde a un cambio ya confirmado localmente.
 
-Aprendiz / navegador web captura y completa dos retos aleatorios → API Spring valida cuenta, sesión y autorización → FastAPI analiza imagen/frames y compara plantilla → PostgreSQL conserva los registros definidos por el esquema → API responde el resultado a la interfaz. La API key entre backend y microservicio es de servidor; no debe publicarse en `EXPO_PUBLIC`.
+La publicación se preparó desde main local y se transfirió por SSH/SCP. El registro de un SHA base y un árbol limpio no demuestra que ese commit exista en origin/main ni que reproduzca los ajustes sin commit. Para reproducir el release se conserva paquete, manifiesto, configuración privada y digests de las imágenes.
 
-### Repositorios y línea base
+## 2 Tecnologías declaradas
 
-FaceLit `5f7d6fe` (dev); FaceLit-Backend `2ab0bcd` (dev); micro-facial `1e12c6c` (dev); FaceLit-DB `41a063f` (main). El checkout frontend presentaba cambios locales en `app.json`/`eas.json` no incluidos en su SHA. No se certifica un artefacto móvil o despliegue con esta inspección.
-
----
-
-## C.2 Inventario por rol
-
-| Area | Capacidades visibles / conectadas en código | Limite que debe recordarse |
+| Componente | Configuración revisada | Fuente |
 |---|---|---|
-| Acceso | Login, recuperacion, verificación de identidad y nueva contraseña. | Configurar correo/SMTP y probar expiración, límites y errores. |
-| Coordinador | Usuarios y roles, programas/fichas, CSV, ambientes, vistas de asistencia/reportes, bandeja de notificaciones. | Backend define roles; validar acceso UI/API y cada operación de negocio. |
-| Instructor | Consulta de fichas, configuración de sesión facial (ambiente, instructor, ficha, horarios), captura facial y consulta de asistencia/reportes. | La camara de asistencia se ofrece en web; fin de sesión puede requerir contraseña del responsable/reemplazo. |
-| Aprendiz | Panel personal, asistencia, notificaciones, perfil/preferencias y registro facial. | El registro facial se muestra como no disponible en celulares; requiere versión web. |
-| Comunes | Perfil, idioma ES/EN/DE/FR, tema y notificaciones. | Persistencia y sincronizacion de cada ajuste deben verificarse con versión desplegada. |
+| Frontend | Expo 57.0.25, React 19.2.3, React Native 0.86.3 y Expo Router. | package.json y package-lock.json. |
+| Backend | Java 17 y Spring Boot 3.4.1; JWT, JPA, correo y WebSocket. | pom.xml y configuración de servicios. |
+| Servicio facial | Python 3.11, FastAPI 0.115.6, InsightFace 0.7.3, MediaPipe 0.10.14 y ONNX Runtime 1.20.1. | Dockerfile, requirements.txt y app/core/config.py. |
+| Base de datos | PostgreSQL 16 y pgvector; migraciones Liquibase. | deploy/compose.yaml y FaceLit-DB. |
+| Migración en API | Liquibase Core 4.29.2, gestionado por el BOM de Spring Boot 3.4.1. | POM y BOM correspondiente. |
+| Migración operativa | Imagen liquibase/liquibase:5.0.2 y controlador PostgreSQL 42.7.8. | FaceLit-DB/docker/liquibase/Dockerfile. |
+| Publicación | Docker Compose, Caddy, HTTPS público y red privada de servicios. | deploy/compose.yaml, Caddyfile e informe de despliegue. |
 
----
+Las versiones declaradas describen los archivos revisados. El inventario instalado de un servidor se determina con su manifiesto y los digests de las imágenes del release. El migrador operativo y la biblioteca de la API son componentes con versiones distintas.
 
-## C.3 Integraciones identificadas
+## 3 Roles y navegación principal
 
-| Dominio | Integracion localizada | Estado de evidencia |
+| Rol | Entradas de Sidebar | Responsabilidad |
 |---|---|---|
-| Autenticacion / perfil | REST `/api/auth`, `/api/profile`, configuración; JWT. | Contrato y persistencia en código; pruebas de seguridad pendientes. |
-| Académico / CSV | `/api/academic` para programas, fichas (chip), instructores, aprendices, CSV, transferencias e historial. | Servicios backend/frontend; comprobar todos los casos de carga y traslado. |
-| Ambientes / sesiones | `/api/environment` para catalogo soportado y sesiones activas, horarios y clave de salida. | Integracion parcial; no suponer CRUD completo donde no haya endpoint. |
-| Facial | `/api/facial` para estado, enrolamiento y autorización; microservicio `/api/v1/facial-embeddings` para imagen, liveness, plantilla y matching. | Flujo actual coordinado en código; aceptar solo tras prueba integrada de versiones compatibles. |
-| Asistencia | Eventos faciales persistidos y consultas/matriz de asistencia en API, backend y esquema DB. | Revisar cobertura de informes, eventos manuales, correccion, permisos y exportacion. |
-| Notificaciones / tiempo real | Bandeja REST, lectura, resolucion de solicitud facial, catalogo de correo y WebSocket. | Eventos, reintentos, SMTP y reconexión requieren prueba en entorno. |
+| Coordinador | Panel; Usuarios; Gestión Académica; Ambientes; Asistencias; Notificaciones; Perfil. | Administra cuentas y formación, procesa CSV y traslados, gestiona ambientes y consulta asistencia. |
+| Instructor | Panel; Asistencias; Facial; Notificaciones; Perfil. | Consulta fichas autorizadas, configura sesión y usa la cámara para registrar asistencia. Mis fichas es un acceso contextual del panel. |
+| Aprendiz | Panel; Mi Asistencia; Reconocimiento Facial; Notificaciones; Perfil. | Consulta su formación y asistencia, registra su referencia y solicita reemplazo autorizado. |
 
----
+Sidebar define siete entradas para coordinación y cinco para instructor y aprendiz. Los layouts y useRoleGuard determinan el área del rol; la autorización definitiva depende de la API y del recurso. El catálogo de ambientes debe abrir dentro del área administrativa para una sesión válida de coordinación.
 
-## C.4 Modelo de datos y decisiones de alcance
+## 4 Inventario de capacidades
 
-El modelo compartido incluye cuentas/roles, recuperacion y configuración; programas, fichas, aprendices, instructores y relaciones; ambientes y sesiones; notificaciones; autorizaciones de reinicio facial, plantillas/eventos faciales y asistencia. El esquema real lo controla FaceLit-DB mediante Liquibase. La revisión de clases/changelogs no es una inspección de la base instalada.
-
-### Fuera del alcance o no acreditado
-
-- La administración de horarios académicos/excepciones fue retirada del alcance vigente. Las rutas o notas historicas no son contrato funcional. Las sesiones de ambiente con tiempos de entrada/salida son un dominio separado.
-- No se encontro implementación Raspberry Pi ni sincronizacion offline cifrada en los repositorios examinados.
-- Cifrado biometrico en reposo, retención y eliminación de imagen original, controles completos de privacidad y calibracion formal del matching no se acreditan por el inventario estatico.
-- No se inspeccióno una instancia productiva ni se ejecutaron pruebas de aceptación durante la preparacion de este anexo.
-
-### Fuentes
-
-README, controladores, servicios, configuraciones, migraciones, rutas frontend y contratos de FaceLit, FaceLit-Backend, micro-facial y FaceLit-DB, en los SHAs indicados. Para aceptar una funcion, conservar resultado de prueba por rol, entorno y versión.
-
----
----
-
-# ANEXO HISTORICO — INVENTARIO ANTERIOR
-
-> Estas paginas reproducen, sin modificacion, el inventario recibido. Algunas rutas, integraciones y limites descritos ya no representan el alcance actual. Usa las paginas iniciales de este PDF para consultar el inventario del corte 27 de octubre de 2026; esta parte se conserva solo como referencia historica.
->
-> Fin de la actualizacion; comienza la copia historica sin cambios.
-
-## Anexo C. Inventario funcional del sistema implementado
-
-Este anexo registra las capacidades visibles en el frontend y los servicios/endpoints localizados en FaceLit-Backend. "Existe en interfaz" describe pantallas y lógica cliente; "conectado" indica llamadas encontradas al backend; no equivale a una prueba de ejecución, despliegue o aceptación. Las claves RF-C1 a RF-C4 amplían el inventario funcional original.
-
-### C.1 Requisitos funcionales complementarios
-
-| ID / requisito | Comportamiento evidenciado | Estado y fuente |
+| Área | Funciones de la entrega | Punto de referencia |
 |---|---|---|
-| RF-C1 Horarios y excepciones | Vistas admin/instructor de lista, registro, detalle y excepciones. Cliente contempla búsqueda/estado, conflictos, sustitución, cancelación o reprogramación. | Interfaz y lógica cliente; store inicializado con datos mock. No se encontró API de horarios en el backend suministrado. |
-| RF-C2 Ambientes y sesiones | Vistas admin/instructor para ambientes. Para configurar sesiones el cliente consulta ambientes, instructores y fichas elegibles, crea sesiones y actualiza registros. | Parte del catálogo CRUD usa store/mock; backend ofrece GET/POST ambientes, consultas elegibles y POST/PUT sesiones bajo `/api/environment`. |
-| RF-C3 Preferencias de perfil | Perfil y configuración personal; idioma, tema y activación de notificaciones; opciones ES, EN, DE, FR. | Cliente consume GET/POST/PUT `/api/profile/configuration`. Persistencia por opción y entre sesiones debe confirmarse con prueba. |
-| RF-C4 Sincronización en tiempo real | WebSocket cliente con token; mensajes ready, sync, data.changed, authentication.failed; reconexión exponencial hasta 30 s. Backend tiene handler e interceptor. | Código cliente/servidor presente; URL, eventos por operación, autorización y reconexión requieren prueba integrada. |
+| Acceso y recuperación | Login por documento en la interfaz, sesión, código y nueva contraseña. | AuthContext, useRoleGuard y servicios de autenticación. |
+| Gestión académica | Programas, fichas, instructores, aprendices y relaciones. | Gestión Académica y servicios de dominio. |
+| CSV y traslados | Guía, carga hasta 20 MB y 5.000 filas, resultado y decisiones de cambio de ficha. | academicApi, importación y avisos de resultados. |
+| Usuarios | Listado, filtros, alta, consulta, edición y estado según autorización. | Vistas de usuarios y UserManagementServiceImpl. |
+| Ambientes | Catálogo, capacidad, estado y fichas vinculadas. | EnvironmentController y servicios de ambiente. |
+| Sesiones de ambiente | Ficha, dispositivo, responsables y tiempos de entrada, registro, salida y cierre. | environmentSessionApi y persistencia de sesión. |
+| Registro facial | Identidad, aviso, cámara, retos y confirmación de referencia. | useFacialRegistration, backend facial y micro-facial. |
+| Reemplazo facial | Solicitud del titular, decisión de coordinación y nueva autorización. | Solicitud, respuesta en bandeja y servicio facial. |
+| Asistencia facial | Sesión activa, verificación, eventos y clasificación temporal. | Cámara del instructor, API facial y persistencia. |
+| Consultas y reportes | Matriz, vista individual, historial, calendario y exportación según rol. | Hooks de asistencia y vistas de reportes. |
+| Notificaciones | Bandeja, filtros, lectura, categorías y decisiones aplicables. | Servicios de notificación, SMTP y WebSocket. |
+| Perfil y preferencias | Datos propios, tema claro u oscuro y ES, EN, DE o FR. | Perfil, configuración del titular y ThemeContext. |
 
-### C.2 Inventario de pantallas frontend
+Los estados de los requerimientos permanecen en el Anexo A. La presencia de una capacidad en este inventario identifica su módulo y recorrido; la aceptación detallada se documenta con sus casos CP y evidencias.
 
-Rutas encontradas como archivos de pantalla. Los layouts por rol invocan guard de autenticación; la inspección estática no certifica permisos en cada acción.
+## 5 Rutas y puntos de entrada
 
-| Área / rol | Rutas encontradas | Alcance visible |
+El diseño visual contiene el inventario de 63 rutas TSX, excluidos los layouts: cinco de acceso público, tres comunes, 27 de coordinación, 23 de instructor y cinco de aprendiz. Distingue entradas de menú, destinos contextuales, reutilización de vistas y redirecciones.
+
+Las rutas heredadas /apprentice/join-ficha y /apprentice/transfer-request redirigen a /apprentice/attendance. Los formularios de registro académico bajo instructor reutilizan vistas administrativas y no otorgan permiso de escritura. Los formularios modales de programa y ambiente se abren en el contexto del listado o detalle. Las constantes antiguas de routes.ts se contrastan con los archivos reales de app antes de usarse como inventario.
+
+## 6 Integraciones y datos principales
+
+| Intercambio | Responsabilidad | Datos o controles |
 |---|---|---|
-| Acceso/común | `/`; `/auth/login`; `/auth/verify-identity`; `/auth/password-recovery`; `/auth/newpassword`; `/notifications`; `/profile`; `/profile/settings` | Acceso, recuperación, notificaciones, perfil y preferencias. |
-| Administrador usuarios | `/admin`; `/admin/users`; `/admin/users/create`; `/admin/users/[id]` | Panel, listado, creación y detalle de cuentas. |
-| Administrador académico | `/admin/academic`; `/admin/academic/csv-upload`; `/admin/academic/assignments`; `/admin/academic/instructors`; `/admin/academic/programs/register`, `[id]`; `/admin/academic/fichas/register`, `[id]`; `/admin/academic/transfer-requests` | Gestión académica, carga CSV, asignaciones y traslados. |
-| Administrador ambiente/horario | `/admin/environments`; `/admin/environments/register`, `[id]`; `/admin/schedules`; `/admin/schedules/register`, `[id]`; `/admin/schedules/exceptions` | Ambientes y horarios/excepciones. |
-| Administrador asistencia/reportes | `/admin/attendance`; `/admin/attendance/[id]`; `/admin/attendance/by-user`; `/admin/attendance/by-ficha`; `/admin/attendance/history`; `/admin/reports`; `/admin/reports/by-user`; `/admin/reports/by-ficha`; `/admin/reports/calendar`; `/admin/reports/my-performance`; `/admin/reports/excuses-review` | Consultas, historial, calendario, desempeño, excusas y exportaciones. Asistencia/reportes usan fuente local de demostración; excusas inicia vacía y no se encontró API. |
-| Instructor académico | `/instructor`; `/instructor/academic`; `/instructor/academic/programs/register`, `[id]`; `/instructor/academic/fichas/register`, `[id]` | Panel, consulta/registro de información académica. |
-| Instructor otros módulos | `/instructor/environments/register`, `[id]`; `/instructor/schedules`; `/instructor/schedules/register`, `[id]`; `/instructor/schedules/exceptions`; `/instructor/facial`; `/instructor/facial/settings`; `/instructor/facial/camera`; `/instructor/attendance`; `/instructor/attendance/[id]`; `/instructor/attendance/by-user`; `/instructor/attendance/by-ficha`; `/instructor/reports`; `/instructor/reports/by-user`; `/instructor/reports/byficha`; `/instructor/reports/calendar`; `/instructor/reports/my-performance`; `/instructor/reports/excuses-review` | Configuración, captura facial, horarios, asistencia y reportes. |
-| Aprendiz | `/apprentice`; `/apprentice/attendance`; `/apprentice/facial`; `/apprentice/joinficha`; `/apprentice/transfer-request` | Inicio, asistencia, facial, vinculación y traslado. No se encontró pantalla de horarios ni reportes del aprendiz. |
+| Interfaz a backend | Solicita operaciones y presenta el resultado. | Sesión, rol, filtros y respuestas autorizadas. |
+| Backend a servicio facial | Delega extracción, validación y comparación. | Contrato interno, clave de servicio y configuración del modelo. |
+| Servicios a PostgreSQL | Persisten entidades y eventos mediante sus accesos configurados. | Identidades, formación, ambientes, sesiones, asistencia, referencias y avisos. |
+| Backend a SMTP | Entrega los mensajes definidos por la operación. | Destinatario y resultado de entrega; configuración privada. |
+| Backend a WebSocket | Anuncia cambios para actualizar consultas del usuario. | Evento y nueva consulta bajo autorización. |
+| Liquibase a PostgreSQL | Aplica cambios de esquema versionados. | Changelog, orden, validación y registro de changesets. |
 
-### C.3 Integraciones y contratos localizados
+La sesión de autenticación identifica el acceso de la cuenta. La sesión de ambiente organiza la jornada y los tiempos de asistencia. Los identificadores de cuenta, aprendiz y ficha cumplen funciones distintas y se envían conforme al contrato de cada API.
 
-| Dominio | Endpoints backend encontrados | Correspondencia / límite |
-|---|---|---|
-| Autenticación | `/api/auth` POST `/login`, `/privacy-acceptance-status`, `/request-recovery`, `/verify-token`, `/reset-password`, `/change-password`. | El frontend además llama registro/verificación/consentimiento/catálogos; no se hallaron esos controladores en el backend entregado. |
-| Usuarios/perfil | `/api/admin/users` GET colección/count/search/detalle; POST, PUT, DELETE; `/{id}/role` PUT; `/api/profile/me` GET; `/api/profile/configuration` GET/POST/PUT. | Operaciones de usuarios, perfil y preferencias. |
-| Académico | `/api/academic/programs`; `/programs/{id}/chips`; `/chips`; `/chips/{id}`; rutas de apprentices, vínculo/historial/traslado; rutas instructors; `/api/academic/csv/template`, upload, pending-transfers y decisiones; `/api/academic/change-history` GET. | Programas, fichas (Chip), aprendices, instructores, CSV, traslados e historial. |
-| Ambiente/sesiones | `/api/environment/environments` GET/POST; `/instructors-for-session` GET; `/chips-for-instructor/{id}` GET; `/sessions` POST; `/sessions/{idRecordEnvironment}` PUT. | No se identificó backend para el store completo CRUD de ambientes del frontend. |
-| Notificaciones/asistencia | `/api/notifications` GET, PATCH `/{id}/read`, `/read-all`, POST, `/events`, `/{id}/facial-request`; `/api/attendance/events` POST. | La ruta de evento de asistencia genera notificación; no se encontró entidad de asistencia persistida. Cliente mezcla consulta remota con fixtures/eventos locales. |
-| Facial | `/api/facial/profile-photo`; `/me`; `/challenge`; `/enrollment`. Cliente invoca también servicio externo `/api/v1/facial-embeddings/from-image` y PATCH `/api/v1/facial-embeddings/users/{userId}`; no se verificó integración entre ambos contratos. | Contratos distintos entre cliente y backend; integración no verificada. |
-| Tiempo real | WebSocket `/ws/realtime`; handler e interceptor de cambios. | Validar permisos, URL de despliegue, token y eventos en prueba integrada. |
+## 7 Contrato facial de la revisión
 
-### C.4 Fuente de datos y persistencia por módulo
+El catálogo activo contiene MOVE_UP, MOVE_DOWN, MOVE_CLOSER y MOVE_AWAY. El registro utiliza dos retos distintos con siete imágenes por reto. La configuración de micro-facial selecciona buffalo_l y un umbral técnico de comparación de 0.65, dentro del rango 0..1. Ese valor es un parámetro de decisión, no una medida de precisión del sistema.
 
-| Módulo | Fuente/persistencia observada | Conclusión |
-|---|---|---|
-| Usuarios/autenticación/configuración | Servicios REST del backend; JWT y BCrypt en seguridad; entidad de configuración. | Persistencia disponible en código; requiere pruebas operativas/de seguridad. |
-| Programas/fichas/instructores/CSV | Entidades, repositorios, controladores y servicios cliente; hidratación del store académico. | Backend implementa esos dominios. Verificar flujo de cada pantalla antes de afirmar integración completa. |
-| Ambientes/sesiones | Store local/mock para parte del catálogo; API para ambientes básicos y sesiones. | Integración parcial; documentar qué acción persiste en servidor. |
-| Horarios/excepciones | Stores de frontend con datos mock; no hay endpoint/backend localizado. | Persistencia compartida no evidenciada. |
-| Asistencia/reportes | Registros locales de demostración; hooks calculan historial, calendario, desempeño y exportación. | No se encontró persistencia de asistencia en backend; reportes no prueban asistencia institucional real. |
-| Excusas | Vista inicia vacía; código indica que falta servicio real. | Sin entidad/controlador/API localizado. |
-| Biometría | Store mock en frontend; cliente usa servicio externo de embeddings; backend ofrece otro flujo de perfil/reto/enrolamiento. | Contratos distintos; integración end-to-end no verificada. |
-| Notificaciones | Controlador/entidad backend y cliente con fixtures, store local y consultas/lecturas REST. | Persistencia existe para operaciones soportadas; no todos los eventos/correos están conectados. |
-| Preferencias/idiomas | API de configuración y estado global UI; idiomas ES/EN/DE/FR. | Probar qué opciones persisten por usuario y tras reinicio. |
+La referencia facial se relaciona con el titular y las operaciones de captura y asistencia usan su autorización y sesión. Las condiciones especializadas de calidad, protección, retención y evaluación conservan los IDs y las decisiones del SRS. El anexo de licenciamiento distingue el código de InsightFace de los modelos preentrenados.
 
-### C.5 Modelo de dominio y límites de evidencia
+## 8 Evidencias y documentación de apoyo
 
-Las entidades/clases identificadas abarcan usuarios, credenciales, recuperación, sesión de usuario, configuración, aceptación de términos, roles/permisos; programas, fichas (Chip), aprendices, instructores, asignación instructor-programa, vínculo usuario-ficha, transferencias CSV e historial; ambientes/registros de ambiente o sesión; notificaciones y registro de correo; perfil y datos faciales. La lista deriva de clases del repositorio, no de inspección de una base desplegada.
+Las 16 capturas únicas y sus límites se relacionan en el Anexo A. La carpeta 07 distingue confirmación funcional del equipo, capturas, pruebas automatizadas e integración HTTP controlada. Las pruebas reportadas de HU-45 conservan sus conteos y fechas originales; esta revisión no los suma ni los presenta como una nueva corrida.
 
-No se encontró entidad/controlador/servicio de persistencia para asistencia, horarios, excepciones o excusas. `POST /api/attendance/events` recibe evento para generar notificación, según el controlador revisado; no demuestra almacenamiento de asistencia. No se suministró código de Raspberry Pi ni operación offline.
+| Documento | Uso en la entrega |
+|---|---|
+| [Anexo A](Anexo_A_SRS.md) | 97 IDs, estados, fuentes y casos. |
+| [Anexo B](Anexo_B_SRS.md) | 60 criterios de seguimiento y seis decisiones. |
+| [SRS V4.1](../02_Especificacion_Requisitos/SRS_FaceLit_V4.md) | Definiciones, aceptación y casos por requerimiento. |
+| [Evidencias por rol](../07_Pruebas/Evidencias_Visuales_por_Rol.md) | Capturas de coordinación, instructor y aprendiz. |
+| [Diseño visual](../16_Diseño_Visual/Diseno_Conceptual_Arquitectura_Informacion.md) | 63 rutas, mapas, flujos, identidad y componentes. |
+| [Manual de instalación](../11_Manual_Instalacion/11_Manual_Instalacion.md) | Preparación y arranque del entorno. |
+| [Despliegue](../17_Despliegue/Despliegue_Hostinger.md) | Topología, main local, ajustes y procedimiento aplicado. |
 
-La inspección es estática: hallar una ruta frontend, servicio o endpoint no certifica flujo extremo a extremo, permisos correctos ni entorno productivo. La aceptación requiere pruebas por rol y evidencias.
+## 9 Clasificaciones de alcance conservadas
+
+RF-C1 conserva el rastro del módulo de horarios retirado. Los tiempos actuales pertenecen a sesiones de ambiente. El Coordinador de Registro diferenciado conserva DEC-01. Raspberry y la sincronización facial offline permanecen como ampliación futura RNF-5.7. Las diferencias de máscara, identidad, protección y administración de parámetros se consultan por requerimiento en el SRS y el Anexo B.
+
+## 10 Glosario de lectura
+
+| Término | Significado en FaceLit |
+|---|---|
+| Ficha o Chip | Grupo académico asociado a un programa. |
+| UUID | Identificador del registro al que se refiere el contrato. |
+| Sesión de acceso | Contexto autenticado de una cuenta, asociado a token y controles de sesión. |
+| Sesión de ambiente | Contexto de asistencia con ficha, responsables, dispositivo y tiempos. |
+| Embedding o descriptor | Representación numérica facial usada en comparación. |
+| Retos de vida | Secuencias de captura solicitadas al usuario. |
+| CSV | Archivo tabular de importación académica o salida de una consulta, según el flujo. |
+| Changeset | Unidad identificada de cambio del esquema en Liquibase. |
+| SHA base | Commit que sirve de referencia al paquete, con los ajustes locales registrados aparte. |
+| Digest | Identificador de contenido de una imagen de contenedor. |
+| Manifest | Registro de procedencia y revisiones del paquete de despliegue. |
+| Evidencia visual | Imagen con un alcance observable descrito en su leyenda. |

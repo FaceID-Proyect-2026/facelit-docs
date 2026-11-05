@@ -1,5 +1,7 @@
 # FaceLit · Capturas de pantallas por rol
 
+La [entrega de capturas de coordinación, instructor y aprendiz](Evidencias_Visuales_por_Rol.md) tiene su propio catálogo, con descripción y alcance de cada imagen.
+
 Recorrido web con cuentas y registros de prueba en PostgreSQL aislado. Se usó la exportación web archivada y una copia limpia de FaceLit-Backend (2ba7398). Cada captura muestra el estado disponible durante el recorrido.
 
 Algunas consultas de reportes y asistencia, además del inicio del instructor, mostraron errores de carga. Las imágenes conservan esos estados. La vista de cámara del instructor se capturó sin cámara física.
@@ -167,9 +169,6 @@ Algunas consultas de reportes y asistencia, además del inicio del instructor, m
 
 ![Instructor: /instructor/attendance](Capturas_Roles/instructor-instructor-attendance.png)
 
-### `/instructor/environments/[id]`
-
-![Instructor: /instructor/environments/[id]](Capturas_Roles/instructor-instructor-environments-0c699048-1c06-45b8-a961-f00b0b83f2e9.png)
 
 ### `/instructor/environments`
 

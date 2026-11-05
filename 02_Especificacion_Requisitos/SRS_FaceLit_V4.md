@@ -7,11 +7,11 @@ Sistema de gestión académica y asistencia con apoyo de reconocimiento facial
 |---|---|---|
 | 30 | 4 | 63 |
 
-Versión 4.0 · baseline de requisitos: 13 de octubre de 2026  
-Actualización de estado documentado: 27 de octubre de 2026  
-Valery Sinaí Trujillo · María José Rodríguez Oyola · Mariana Valenzuela Penagos  
-Instructor: Motta Vargas José de Jesús  
-SENA · Análisis y Desarrollo de Software · Ficha 3145555  
+Versión 4.1 · revisión integral documental del baseline V4
+Actualización de estado documentado: 4 de noviembre de 2026
+Valery Sinaí Trujillo · María José Rodríguez Oyola · Mariana Valenzuela Penagos
+Instructor: Motta Vargas José de Jesús
+SENA · Análisis y Desarrollo de Software · Ficha 3145555
 
 ---
 
@@ -22,14 +22,14 @@ FaceLit es un sistema para gestionar información académica y registrar asisten
 | Dato | Valor |
 |---|---|
 | Documento | Especificación de requisitos de software de FaceLit |
-| Versión | 4.0 — baseline de requisitos |
+| Versión | 4.1 — actualización integral del SRS V4 |
 | Fecha del baseline de requisitos | 13 de octubre de 2026 |
-| Fecha de actualización de estado | 27 de octubre de 2026 |
+| Fecha de actualización de estado | 4 de noviembre de 2026 |
 | Institución | Servicio Nacional de Aprendizaje SENA |
 | Programa y ficha | Análisis y Desarrollo de Software 3145555 |
 | Equipo | Valery Sinaí Trujillo; María José Rodríguez Oyola; Mariana Valenzuela Penagos |
 | Instructor | Motta Vargas José de Jesús |
-| Estado documental | SRS V4.0; actualización documental del estado conocido al 27 de octubre de 2026. Los requisitos conservan el baseline del 13 de octubre. |
+| Estado documental | SRS V4.1 con inventario de 97 identificadores, estado por requisito y fuentes de evidencia al 4 de noviembre. |
 | Cobertura | 30 RF principales, 4 RF complementarios y 63 RNF |
 | Idioma | Español |
 
@@ -39,7 +39,8 @@ FaceLit es un sistema para gestionar información académica y registrar asisten
 |---|---|---|
 | 3.0 | Documento previo | Requisitos objetivo y diagnóstico de implementación. |
 | 4.0 | 13 octubre 2026 | Baseline de requisitos: alcance, contratos, seguridad, numeración, criterios y trazabilidad. |
-| Actualización de estado | 27 octubre 2026 | Se incorpora evidencia documentada de HU-45, H-50 y despliegue; no se declaran cerrados requisitos sin revalidación por ID. |
+| Actualización de estado | 27 octubre 2026 | Registro de HU-45 y despliegue anterior. |
+| 4.1 | 4 noviembre 2026 | Actualización por ID, roles vigentes, Ambientes, sesiones, contrato facial HU-45, fuentes de asistencia, preferencias, capturas y publicación desde main local. |
 
 La versión documental no constituye una certificación de cumplimiento del software. El anexo de trazabilidad separa el comportamiento requerido del estado observado. Las decisiones DEC-01 a DEC-06 requieren validación institucional antes de aceptar los aspectos que dependen de ellas; su existencia no invalida los requisitos ya determinados.
 
@@ -60,7 +61,7 @@ Desarrollar un sistema de gestión y registro de asistencia académica mediante 
 ## 1.4 Objetivos específicos
 
 - Gestionar programas, fichas, personas y relaciones por CSV y formularios con integridad y auditoría.
-- Establecer sesiones vinculadas a horario, ambiente, responsables y dispositivo.
+- Establecer sesiones vinculadas a ficha, ambiente, responsables, dispositivo y tiempos de operación.
 - Registrar referencias faciales y verificar capturas con controles de vida, calidad y privacidad.
 - Generar consultas, reportes y exportaciones a partir de eventos reales y consistentes.
 - Proteger autenticación, autorización, sesiones, credenciales y datos personales.
@@ -80,11 +81,15 @@ Desarrollar un sistema de gestión y registro de asistencia académica mediante 
 - Registro y re-registro facial autorizado, parámetros y sesiones de captura.
 - Asistencia por entrada y salida, consulta, respaldo manual y anulación auditada.
 - Notificaciones, reportes, calendario, exportaciones y sincronización en tiempo real.
-- Horarios, excepciones, ambientes y dispositivos como soporte de asistencia.
+- Ambientes, dispositivos y sesiones con ventanas de entrada, salida y cierre como soporte de asistencia.
 
 ## 2.2 Alcance operativo observado
 
-El proyecto contiene una aplicación Expo y React Native, un backend Java Spring Boot, migraciones PostgreSQL con Liquibase y un servicio facial Python FastAPI. Hay llamadas reales para autenticación, gestión académica, usuarios, preferencias, notificaciones, sesiones y captura/consulta de asistencia. El servicio facial usa InsightFace y persiste referencias en la base de datos. La presencia de estos componentes no prueba por sí sola un flujo aceptado. Persisten reportes e historiales con fuentes locales, horarios/excepciones sin API persistente encontrada, contratos de enrolamiento Java incompatibles con el esquema suministrado y controles de autorización/sesión incompletos. El anexo 11 registra cada estado con evidencia y evita presentar una meta como función certificada.
+La entrega comprende frontend Expo y React Native, API Spring Boot, PostgreSQL con Liquibase y servicio facial FastAPI. El equipo confirma funcionamiento de login, CSV, correo, cámara y asistencia. Las capturas recibidas muestran gestión académica con datos, Ambientes, consultas de asistencia, notificaciones y perfiles.
+
+Los tres roles de backend son APPRENTICE, INSTRUCTOR y COORDINATOR. El catálogo de ambientes está integrado y las sesiones definen los tiempos de asistencia. La gestión de horarios y excepciones RF-C1 se retiró del alcance operativo. Los historiales y reportes usan la consulta de asistencia de API. La sección 11 distingue evidencia visual, funcionamiento confirmado por el equipo, implementación localizada y criterios adicionales de calidad o seguridad.
+
+Los commits base locales son FaceLit 6efd92c, backend 2ba7398, micro-facial 166e4a7 y DB 422aac6. El frontend conserva un cambio local para consultas académicas en lotes. La base local tiene un commit de compatibilidad adicional respecto de la revisión remota de referencia. El paquete y el manifiesto del despliegue identifican esas diferencias.
 
 ## 2.3 Exclusiones y condicionantes
 
@@ -105,7 +110,7 @@ No se incluyen calificaciones, evaluación pedagógica, nómina, pagos o sancion
 | Aprendiz | Consulta sus datos y asistencia, confirma identidad, registra su rostro y solicita re-registro. |
 | Instructor | Configura sesiones autorizadas, consulta sus fichas y registra respaldo manual cuando falla reconocimiento. |
 | Coordinador | Gestiona información académica y cuentas; decide traslados, solicitudes, anulaciones y parámetros institucionales. |
-| Coordinador de Registro | Rol objetivo restringido previsto en RF-3.3 y RF-3.5. No equivale automáticamente a COORDINATOR. Su conjunto de operaciones se establece en DEC-01. |
+| Coordinador de Registro | Propuesta del baseline RF-3.3 y RF-3.5, sujeta a DEC-01. La entrega actual usa los tres roles anteriores. |
 | Sistema | Valida, persiste, clasifica, audita, notifica y sincroniza. |
 | Servicio facial y dispositivo | Capturan/procesan evidencia y devuelven una verificación; no conceden permisos administrativos. |
 
@@ -114,7 +119,7 @@ No se incluyen calificaciones, evaluación pedagógica, nómina, pagos o sancion
 | Perfil y preferencias propios | Propio | Propio | Propio | Propio |
 | Gestión académica CSV/manual | No | Consulta de alcance | Sí | DEC-01 |
 | Gestión de cuentas y roles | No | No | Sí | No por defecto |
-| Preparar sesión facial | No | Asignada o suplencia | Permiso específico | DEC-01 |
+| Preparar sesión facial | No | Asignada o suplencia | Operación del instructor | DEC-01 |
 | Registro facial | Titular autorizado | No sobre terceros | Resuelve solicitudes | No por defecto |
 | Consultar asistencia | Propia | Fichas autorizadas | Ámbito administrativo | DEC-01 |
 | Registro manual de respaldo | No | Asignado | Valida | No por defecto |
@@ -122,7 +127,13 @@ No se incluyen calificaciones, evaluación pedagógica, nómina, pagos o sancion
 | Cambiar umbral institucional | No | Solo delegación de sesión | Sí | No |
 | Bandeja de notificaciones | Propia | Propia | Propia | Propia |
 
-Las celdas “DEC-01” no conceden autorización. Mientras no exista perfil aprobado e implementado, se aplica denegación por defecto. La elegibilidad de un instructor transversal para un programa no implica permiso para cualquier sesión: se requiere asignación o reemplazo autorizado. Toda consulta valida también el objeto solicitado, no únicamente el rol.
+Las celdas “DEC-01” corresponden a la propuesta del baseline. La elegibilidad de un instructor transversal requiere validar la asignación o el reemplazo autorizado. Toda consulta valida también el objeto solicitado y su relación con el usuario.
+
+### Operaciones de ambientes del contrato vigente
+
+Coordinador e instructor pueden consultar el catálogo y crear ambientes mediante POST. La edición, desactivación y vinculación o retiro de fichas corresponde a coordinación. La preparación, consulta activa y salida de sesión corresponde al instructor con validación de su alcance. El aprendiz accede a su formación y asistencia mediante las rutas de autoservicio.
+
+La matriz anterior incluye objetivos adicionales del baseline, como respaldo manual, anulación y rol de registro diferenciado. El estado de cada objetivo se registra en la sección 11.
 
 # 4 Reglas de negocio
 
@@ -136,12 +147,12 @@ Las celdas “DEC-01” no conceden autorización. Mientras no exista perfil apr
 | RB-06 | Toda cuenta nueva obtiene credencial aleatoria protegida; el coordinador no escribe, ve ni exporta la contraseña. |
 | RB-07 | Cambios de ficha propuestos por CSV quedan pendientes hasta decisión del coordinador. Traslado confirmado es atómico y conserva la historia. |
 | RB-08 | Error de negocio de una fila CSV se informa y excluye. Un fallo técnico antes del commit revierte el conjunto de cambios de esa carga. |
-| RB-09 | Solo un rostro por captura; referencia inicial exige al menos tres ángulos distintos, calidad y vida. Re-registro necesita autorización temporal de un uso. |
+| RB-09 | Solo un rostro por captura; referencia inicial exige dos retos distintos, siete imágenes por reto, calidad y vida. Re-registro necesita autorización temporal de un uso. |
 | RB-10 | Se conservan descriptor protegido y metadatos de modelo/versión. Las imágenes de captura no se usan como foto de perfil ni se conservan tras el procesamiento. |
 | RB-11 | La sesión tiene ficha, ambiente, dispositivo, instructor programado, responsable real y tiempos. Reemplazo queda identificado y autorizado. |
 | RB-12 | Para entrada E, tolerancia T, salida S y cierre A: 0 <= T <= 30; E + T < S < A. Entrada [E,E+T] puntual; (E+T,S) retardo; [S,A) salida. |
 | RB-13 | Máximo una entrada y una salida por aprendiz/sesión. Una salida sin entrada no acredita una asistencia puntual. |
-| RB-14 | Ausencia solo se evalúa sobre una sesión efectiva para el aprendiz; horario cancelado o día sin clase no constituye ausencia. |
+| RB-14 | Ausencia solo se evalúa sobre una sesión efectiva para el aprendiz; sesión cancelada o día sin sesión no constituye ausencia. |
 | RB-15 | Los hechos son inmutables; anulación y excusa se registran de forma trazable. El respaldo manual queda pendiente de validación. |
 | RB-16 | Se mantienen al menos un coordinador activo y el historial de cuentas desactivadas. Logout/desactivación/cambio de rol afectan tokens y canales. |
 | RB-17 | Porcentajes se calculan sobre sesiones aplicables. Se distinguen puntualidad, retardo, ausencia, sin clase y sin registro; el denominador se muestra/documenta. |
@@ -169,14 +180,14 @@ Las celdas “DEC-01” no conceden autorización. Mientras no exista perfil apr
 | Rol, permiso y sesión | Asignación vigente, permisos, emisión/expiración, revocación y eventos de autenticación. |
 | Programa, ficha y personas | Códigos, nombres, estado, fechas; vínculos de aprendiz/ficha e instructor/programa/ficha con historia. |
 | Carga y propuesta CSV | Identidad de carga, actor, resumen por fila, conflicto, valores, propuesta y resolución. |
-| Horario, excepción y ambiente | Vigencia, ambiente, ficha, franjas, responsable, sustitución/cancelación y motivo. |
+| Ambiente y asignación | Nombre, capacidad, estado, fichas asociadas, fechas y responsables de cambio. |
 | Sesión y dispositivo | Ambiente, ficha, dispositivo, programado/reemplazo, entrada, tolerancia, salida, cierre y versión. |
 | Referencia y solicitud facial | Aprendiz, descriptor protegido, modelo/dimensión/versión, estado; solicitud, decisión y autorización de un uso. |
 | Asistencia y anotación | Aprendiz, sesión, fecha/hora confiable, ENTRY/EXIT, resultado, estado, score, origen, creador y versión; anulación/excusa separadas. |
 | Notificación y entrega | Evento, destinatario, tipo, prioridad, canal, lectura, intento, estado, fechas y deduplicación. |
 | Preferencias y auditoría | Idioma, tema, notificaciones; actor, acción, entidad, anterior/nuevo, motivo y resultado sin secretos. |
 
-Los nombres Chip, UserChip y RecordEnvironment del código corresponden a ficha, vínculo aprendiz-ficha y sesión del dominio. El UUID del usuario no es intercambiable con el UUID del aprendiz; toda conversión debe resolver y validar su relación. El esquema actual de referencia facial usa id_apprentice y embedding vector. Unificarlo con el enrolamiento Java es requisito de implementación, no una equivalencia ya existente.
+Los nombres Chip, UserChip y RecordEnvironment del código corresponden a ficha, vínculo aprendiz-ficha y sesión del dominio. El UUID del usuario no es intercambiable con el UUID del aprendiz; toda conversión debe resolver y validar su relación. El esquema actual de referencia facial usa id_apprentice y embedding vector. El flujo vigente transmite imágenes al backend y delega la extracción al microservicio. Las rutas antiguas de vectores del navegador están denegadas en SecurityConfig.
 
 ## 5.3 Contratos observados y contratos requeridos
 
@@ -187,12 +198,12 @@ Los nombres Chip, UserChip y RecordEnvironment del código corresponden a ficha,
 | Académico | /api/academic/programs; chips; csv/template; csv/upload; pending-transfers | Integridad, alcance, transacciones y respuestas sin contraseñas. |
 | Sesión | /api/environment/environments; instructors-for-session; chips-for-instructor; sessions | Elegibilidad y tiempos validados en servidor, no solo en selector. |
 | Asistencia | /api/facial/events; from-image; attendance-status; attendance-matrix; excuse | Proteger operación/objeto; ruta automática exige verificación; respaldo manual separado. |
-| Registro facial | /api/facial/challenge; enrollment; registration-status | Contrato Java/DB por unificar; no se considera integrado solo por existir endpoints. |
+| Registro facial | /api/facial/embeddings/from-image; embeddings/liveness-check; registration-status; registration-confirmation | Titular autenticado, retos vigentes y autorización de reemplazo cuando corresponde. |
 | Micro facial | /api/v1/facial-embeddings/from-image; verify-session; users/{id} | Identidad/alcance por operación; no exponer API key administrativa al cliente. |
 | Notificaciones | /api/notifications; read; read-all; facial-request | Decisión facial durable; lectura independiente de autorización. |
 | Tiempo real | /ws/realtime | Autenticación y revocación; cambios limitados al destinatario. |
 
-Las rutas anteriores describen el inventario actual, no congelan un diseño incompatible. Se requieren contratos efectivos para logout/revocación, horarios/excepciones, parámetros versionados, respaldo manual, anulaciones y autorización de re-registro. Sus nombres finales se documentarán en el contrato API junto con versión, payload, respuestas y permisos. No se presentarán rutas propuestas como rutas ya desplegadas.
+Las rutas anteriores describen el inventario actual, no congelan un diseño incompatible. Logout/revocación y solicitud de re-registro tienen implementación actual. Parámetros institucionales versionados, respaldo manual y anulaciones se evalúan como criterios adicionales del baseline. RF-C1 conserva el historial de alcance de horarios. Sus nombres finales se documentarán en el contrato API junto con versión, payload, respuestas y permisos. No se presentarán rutas propuestas como rutas ya desplegadas.
 
 ## 5.4 Errores y consistencia
 
@@ -277,7 +288,7 @@ Las fichas siguientes definen el comportamiento requerido. El estado observado s
 
 **Relaciones** RF-1.2, RF-1.3, RF-1.4; RNF-1.1 a RNF-1.5, RNF-1.10 a RNF-1.16
 
-**Estado observado** Parcial. Documento/contraseña, hash, privacidad y sesión implementados; H02/H03. API también admite email: confirmar alcance aprobado.
+**Estado observado** Operativo confirmado. El equipo confirma login en facelit.tech. LoginServiceImpl resuelve documento y también correo. El acceso exclusivamente por documento permanece como criterio por alinear con RNF-1.10. Fuente SRC-01.
 
 **Prueba vinculada** CP-RF-1.1 según sección 8
 
@@ -315,7 +326,7 @@ Las fichas siguientes definen el comportamiento requerido. El estado observado s
 
 **Relaciones** RNF-1.4, RNF-1.5, RNF-1.6, RNF-1.15, RNF-1.16, RNF-7.1
 
-**Estado observado** Brecha. Autorización por objeto incompleta y rutas solo protegidas por autenticación; H01/H14.
+**Estado observado** Integrado en código. SecurityConfig y los servicios aplican permisos por rol y alcance. La revisión completa de solicitudes con identificadores ajenos requiere CP-RF-1.2. Fuente SRC-01.
 
 **Prueba vinculada** CP-RF-1.2 según sección 8
 
@@ -353,7 +364,7 @@ Las fichas siguientes definen el comportamiento requerido. El estado observado s
 
 **Relaciones** RF-3.3, RF-3.5; RNF-1.4, RNF-1.11, RNF-1.16
 
-**Estado observado** Parcial. Rol desde servidor y redirección; discrepancias de roles/guards, H08/H14.
+**Estado observado** Integrado en código. RoleName contiene APPRENTICE, INSTRUCTOR y COORDINATOR. Los layouts redirigen por rol. El perfil de registro diferenciado es una propuesta del baseline. Fuente SRC-01.
 
 **Prueba vinculada** CP-RF-1.3 según sección 8
 
@@ -391,7 +402,7 @@ Las fichas siguientes definen el comportamiento requerido. El estado observado s
 
 **Relaciones** RNF-1.2, RNF-1.8, RNF-1.9, RNF-1.10, RNF-1.11
 
-**Estado observado** Parcial. Recuperación con código, expiración, uso único y política; falta prueba integrada y limitación de intentos de código.
+**Estado observado** Operativo confirmado. El equipo confirma recuperación y correo. Las rutas request-recovery, verify-token y reset-password están conectadas. Los ensayos de abuso y concurrencia se registran por separado. Fuente SRC-01.
 
 **Prueba vinculada** CP-RF-1.4 según sección 8
 
@@ -432,7 +443,7 @@ Las fichas siguientes definen el comportamiento requerido. El estado observado s
 
 **Relaciones** RF-2.1.1, RF-2.2, RF-2.3, RF-3.4; RNF-2.1 a RNF-2.14, RNF-3.3
 
-**Estado observado** Parcial. CSV institucional, resumen y propuestas de traslado; contraseñas expuestas H06 y pruebas de carga/rollback pendientes.
+**Estado observado** Operativo confirmado. El equipo confirma carga CSV y gestión académica. COO-03 muestra programas cargados y COO-07 alertas de referencias inválidas. La captura del formulario no aporta por sí sola un resumen de importación exitosa. Fuente SRC-02.
 
 **Prueba vinculada** CP-RF-2.1 según sección 8
 
@@ -470,7 +481,7 @@ Las fichas siguientes definen el comportamiento requerido. El estado observado s
 
 **Relaciones** RF-2.1; RNF-2.5, RNF-2.7, RNF-2.14
 
-**Estado observado** Por probar. Endpoint de plantilla y descarga presentes; validar guía, encabezados y mensajes con usuarios.
+**Estado observado** Evidencia visual. COO-04 muestra selección de CSV, guía de columnas y límites de 20 MB y 5.000 filas. El controlador ofrece la descarga de plantilla. Fuente SRC-02.
 
 **Prueba vinculada** CP-RF-2.1.1 según sección 8
 
@@ -509,7 +520,7 @@ Las fichas siguientes definen el comportamiento requerido. El estado observado s
 
 **Relaciones** RF-2.3, RF-3.4; RNF-2.1 a RNF-2.4, RNF-2.8, RNF-2.9, RNF-3.4
 
-**Estado observado** Parcial. CRUD académico y credenciales implementados; H06/H07 y aceptación de ciclo de vida pendiente.
+**Estado observado** Integrado en código. Programas, fichas, instructores y aprendices usan servicios persistentes. COO-03 muestra consulta. Se conserva el criterio de identidad inmutable frente a la edición administrativa actualmente disponible. Fuente SRC-02.
 
 **Prueba vinculada** CP-RF-2.2 según sección 8
 
@@ -547,7 +558,7 @@ Las fichas siguientes definen el comportamiento requerido. El estado observado s
 
 **Relaciones** RF-2.1; RNF-2.3, RNF-2.9, RNF-2.10, RNF-2.11
 
-**Estado observado** Por probar. Traslado transaccional, destino activo/mismo programa e historial; falta ensayo de fallo y concurrencia.
+**Estado observado** Integrado en código. UserChipServiceImpl y pending-transfers implementan traslado y resolución. La atomicidad bajo fallo y concurrencia se evalúa con CP-RF-2.3. Fuente SRC-02.
 
 **Prueba vinculada** CP-RF-2.3 según sección 8
 
@@ -587,7 +598,7 @@ Las fichas siguientes definen el comportamiento requerido. El estado observado s
 
 **Relaciones** RF-3.2; RNF-3.1, RNF-3.7
 
-**Estado observado** Parcial. Listado/búsqueda real; validar filtros, estados, tiempos y paginación.
+**Estado observado** Evidencia visual. COO-02 muestra 3.640 usuarios, buscador y filtros por rol y estado. El volumen visible corresponde al momento de la captura. Fuente SRC-03.
 
 **Prueba vinculada** CP-RF-3.1 según sección 8
 
@@ -625,7 +636,7 @@ Las fichas siguientes definen el comportamiento requerido. El estado observado s
 
 **Relaciones** RF-3.5, RF-3.6; RNF-1.7, RNF-3.4, RNF-3.5, RNF-3.6
 
-**Estado observado** Parcial. Gestión real; modificación de documento H07 y revocación H03.
+**Estado observado** Integrado en código. UserManagementServiceImpl consulta y modifica cuentas. El servicio admite actualizar el documento, por lo que el criterio de inmutabilidad requiere una decisión de producto. Fuente SRC-03.
 
 **Prueba vinculada** CP-RF-3.2 según sección 8
 
@@ -663,7 +674,7 @@ Las fichas siguientes definen el comportamiento requerido. El estado observado s
 
 **Relaciones** RF-3.4, RF-3.5; RNF-3.2, RNF-3.3
 
-**Estado observado** Brecha. Crea COORDINATOR en vez del rol diferenciado exigido; H08.
+**Estado observado** Objetivo adicional. El alta administrativa actual permite COORDINATOR. El Coordinador de Registro diferenciado del baseline requiere DEC-01 y una implementación propia. Fuente SRC-03.
 
 **Prueba vinculada** CP-RF-3.3 según sección 8
 
@@ -701,7 +712,7 @@ Las fichas siguientes definen el comportamiento requerido. El estado observado s
 
 **Relaciones** RF-1.4; RNF-1.2, RNF-3.3, RNF-8.3
 
-**Estado observado** Brecha. Generación y hash presentes; CSV expone contraseña H06.
+**Estado observado** Integrado con criterio adicional. InitialCredentialServiceImpl genera y cifra la credencial y entrega el acceso tras commit. Persisten campos legacy de contraseña en DTO académicos. Su presencia exige comprobar las respuestas efectivas antes de declarar cumplida la prohibición de exposición. Fuente SRC-03.
 
 **Prueba vinculada** CP-RF-3.4 según sección 8
 
@@ -739,7 +750,7 @@ Las fichas siguientes definen el comportamiento requerido. El estado observado s
 
 **Relaciones** RF-1.3, RF-2.2, RF-3.3; RNF-1.16, RNF-3.6
 
-**Estado observado** Brecha. No existe Coordinador de Registro en backend; H08.
+**Estado observado** Objetivo adicional. Los roles asignables se validan en servidor. El perfil separado de registro no está en RoleName y se conserva como decisión de alcance. Fuente SRC-03.
 
 **Prueba vinculada** CP-RF-3.5 según sección 8
 
@@ -777,7 +788,7 @@ Las fichas siguientes definen el comportamiento requerido. El estado observado s
 
 **Relaciones** RNF-1.11, RNF-3.5, RNF-3.6
 
-**Estado observado** Parcial. Desactivación preserva entidades; token previo sigue válido H03.
+**Estado observado** Integrado en código. El estado de cuenta se conserva y SessionSecurityService comprueba cuenta, credencial, rol y sesión persistida al validar el token. Fuente SRC-01.
 
 **Prueba vinculada** CP-RF-3.6 según sección 8
 
@@ -817,7 +828,7 @@ Las fichas siguientes definen el comportamiento requerido. El estado observado s
 
 **Relaciones** RF-4.2; RNF-4.1, RNF-4.2, RNF-4.5
 
-**Estado observado** Parcial. Perfil propio conectado; máscara ausente H12 y tiempos por probar.
+**Estado observado** Evidencia visual. COO-08 y APR-07 muestran perfil por titular. El perfil presenta el correo completo en el código revisado. El enmascaramiento del baseline es un criterio de privacidad por alinear. Fuente SRC-04.
 
 **Prueba vinculada** CP-RF-4.1 según sección 8
 
@@ -855,7 +866,7 @@ Las fichas siguientes definen el comportamiento requerido. El estado observado s
 
 **Relaciones** RF-C3; RNF-4.1, RNF-4.5
 
-**Estado observado** Brecha. Preferencias conectadas; DE incompatible y notificaciones forzadas H14.
+**Estado observado** Integrado en código. useUserSettings y el backend persisten preferencias. El cliente mapea ES, EN, DE y FR. Language incluye esos valores y PR como compatibilidad. Fuente SRC-04.
 
 **Prueba vinculada** CP-RF-4.2 según sección 8
 
@@ -867,7 +878,7 @@ Las fichas siguientes definen el comportamiento requerido. El estado observado s
 
 **Actores** Aprendiz, Sistema y servicio facial
 
-**Requisito** El sistema deberá registrar la referencia biométrica del aprendiz autenticado con consentimiento, validación de vida y al menos tres capturas desde ángulos distintos.
+**Requisito** El sistema deberá registrar la referencia biométrica del aprendiz autenticado con consentimiento, validación de vida y dos retos distintos del catálogo activo con siete imágenes por reto.
 
 **Precondiciones** Cuenta de aprendiz activa, identidad confirmada, cámara autorizada y ausencia de referencia activa o autorización RF-5.4.
 
@@ -877,7 +888,7 @@ Las fichas siguientes definen el comportamiento requerido. El estado observado s
 
 1. Confirma identidad y presenta finalidad/consentimiento.
 2. Servidor inicia un reto temporal asociado al titular.
-3. Guía centro, izquierda y derecha; verifica un rostro, calidad, variación y vida.
+3. Guía dos retos distintos del catálogo activo y reúne siete imágenes por reto. Verifica un rostro, calidad, variación y vida.
 4. Consolida el descriptor con modelo y versión compatibles, lo protege y persiste para el aprendiz; descarta imágenes.
 
 **Escenarios alternativos**
@@ -889,13 +900,14 @@ Las fichas siguientes definen el comportamiento requerido. El estado observado s
 
 **Criterios de aceptación**
 
-- No se completa con menos de tres ángulos válidos; máximo 60 s en condiciones normales.
+- La secuencia contiene dos retos distintos del catálogo MOVE_UP, MOVE_DOWN, MOVE_CLOSER y MOVE_AWAY, con siete imágenes por reto.
+- La validación y la confirmación deben completarse antes de informar el registro exitoso. La meta temporal se mide por separado.
 - El usuario no puede registrar el rostro de otro UUID.
 - Modelo, dimensiones y contrato coinciden en cliente, servidor y DB; no se guarda foto original.
 
 **Relaciones** RF-5.4; RNF-5.1 a RNF-5.6
 
-**Estado observado** Brecha. Registro por microservicio existe; contrato Java/DB y autorización desalineados H04/H05.
+**Estado observado** Operativo confirmado. El equipo confirma cámara y registro facial. APR-04 a APR-06 muestran preparación, validación y aviso de finalización en capturas separadas. El flujo vigente usa dos retos distintos y siete imágenes por reto. Fuente SRC-05.
 
 **Prueba vinculada** CP-RF-5.1 según sección 8
 
@@ -907,7 +919,7 @@ Las fichas siguientes definen el comportamiento requerido. El estado observado s
 
 **Requisito** El sistema deberá preparar una sesión facial con ambiente, ficha, dispositivo e instructor válidos, conservando original y reemplazo cuando corresponda.
 
-**Precondiciones** Ficha y ambiente activos; instructor asignado o reemplazo autorizado; horario aplicable.
+**Precondiciones** Ficha y ambiente activos, instructor asignado o reemplazo autorizado y tiempos de sesión válidos.
 
 **Entradas** Ambiente, ficha, instructor programado, responsable y dispositivo.
 
@@ -915,12 +927,12 @@ Las fichas siguientes definen el comportamiento requerido. El estado observado s
 
 1. Consulta opciones elegibles desde el servidor.
 2. El instructor confirma datos y eventual reemplazo.
-3. Verifica relaciones, horario, excepciones y disponibilidad del dispositivo.
+3. Verifica relaciones, tiempos de sesión y disponibilidad del dispositivo.
 4. Guarda sesión y presenta resumen para definir tiempos en RF-6.2.
 
 **Escenarios alternativos**
 
-- Relación fuera de alcance, horario conflictivo o datos faltantes: rechazar.
+- Relación fuera de alcance, tiempos incompatibles o datos faltantes requieren rechazo.
 - Sesión duplicada o dispositivo ocupado: devolver conflicto sin duplicación.
 
 **Postcondiciones** Sesión configurada con autor y responsables diferenciados.
@@ -933,7 +945,7 @@ Las fichas siguientes definen el comportamiento requerido. El estado observado s
 
 **Relaciones** RF-6.1, RF-6.2, RF-C1, RF-C2; RNF-1.5, RNF-6.1
 
-**Estado observado** Parcial. Sesión persistida, instructor original/reemplazo; validaciones incompletas H09.
+**Estado observado** Integrado en código. environmentSessionApi y EnvironmentServiceImpl preparan ficha, ambiente, dispositivo, responsables y tiempos de una sesión autorizada. Fuente SRC-06.
 
 **Prueba vinculada** CP-RF-5.2 según sección 8
 
@@ -971,7 +983,7 @@ Las fichas siguientes definen el comportamiento requerido. El estado observado s
 
 **Relaciones** RF-6.2; RNF-5.5, RNF-6.2, RNF-6.4
 
-**Estado observado** Brecha. No hay configuración institucional versionada del umbral; default efectivo 0.65, rango 0..1.
+**Estado observado** Integrado con criterio adicional. La configuración del servicio facial usa similitud 0.65 y rango técnico 0..1. La administración institucional versionada y su panel siguen como objetivo de aceptación específico. Fuente SRC-05.
 
 **Prueba vinculada** CP-RF-5.3 según sección 8
 
@@ -1009,7 +1021,7 @@ Las fichas siguientes definen el comportamiento requerido. El estado observado s
 
 **Relaciones** RF-5.1, RF-8.4; RNF-1.8, RNF-5.4
 
-**Estado observado** Brecha. Solicitud local/decisión sin autorización durable H10.
+**Estado observado** Integrado en código. FaceResetRequest y su repositorio conservan solicitudes. Los servicios gestionan decisión y autorización para reemplazo. APR-06 muestra el aviso de respuesta y registro completado. Fuente SRC-05.
 
 **Prueba vinculada** CP-RF-5.4 según sección 8
 
@@ -1049,7 +1061,7 @@ Las fichas siguientes definen el comportamiento requerido. El estado observado s
 
 **Relaciones** RF-5.2, RF-6.2; RNF-6.1, RNF-6.2, RNF-6.3
 
-**Estado observado** Parcial. Configuración y captura conectadas; horario/asignación y contrato de reemplazo por completar H09.
+**Estado observado** Operativo confirmado. El equipo confirma asistencia facial. El flujo usa sesión y eventos persistidos. La captura de cámara disponible acredita la fase de validación del registro facial del aprendiz. Fuente SRC-06.
 
 **Prueba vinculada** CP-RF-6.1 según sección 8
 
@@ -1087,7 +1099,7 @@ Las fichas siguientes definen el comportamiento requerido. El estado observado s
 
 **Relaciones** RF-5.3, RF-6.1; RNF-6.1, RNF-6.2
 
-**Estado observado** Parcial. Tiempos persistidos, entrada/salida y clasificación; orden de ventana incompleto H09.
+**Estado observado** Integrado en código. La sesión transmite entryTime, registrationMinutes, exitTime y shutdownTime. El servidor aplica las reglas temporales. Las fronteras exactas y duplicados se verifican en CP-RF-6.2. Fuente SRC-06.
 
 **Prueba vinculada** CP-RF-6.2 según sección 8
 
@@ -1124,11 +1136,11 @@ Las fichas siguientes definen el comportamiento requerido. El estado observado s
 - Verde puntual, amarillo retardo y rojo ausencia, con iconos/texto además del color.
 - Cualquier celda muestra hora, día, ambiente y responsable cuando existe evento.
 - Archivo identifica programa y ficha e incluye las tres categorías.
-- Distingue una ausencia de un día sin clase; no inventa eventos por falta de horario.
+- Distingue una ausencia de un día sin sesión aplicable y conserva la referencia a la sesión que origina el estado.
 
 **Relaciones** RF-7.2, RF-9.1; RNF-7.1 a RNF-7.5
 
-**Estado observado** Parcial. Matriz y consultas por ficha reales; autorización H01 y aceptación visual/exportación por probar.
+**Estado observado** Evidencia visual. INS-01 muestra matriz por ficha para el 4 de noviembre, leyenda de estados y controles de exportación. COO-06 muestra el selector inicial de programa. Fuente SRC-07.
 
 **Prueba vinculada** CP-RF-7.1 según sección 8
 
@@ -1166,7 +1178,7 @@ Las fichas siguientes definen el comportamiento requerido. El estado observado s
 
 **Relaciones** RF-7.1, RF-9.1; RNF-7.1, RNF-7.2, RNF-7.3
 
-**Estado observado** Parcial. Matriz usada en consulta individual; búsqueda/alcance deben verificarse, H01.
+**Estado observado** Evidencia visual. APR-03 muestra una consulta individual con un registro de retraso y 100 % de asistencia para el rango seleccionado. APR-02 conserva el estado previo sin fechas. Fuente SRC-07.
 
 **Prueba vinculada** CP-RF-7.2 según sección 8
 
@@ -1204,7 +1216,7 @@ Las fichas siguientes definen el comportamiento requerido. El estado observado s
 
 **Relaciones** RF-7.1, RF-7.2; RNF-3.6, RNF-6.3, RNF-7.2
 
-**Estado observado** Brecha. Historial usa fuente local de asistencia H11.
+**Estado observado** Integrado en código. useAttendanceRF6 deriva el historial desde useAttendance, que consulta attendance-matrix. La descripción anterior de fuente exclusivamente local quedó desactualizada. Fuente SRC-07.
 
 **Prueba vinculada** CP-RF-7.3 según sección 8
 
@@ -1244,7 +1256,7 @@ Las fichas siguientes definen el comportamiento requerido. El estado observado s
 
 **Relaciones** RF-8.2, RF-8.3, RF-8.4; RNF-8.1 a RNF-8.4
 
-**Estado observado** Parcial. Catálogo/eventos persistidos; cobertura completa y deduplicación por probar H13.
+**Estado observado** Evidencia visual. COO-07 y APR-06 muestran avisos por categorías, seguridad, CSV y registro facial. La cobertura de cada evento se comprueba con su caso de aceptación. Fuente SRC-08.
 
 **Prueba vinculada** CP-RF-8.1 según sección 8
 
@@ -1282,7 +1294,7 @@ Las fichas siguientes definen el comportamiento requerido. El estado observado s
 
 **Relaciones** RNF-8.2, RF-C4
 
-**Estado observado** Parcial. Bandeja por destinatario/lectura conectadas; caché/retención pendientes H13.
+**Estado observado** Evidencia visual. Las bandejas muestran filtros de lectura y categoría, contadores y el aviso de retención de 30 días. Fuente SRC-08.
 
 **Prueba vinculada** CP-RF-8.2 según sección 8
 
@@ -1320,7 +1332,7 @@ Las fichas siguientes definen el comportamiento requerido. El estado observado s
 
 **Relaciones** RF-8.1; RNF-8.3, RNF-8.4
 
-**Estado observado** Parcial. Correo, estados y reintentos presentes; tiempo y límite horario pendientes H13.
+**Estado observado** Operativo confirmado. El equipo confirma correo SMTP. Los listeners de entrega y recuperación están en backend. Las cuotas y tiempos del baseline necesitan mediciones específicas. Fuente SRC-08.
 
 **Prueba vinculada** CP-RF-8.3 según sección 8
 
@@ -1358,7 +1370,7 @@ Las fichas siguientes definen el comportamiento requerido. El estado observado s
 
 **Relaciones** RF-5.4; RNF-8.1, RNF-8.2
 
-**Estado observado** Brecha. Solicitud del aprendiz solo local; resolución incompleta H10.
+**Estado observado** Integrado en código. La solicitud facial se persiste y su decisión produce avisos. APR-06 contiene la respuesta al aprendiz y el aviso de registro completado. Fuente SRC-08.
 
 **Prueba vinculada** CP-RF-8.4 según sección 8
 
@@ -1372,7 +1384,7 @@ Las fichas siguientes definen el comportamiento requerido. El estado observado s
 
 **Requisito** El sistema deberá generar reportes de asistencia por usuario, ficha, calendario y desempeño desde eventos persistidos, con filtros y exportación coherentes.
 
-**Precondiciones** Permiso de consulta y datos de sesiones/horarios.
+**Precondiciones** Permiso de consulta y datos de sesiones y sus tiempos.
 
 **Entradas** Tipo de reporte, sujeto, fechas y formato XLSX/CSV.
 
@@ -1399,7 +1411,7 @@ Las fichas siguientes definen el comportamiento requerido. El estado observado s
 
 **Relaciones** RF-7.1 a RF-7.3; RNF-7.1 a RNF-7.5
 
-**Estado observado** Brecha. Pantallas y exportación presentes, pero reportes usan fuente local H11.
+**Estado observado** Integrado en código. Las consultas usan useAttendance y la matriz de API. INS-01 muestra controles Excel y CSV. La igualdad del archivo descargado con filtros y permisos necesita el archivo de evidencia. Fuente SRC-07.
 
 **Prueba vinculada** CP-RF-9.1 según sección 8
 
@@ -1407,41 +1419,15 @@ Las fichas siguientes definen el comportamiento requerido. El estado observado s
 
 ## RF-C1 Horarios y excepciones
 
-**Identificador** RF-C1 | Prioridad Alta
+**Identificador** RF-C1 | Inventario histórico
 
-**Actores** Coordinador; Instructor con permiso de consulta o delegación
+**Alcance actualizado** La entrega vigente gestiona tiempos dentro de sesiones de ambiente. Las rutas de horarios y excepciones se retiraron del frontend. Este identificador se conserva para rastrear el requisito anterior.
 
-**Requisito** El sistema deberá gestionar horarios persistentes y excepciones de cancelación, reprogramación y sustitución, y aplicarlos a sesiones, asistencia y reportes.
+**Criterio de revisión** Los menús y manuales de la versión actual deben describir Ambientes y sesiones. Una reincorporación de horarios requiere nueva definición de alcance, contratos y pruebas.
 
-**Precondiciones** Catálogos activos y permiso de operación.
+**Estado observado** Retirado del alcance vigente. Las rutas de gestión de horarios y excepciones fueron retiradas. El ID se conserva para rastrear el baseline. Los tiempos operativos se definen en la sesión de ambiente. Fuente SRC-06.
 
-**Entradas** Ficha, ambiente, instructor, día, franjas, vigencia y excepción con motivo.
-
-**Secuencia normal**
-
-1. Consulta calendario de horarios vigentes.
-2. Crea o modifica horario y verifica solapamientos de ambiente/instructor.
-3. Registra excepción con original, nuevo valor, actor y motivo.
-4. La preparación de sesión y cálculo de asistencia usan la versión aplicable a la fecha.
-
-**Escenarios alternativos**
-
-- Solapamiento o referencias inactivas: rechazar.
-- Excepción que altera eventos existentes: preservar hechos y requerir ajuste auditado.
-
-**Postcondiciones** Horarios/excepciones durables sin pérdida histórica.
-
-**Criterios de aceptación**
-
-- Reinicio y otro dispositivo muestran lo guardado.
-- Sesión cancelada no produce ausencia automática.
-- Conflictos se validan también en servidor.
-
-**Relaciones** RF-5.2, RF-6.2; RNF-6.2
-
-**Estado observado** Parcial. Pantallas/lógica local y mocks; sin API persistente encontrada para horarios/excepciones.
-
-**Prueba vinculada** CP-RF-C1 según sección 8
+**Prueba vinculada** CP-RF-C1 queda como referencia histórica.
 
 ## RF-C2 Ambientes, dispositivos y sesiones
 
@@ -1477,7 +1463,7 @@ Las fichas siguientes definen el comportamiento requerido. El estado observado s
 
 **Relaciones** RF-5.2, RF-6.1; RNF-6.1
 
-**Estado observado** Parcial. Sesiones reales y parte del catálogo conectadas; CRUD local restante y validaciones H09.
+**Estado observado** Evidencia visual. COO-05 muestra el catálogo de ambientes cargado. SecurityConfig permite GET y POST de ambientes a instructor y coordinador. Editar, desactivar y vincular fichas corresponde al coordinador. Las sesiones corresponden al instructor. Fuente SRC-06.
 
 **Prueba vinculada** CP-RF-C2 según sección 8
 
@@ -1515,7 +1501,7 @@ Las fichas siguientes definen el comportamiento requerido. El estado observado s
 
 **Relaciones** RF-4.2; RNF-4.1
 
-**Estado observado** Brecha. Backend conectado; alemán y activación de notificaciones H14.
+**Estado observado** Integrado en código. Las preferencias del titular se guardan en API. El mapeo actual incluye alemán y francés. La recuperación en otro dispositivo requiere el caso específico de persistencia. Fuente SRC-04.
 
 **Prueba vinculada** CP-RF-C3 según sección 8
 
@@ -1553,7 +1539,7 @@ Las fichas siguientes definen el comportamiento requerido. El estado observado s
 
 **Relaciones** RNF-1.11, RNF-1.16, RNF-8.2
 
-**Estado observado** Por probar. WebSocket cliente/servidor presente; alcance, cambios, reconexión y revocación H03 pendientes.
+**Estado observado** Integrado en código. realtime.ts y el manejador WebSocket intercambian eventos de actualización con autenticación. La prueba técnica de handshake está registrada en despliegue. Recuperación y revocación del canal necesitan su evidencia específica. Fuente SRC-08.
 
 **Prueba vinculada** CP-RF-C4 según sección 8
 
@@ -1571,7 +1557,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** Las credenciales del usuario deben transmitirse y almacenarse de forma segura, sin exponer la contraseña original.
 
-**Estado observado** Parcial. BCrypt/JWT presentes; transporte productivo sin verificar.
+**Estado observado** Criterio por verificar. BCrypt, JWT y HTTPS público están presentes. El acceso privado al microservicio usa la red Docker y clave interna. Fuente SRC-01.
 
 **Prueba** CP-RNF-1.1
 
@@ -1583,7 +1569,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** El sistema debe rechazar cualquier contraseña que no cumpla con las reglas establecidas.
 
-**Estado observado** Parcial. DTO de recuperación/cambio exige 8..15, mayúscula, número y símbolo; inicial aleatoria de 12. Probar todos los flujos.
+**Estado observado** Criterio por verificar. Existe validación de longitud y complejidad. Revisar cambio inicial, recuperación y rotación con la misma política. Fuente SRC-01.
 
 **Prueba** CP-RNF-1.2
 
@@ -1595,7 +1581,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** Cinco fallos consecutivos contra la API activan bloqueo de cinco minutos. Reiniciar la interfaz no elimina el bloqueo. Un éxito permitido reinicia el contador y deja auditoría.
 
-**Estado observado** Brecha. Contador/bloqueo se guarda antes de excepción transaccional H02.
+**Estado observado** Integrado en código. Login usa bloqueo de credencial y @Transactional(noRollbackFor = LoginException.class). El hallazgo histórico de rollback ya no describe este método. Fuente SRC-01.
 
 **Prueba** CP-RNF-1.3
 
@@ -1607,7 +1593,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** Un usuario no debe poder ejecutar mediante solicitudes directas al backend una operación que no esté autorizada para su rol.
 
-**Estado observado** Brecha. API facial sin permisos de operación/objeto H01; layouts H14.
+**Estado observado** Criterio por verificar. SecurityConfig diferencia operaciones de coordinación, instructor y aprendiz. Se requieren variantes por recurso ajeno para el criterio completo. Fuente SRC-01.
 
 **Prueba** CP-RNF-1.4
 
@@ -1619,7 +1605,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** El sistema debe impedir que un usuario acceda a información perteneciente a otro usuario, ficha o rol fuera de su ámbito autorizado.
 
-**Estado observado** Brecha. Matriz de ficha accesible sin filtro de aprendiz H01.
+**Estado observado** Criterio por verificar. Las rutas de autoservicio y los servicios de asistencia aplican alcance. La comparación de identificadores propios y ajenos pertenece al caso negativo. Fuente SRC-01.
 
 **Prueba** CP-RNF-1.5
 
@@ -1631,7 +1617,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** Un usuario sin permisos suficientes no debe poder consultar ni modificar datos personales de otros usuarios.
 
-**Estado observado** Parcial. Perfil propio y aceptación; API facial y biometría H05/H12.
+**Estado observado** Criterio por verificar. Se observan consentimiento, control de sesión y permisos. La política de retención y eliminación biométrica requiere responsable y evidencia propia. Fuente SRC-01.
 
 **Prueba** CP-RNF-1.6
 
@@ -1643,7 +1629,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** Una solicitud realizada por un Aprendiz o Instructor para modificar directamente sus datos debe ser rechazada por el backend.
 
-**Estado observado** Parcial. Gestión de datos existe; inmutabilidad/documento H07 y auditoría por verificar.
+**Estado observado** Criterio por verificar. Existe actualización administrativa. El cambio de documento permitido por el servicio debe alinearse con la regla de identidad del baseline. Fuente SRC-01.
 
 **Prueba** CP-RNF-1.7
 
@@ -1655,7 +1641,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** Las operaciones críticas del módulo deben poder ser rastreadas posteriormente mediante los registros de auditoría.
 
-**Estado observado** Parcial. Historial académico y sesiones; auditLogger cliente en memoria, fallos transaccionales H02.
+**Estado observado** Criterio por verificar. Hay ChangeHistory y sesiones persistidas. La cobertura de cada campo, motivo y operación debe verificarse por caso. Fuente SRC-01.
 
 **Prueba** CP-RNF-1.8
 
@@ -1667,7 +1653,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** Código vencido, usado o de otra solicitud no permite cambiar la contraseña. Dos peticiones concurrentes no lo consumen dos veces. Los umbrales de intentos de recuperación se registran en DEC-06 antes de aceptación.
 
-**Estado observado** Parcial. Código numérico, caducidad y consumo; lookup global por token sin vincular solicitud/usuario, intentos y colisiones por probar.
+**Estado observado** Criterio por verificar. Hay recuperación, códigos y sesiones de recuperación. Duración, límite, reenvío, titular y consumo se verifican con solicitudes controladas. Fuente SRC-01.
 
 **Prueba** CP-RNF-1.9
 
@@ -1679,7 +1665,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** Una solicitud de login identificada solo por correo es rechazada. El documento válido permite el acceso con la credencial correcta. El correo completo no se muestra en perfiles/listados/reportes ordinarios.
 
-**Estado observado** Brecha. API admite correo como identificador. Enmascaramiento se evalúa en RNF-4.2.
+**Estado observado** Diferencia con el criterio. El login visible solicita documento. LoginServiceImpl también busca por correo. La restricción exclusiva a documento sigue siendo una diferencia concreta. Fuente SRC-01.
 
 **Prueba** CP-RNF-1.10
 
@@ -1691,7 +1677,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** Token alterado, expirado o revocado es rechazado; no conserva permisos de un rol anterior. Manipular estado local no concede privilegios.
 
-**Estado observado** Brecha. Token sin revocación/validación de sesión actual H03.
+**Estado observado** Integrado en código. JwtServiceImpl valida sid contra SessionSecurityService. Existe revocación de token y comprobación del estado vigente. Fuente SRC-01.
 
 **Prueba** CP-RNF-1.11
 
@@ -1703,7 +1689,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** Al menos el 95 % de los intentos de inicio de sesión realizados bajo condiciones normales deberían recibir una respuesta en un máximo de 3 segundos.
 
-**Estado observado** Por probar. Medir 95% de logins en máximo 3 s.
+**Estado observado** Criterio por verificar. La operación del login está confirmada. Falta una serie de mediciones que demuestre el percentil exigido. Fuente SRC-01.
 
 **Prueba** CP-RNF-1.12
 
@@ -1715,7 +1701,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** Una falla del servidor de autenticación no debe permitir el acceso no autorizado al sistema.
 
-**Estado observado** Por probar. Medir disponibilidad según horario y meta aprobados.
+**Estado observado** Criterio por verificar. La publicación está operativa. Una respuesta HTTP correcta no mide disponibilidad durante el periodo acordado. Fuente SRC-01.
 
 **Prueba** CP-RNF-1.13
 
@@ -1727,7 +1713,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** Un usuario debe poder identificar fácilmente cómo ingresar al sistema y cómo recuperar su contraseña.
 
-**Estado observado** Por probar. Pruebas de usabilidad y mensajes con usuarios.
+**Estado observado** Criterio por verificar. Hay formularios y mensajes por rol. La evaluación con usuarios y su registro de tareas corresponde a la aceptación de usabilidad. Fuente SRC-01.
 
 **Prueba** CP-RNF-1.14
 
@@ -1739,7 +1725,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** La autenticación exitosa de un usuario no debe otorgarle automáticamente permisos administrativos.
 
-**Estado observado** Parcial. Capas separadas; autorización efectiva debe alinearse H01/H14.
+**Estado observado** Integrado en código. Se observan controladores, servicios, repositorios y un servicio facial separado. Fuente SRC-01.
 
 **Prueba** CP-RNF-1.15
 
@@ -1751,7 +1737,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** Después de modificar el rol de un usuario, el sistema debe aplicar únicamente los permisos correspondientes al nuevo rol.
 
-**Estado observado** Brecha. Cambiar rol no cambia permisos de tokens previos H03; guards H14.
+**Estado observado** Integrado en código. La validación de sesión coteja el rol persistido y estado actual. Los alias de interfaz deben mantenerse alineados con los tres roles de backend. Fuente SRC-01.
 
 **Prueba** CP-RNF-1.16
 
@@ -1765,7 +1751,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** Una solicitud directa al backend desde una cuenta que no sea Coordinador para cualquiera de estas operaciones debe ser rechazada con un código de error de autorización, no procesada parcialmente.
 
-**Estado observado** Parcial. API académica restringida al coordinador; verificar alcance de GET disponibles al instructor.
+**Estado observado** Integrado en código. La escritura académica exige COORDINATOR. Los GET académicos autorizados de instructor tienen un alcance distinto. Fuente SRC-02.
 
 **Prueba** CP-RNF-2.1
 
@@ -1777,7 +1763,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** No quedan fichas sin programa ni vínculos activos inválidos. Una cuenta desactivada puede conservar relaciones históricas sin considerarse una asignación operativa. Datos inválidos no crean registros parciales.
 
-**Estado observado** Parcial. DTO, unicidad y relaciones; inconsistencias adicionales H07/H09.
+**Estado observado** Criterio por verificar. DTO, servicios y restricciones de la base validan referencias y estados. La batería de errores se documenta por caso. Fuente SRC-02.
 
 **Prueba** CP-RNF-2.2
 
@@ -1789,7 +1775,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** Para cualquier dato de Programa, Ficha, Aprendiz o Instructor, debe poder reconstruirse su historial completo de cambios sin ambigüedad.
 
-**Estado observado** Parcial. ChangeHistory académico; cobertura completa de operaciones y actores por probar.
+**Estado observado** Criterio por verificar. ChangeHistory conserva operaciones académicas. La cobertura completa del historial es un criterio adicional de revisión. Fuente SRC-02.
 
 **Prueba** CP-RNF-2.3
 
@@ -1801,7 +1787,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** Ningún archivo CSV cargado queda accesible o descargable después de haberse procesado.
 
-**Estado observado** Parcial. Roles/hash presentes; CSV devuelve secretos H06.
+**Estado observado** Criterio por verificar. La interfaz y API manejan datos personales. El resumen y los DTO legacy deben revisarse para confirmar máscara y ausencia de secretos en cada respuesta. Fuente SRC-02.
 
 **Prueba** CP-RNF-2.4
 
@@ -1813,7 +1799,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** El Coordinador siempre tiene una señal visual de que el archivo se está procesando mientras dura la carga.
 
-**Estado observado** Por probar. Medir CSV de 500 filas en menos de 10 s e indicador de progreso.
+**Estado observado** Criterio por verificar. CSV está operativo. COO-04 muestra los límites del formulario. La meta de 500 filas en menos de 10 s requiere cronometraje con condiciones registradas. Fuente SRC-02.
 
 **Prueba** CP-RNF-2.5
 
@@ -1825,19 +1811,19 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** Antes de aprobar este RNF, definir el horario operativo y la meta de disponibilidad (porcentaje y periodo de medición). Después, verificar consultas de Programas, Fichas, Aprendices e Instructores durante el periodo acordado y registrar indisponibilidades. Meta cuantitativa: pendiente de aprobación; no asumir un porcentaje no acordado.
 
-**Estado observado** Por probar. Disponibilidad académica; SRS requiere definir horario/meta antes de aprobar.
+**Estado observado** Criterio por verificar. Las consultas cargan datos en las capturas. La disponibilidad requiere una ventana de observación y meta aprobadas. Fuente SRC-02.
 
 **Prueba** CP-RNF-2.6
 
 ### RNF-2.7 Usabilidad para un usuario no técnico
 
-**Requisito** Ningún mensaje de error de este módulo (ni en la carga de CSV, ni en los formularios manuales) debe usar terminología técnica de base de datos (ej. "constraint violation", "foreign key", "null pointer"). Todo mensaje debe estar en lenguaje simple, tal como se especifica en la Parte B.
+**Requisito** Los mensajes de error de CSV y de formularios manuales deben explicar el dato que requiere corrección y la acción disponible. Los errores se presentan con lenguaje comprensible según la sección 5.4.
 
 **Control** Aplicar el control en las capas pertinentes y conservar evidencia de verificación de los criterios indicados.
 
 **Aceptación** Un Coordinador sin conocimientos técnicos debe poder entender y corregir cualquier error mostrado, sin necesidad de soporte técnico, en la mayoría de los casos.
 
-**Estado observado** Por probar. Guía y resumen presentes; prueba con usuario no técnico pendiente.
+**Estado observado** Criterio por verificar. COO-04 muestra guía previa y COO-07 avisos comprensibles de referencias inválidas. La prueba de comprensión requiere participantes y resultados. Fuente SRC-02.
 
 **Prueba** CP-RNF-2.7
 
@@ -1849,7 +1835,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** Para una misma entidad y datos equivalentes, ejecutar alta/actualización por CSV y formulario manual; los valores y relaciones persistidos deben coincidir. Registrar el resultado de ambas rutas, incluyendo reglas de validación y errores.
 
-**Estado observado** Parcial. Servicios comunes y validaciones; comparar CSV/manual con los mismos datos.
+**Estado observado** Criterio por verificar. CSV y formularios usan servicios de dominio. Comparar una misma entidad por ambos caminos verifica equivalencia. Fuente SRC-02.
 
 **Prueba** CP-RNF-2.8
 
@@ -1861,7 +1847,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** Un intento de crear un duplicado, por cualquier vía, siempre se resuelve como actualización del registro existente (si los datos son consistentes) o como error/inconsistencia bloqueada (si no lo son) - nunca se crean dos registros distintos con el mismo identificador.
 
-**Estado observado** Parcial. Restricciones únicas y validación; probar duplicados y carreras concurrentes.
+**Estado observado** Criterio por verificar. Se observan validaciones de unicidad y restricciones SQL. La prueba concurrente requiere ejecución controlada. Fuente SRC-02.
 
 **Prueba** CP-RNF-2.9
 
@@ -1873,7 +1859,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** Fallo antes o durante el traslado revierte los cambios. Tras confirmar existe una única ficha activa; no se observan relaciones parciales. Dos traslados simultáneos se resuelven sin dos asignaciones activas.
 
-**Estado observado** Por probar. Traslado @Transactional y saveAndFlush; inyección de fallo/concurrencia pendiente.
+**Estado observado** Criterio por verificar. El traslado se implementa transaccionalmente. La inyección de un fallo y traslados concurrentes comprueban su atomicidad. Fuente SRC-02.
 
 **Prueba** CP-RNF-2.10
 
@@ -1885,7 +1871,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** Al resolver/cancelar una inconsistencia, comprobar que queda evidencia consultable con actor, fecha/hora, entidad, valores relevantes, decisión y motivo cuando aplique. La operación debe poder rastrearse hasta la carga CSV que la originó.
 
-**Estado observado** Parcial. Decisiones CSV y ChangeHistory presentes; verificar vínculo a carga, motivo y datos anteriores/nuevos.
+**Estado observado** Criterio por verificar. Hay decisiones de traslados pendientes y ChangeHistory. Verificar el vínculo de la decisión a su carga y motivo. Fuente SRC-02.
 
 **Prueba** CP-RNF-2.11
 
@@ -1897,7 +1883,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** Ejecutar pruebas con el volumen de referencia del requisito (cientos de fichas y miles de aprendices), medir operaciones de consulta/gestión y registrar tiempos y errores. Umbrales de respuesta: pendientes de aprobación antes de declarar conformidad.
 
-**Estado observado** Por probar. Cientos de fichas/miles de aprendices, umbrales aprobados y carga.
+**Estado observado** Criterio por verificar. COO-01 muestra 402 fichas y 3.640 usuarios. El frontend local consulta aprendices en lotes de hasta 80 fichas. Los tiempos bajo carga requieren medición. Fuente SRC-02.
 
 **Prueba** CP-RNF-2.12
 
@@ -1909,7 +1895,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** Interrumpir la carga antes del commit deja la base en su estado anterior. Reprocesar no duplica registros. Un error de negocio por fila no impide procesar las demás válidas según RF-2.1.
 
-**Estado observado** Por probar. Carga @Transactional; interrupción/reproceso sin entidades parciales pendiente.
+**Estado observado** Criterio por verificar. La carga tiene tratamiento de filas y transacciones. Un ensayo de interrupción debe demostrar el estado final de la base. Fuente SRC-02.
 
 **Prueba** CP-RNF-2.13
 
@@ -1921,7 +1907,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** Procesar nombres y apellidos con tildes, diéresis y ñ por CSV, formulario, API, almacenamiento, visualización y exportación. Los caracteres deben conservarse sin sustitución ni corrupción en todas las etapas.
 
-**Estado observado** Brecha. UTF-8 CSV presente; regex de edición admite tildes/ñ pero excluye ü/Ü exigidas.
+**Estado observado** Criterio por verificar. CSV y capturas presentan tildes. Revisar también diéresis, ñ y normalización en alta y edición con los mismos datos. Fuente SRC-02.
 
 **Prueba** CP-RNF-2.14
 
@@ -1935,7 +1921,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** - El listado carga en menos de 2 segundos con hasta 500 usuarios. - El acceso desde otro rol retorna error 403. - Los filtros responden en menos de 1 segundo.
 
-**Estado observado** Por probar. Panel conectado; medir menos de 2 s con 500 usuarios.
+**Estado observado** Criterio por verificar. COO-02 muestra listado y filtros con 3.640 resultados. Paginación y tiempo del criterio se evalúan aparte. Fuente SRC-03.
 
 **Prueba** CP-RNF-3.1
 
@@ -1947,7 +1933,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** - El sistema bloquea el registro duplicado. - El error se muestra en tiempo real sin necesidad de enviar el formulario. - No se crea ningún registro parcial en la base de datos.
 
-**Estado observado** Parcial. Documento único; probar todas las altas y concurrencia.
+**Estado observado** Criterio por verificar. Existen comprobaciones y unicidad del documento. Probar duplicados por alta administrativa y CSV. Fuente SRC-03.
 
 **Prueba** CP-RNF-3.2
 
@@ -1959,7 +1945,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** Alta manual y CSV cumplen la misma regla. Password no aparece en panel, Excel, CSV, respuestas o logs. Su longitud es de 8 a 15 e incluye letra, número y símbolo.
 
-**Estado observado** Brecha. Hash/generación presentes, pero retorno y exportación CSV H06.
+**Estado observado** Criterio por verificar. Se generan credenciales y se almacenan hashes. Los DTO conservan campos legacy. Comprobar contenido real de respuestas y exportaciones. Fuente SRC-03.
 
 **Prueba** CP-RNF-3.3
 
@@ -1971,7 +1957,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** - El campo está visualmente deshabilitado en el formulario. - La API rechaza peticiones de actualización del documento con error 400. - El historial del usuario se mantiene intacto tras cualquier otra edición.
 
-**Estado observado** Brecha. Documento editable en servicios H07.
+**Estado observado** Diferencia con el criterio. UserManagementServiceImpl permite asignar un nuevo documento en edición. El criterio de inmutabilidad sigue por alinear. Fuente SRC-03.
 
 **Prueba** CP-RNF-3.4
 
@@ -1983,7 +1969,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** - Toda modificación genera un registro de auditoría sin excepción. - El registro incluye usuario responsable, fecha/hora, campo y valores. - Los registros de auditoría son de solo lectura; no pueden eliminarse ni modificarse.
 
-**Estado observado** Parcial. Notificaciones de cambio; no equivalen a auditoría íntegra con anterior/nuevo de cada campo.
+**Estado observado** Criterio por verificar. Hay avisos de modificaciones e historial académico. La auditoría de todos los campos de usuario requiere inspección y caso específico. Fuente SRC-03.
 
 **Prueba** CP-RNF-3.5
 
@@ -1995,7 +1981,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** - El acceso se bloquea en menos de 5 segundos tras la desactivación. - Los registros de asistencia del usuario desactivado siguen apareciendo en reportes históricos. - No se elimina ningún dato del usuario al desactivarlo. - El sistema siempre mantiene al menos un Coordinador activo.
 
-**Estado observado** Brecha. Historial preservado por desactivación; token sigue funcionando H03.
+**Estado observado** Integrado en código. SessionSecurityService comprueba cuenta y credencial activas. La desactivación preserva relaciones e historial. Fuente SRC-03.
 
 **Prueba** CP-RNF-3.6
 
@@ -2007,7 +1993,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** - El archivo contiene exactamente los registros del listado filtrado, sin omisiones ni extras. - El archivo se genera en menos de 5 segundos. - Los datos exportados no incluyen contraseñas ni descriptores biométricos.
 
-**Estado observado** Parcial. Exportación presente; filtros, máscara, tiempo y alcance por probar.
+**Estado observado** Criterio por verificar. La interfaz contiene exportación. Conservar el XLSX, filtros y conteo permite comprobar el resultado. Fuente SRC-03.
 
 **Prueba** CP-RNF-3.7
 
@@ -2021,7 +2007,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** - La pantalla carga en menos de 2 segundos. - Un usuario nunca puede visualizar el perfil de otro usuario. - Los datos mostrados están actualizados al momento de la consulta.
 
-**Estado observado** Parcial. Perfil del principal conectado; datos actuales y carga <2 s por probar.
+**Estado observado** Criterio por verificar. Los perfiles propios aparecen en COO-08 y APR-07. La API toma la identidad autenticada. Fuente SRC-04.
 
 **Prueba** CP-RNF-4.1
 
@@ -2033,7 +2019,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** Las vistas ordinarias no muestran el correo completo. Ninguna API sin permiso suficiente obtiene correos ajenos. La gestión del contacto requiere autorización explícita y registro de cambios.
 
-**Estado observado** Brecha. Correo sin máscara H12.
+**Estado observado** Diferencia con el criterio. El perfil coloca el correo completo en su campo de información. El enmascaramiento sigue siendo una diferencia de privacidad del baseline. Fuente SRC-04.
 
 **Prueba** CP-RNF-4.2
 
@@ -2045,7 +2031,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** - El cierre de sesión se completa en menos de 1 segundo. - El botón "atrás" del dispositivo no permite regresar a pantallas autenticadas. - El token invalidado es rechazado en cualquier solicitud posterior. - Los datos locales sensibles son eliminados del dispositivo.
 
-**Estado observado** Brecha. Logout local sin revocación y limpieza integral H03.
+**Estado observado** Integrado en código. Existe logout con revocación de sid y limpieza del token del cliente. La limpieza de todos los stores debe comprobarse al cambiar de cuenta. Fuente SRC-04.
 
 **Prueba** CP-RNF-4.3
 
@@ -2057,7 +2043,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** - El cierre automático se ejecuta exactamente a los 30 minutos de inactividad. - Cualquier interacción del usuario reinicia el contador de inactividad. - El mensaje de sesión expirada se muestra al usuario antes de redirigirlo.
 
-**Estado observado** Sin evidencia. No se encontró timeout de 30 min H03.
+**Estado observado** Criterio por verificar. El JWT tiene expiración. No se aporta una ejecución que demuestre el criterio independiente de 30 minutos de inactividad. Fuente SRC-04.
 
 **Prueba** CP-RNF-4.4
 
@@ -2069,7 +2055,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** - Los campos están deshabilitados visualmente para Aprendiz e Instructor. - La API rechaza peticiones de modificación de datos personales de esos roles con error 403. - El Coordinador puede editar datos de cualquier usuario desde el panel de gestión.
 
-**Estado observado** Parcial. Perfil propio de lectura y edición administrativa; probar intentos directos de aprendiz/instructor.
+**Estado observado** Criterio por verificar. El perfil es de consulta y la edición administrativa está restringida. Probar cambios directos desde los otros roles. Fuente SRC-04.
 
 **Prueba** CP-RNF-4.5
 
@@ -2083,7 +2069,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** - La detección de rostros se ejecuta en tiempo real sin superar 500 ms por frame. - El sistema bloquea la captura si detecta 0 o 2+ rostros. - El mensaje de error indica claramente la causa.
 
-**Estado observado** Parcial. Microservicio rechaza cero/múltiples rostros; probar captura real en ambas plataformas.
+**Estado observado** Criterio por verificar. La cámara y el registro funcionan según el equipo. Los controles de uno o varios rostros se verifican en los casos de rechazo. Fuente SRC-05.
 
 **Prueba** CP-RNF-5.1
 
@@ -2095,19 +2081,19 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** - Las capturas con score de calidad menor al umbral son rechazadas automáticamente. - El umbral de calidad es configurable. - El mensaje de error indica la causa específica del rechazo.
 
-**Estado observado** Parcial. Captura y chequeos presentes; demostrar calidad mínima real y rechazos.
+**Estado observado** Criterio por verificar. Existen controles de calidad y vida. El conjunto de iluminación y nitidez aceptado debe quedar identificado en la prueba. Fuente SRC-05.
 
 **Prueba** CP-RNF-5.2
 
 ### RNF-5.3 Registro facial con múltiples capturas
 
-**Requisito** El registro facial deberá incluir al menos tres capturas válidas desde centro, izquierda y derecha, con variación suficiente y evidencia de vida de la misma persona.
+**Requisito** El registro facial deberá incluir dos retos distintos del catálogo activo y siete imágenes por reto, con evidencia de vida de la misma persona.
 
-**Control** Validar cada captura y consolidar una referencia facial compatible; conservar modelo, dimensión y versión; no completar el alta con ángulos equivalentes.
+**Control** Validar la secuencia y sus retos en el servidor. Conservar una referencia compatible con modelo, dimensión y versión y rechazar retos retirados o secuencias incompletas.
 
-**Aceptación** Menos de tres capturas o ángulos demasiado similares son rechazados. La referencia consolida capturas válidas según el algoritmo documentado. El proceso toma menos de 60 s en condiciones normales.
+**Aceptación** La secuencia incompleta, el reto repetido o un código retirado se rechazan. La confirmación corresponde al titular y requiere una respuesta válida del servidor. El tiempo de ejecución se registra como medición independiente.
 
-**Estado observado** Parcial. Secuencias multiframe presentes; el micro consolida el último embedding. Ángulos distintos, <60 s y contrato H04 pendientes.
+**Estado observado** Integrado en código. HU-45 usa dos retos distintos y siete imágenes por reto entre MOVE_UP, MOVE_DOWN, MOVE_CLOSER y MOVE_AWAY. APR-05 muestra la fase de validación. Fuente SRC-05.
 
 **Prueba** CP-RNF-5.3
 
@@ -2119,7 +2105,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** No hay imágenes originales en DB, disco, caché durable, respuestas o logs después del procesamiento. Los descriptores no quedan legibles en reposo sin la clave autorizada. Se verifica borrado de temporales, cifrado y acceso por titular/servicio.
 
-**Estado observado** Brecha. Vector sin cifrado de aplicación y flujo Java con foto H12.
+**Estado observado** Diferencia con el criterio. La base usa pgvector y la revisión debe demostrar cifrado en reposo, retención y borrado. El uso de un vector no prueba cifrado. Fuente SRC-05.
 
 **Prueba** CP-RNF-5.4
 
@@ -2131,7 +2117,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** - El umbral acepta valores entre 0.4 y 0.9 únicamente. - El cambio se aplica inmediatamente a las identificaciones posteriores. - Valores fuera del rango son rechazados con mensaje de error.
 
-**Estado observado** Brecha. SRS: default 0.6, rango 0.4..0.9 y coordinador; servicio: default 0.65, rango 0..1, sin panel/versionado.
+**Estado observado** Diferencia con el criterio. El servicio configura facial_match_threshold=0.65 con rango técnico 0..1. El panel institucional versionado del baseline requiere desarrollo y aceptación específicos. Fuente SRC-05.
 
 **Prueba** CP-RNF-5.5
 
@@ -2143,7 +2129,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** Una transmisión biométrica por HTTP es rechazada con 403. Firma inválida se descarta y audita. UUID, puntaje o fecha arbitrarios no acreditan reconocimiento; verificar configuración productiva y de estaciones.
 
-**Estado observado** Parcial. HTTPS exclusivo, rechazo HTTP y firma digital no demostrados H12.
+**Estado observado** Diferencia con el criterio. Caddy publica HTTPS válido. La comunicación backend-facial se configura por HTTP en una red privada Docker con clave de servicio. TLS entre todos los saltos es un objetivo adicional. Fuente SRC-05.
 
 **Prueba** CP-RNF-5.6
 
@@ -2155,7 +2141,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** - Los datos locales están encriptados durante el almacenamiento temporal. - La sincronización se ejecuta automáticamente sin intervención manual. - La cola local no supera 24 horas de registros acumulados sin alerta al Coordinador. - Los datos locales se eliminan tras confirmación de sincronización exitosa.
 
-**Estado observado** Sin evidencia. Sin cola facial cifrada offline/Raspberry H13.
+**Estado observado** Ampliación futura. La entrega vigente opera conectada desde navegador y servicios. Raspberry Pi y cola facial offline quedan como ampliación futura. Fuente SRC-05.
 
 **Prueba** CP-RNF-5.7
 
@@ -2169,19 +2155,19 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** - El registro se crea en menos de 2 segundos tras la identificación. - No puede existir más de un registro de entrada para el mismo usuario en la misma sesión. - El registro incluye todos los campos requeridos sin excepción.
 
-**Estado observado** Parcial. Registro real y unicidad presentes; bypass directo H01 y <2 s por probar.
+**Estado observado** Criterio por verificar. El equipo confirma asistencia y la API persiste eventos. El tiempo máximo del criterio requiere medición. Fuente SRC-06.
 
 **Prueba** CP-RNF-6.1
 
 ### RNF-6.2 Clasificación automática del estado de asistencia
 
-**Requisito** El servidor deberá clasificar puntualidad, retardo y ausencia según horario efectivo, excepciones y ventana de registro versionada, no según estado declarado por el cliente.
+**Requisito** El servidor deberá clasificar puntualidad, retardo y ausencia según sesión efectiva y su ventana de registro, no según estado declarado por el cliente.
 
 **Control** Permitir tolerancia inclusiva entre 0 y 30 minutos; validar salida posterior al final de ventana; usar hora confiable y calendario efectivo.
 
 **Aceptación** Clasificación por registro en menos de 500 ms. Hasta el límite de puntualidad inclusive es puntual; después y antes de salida es tardío. Ausencia se determina solo para sesión aplicable y no cancelada; excepción activa cambia el cálculo sin alterar silenciosamente hechos.
 
-**Estado observado** Parcial. Clasificación real; rango 0..30, excepciones y <500 ms pendientes H09.
+**Estado observado** Criterio por verificar. La clasificación usa sesiones y ventanas de registro. APR-03 muestra retraso. Las fronteras E, E+T, S y A requieren sus casos específicos. Fuente SRC-06.
 
 **Prueba** CP-RNF-6.2
 
@@ -2193,7 +2179,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** Aprendiz o instructor no modifica/elimina el hecho ni anula por API. Anulación sin justificación se rechaza. Auditoría conserva original y decisión; permisos de base y servicio impiden eludir la regla.
 
-**Estado observado** Brecha. Modificación de excusa sin permiso del actor; no se encontró anulación coordinador con motivo H01.
+**Estado observado** Criterio por verificar. Existen eventos y gestión de excusas. La anulación con motivo y preservación del hecho original debe demostrarse antes de cerrar el criterio. Fuente SRC-06.
 
 **Prueba** CP-RNF-6.3
 
@@ -2205,7 +2191,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** - La alerta se genera en menos de 5 segundos tras el registro que supera el umbral. - El umbral de retrasos graves es configurable por el Coordinador. - La alerta se envía al instructor correcto según la ficha del aprendiz. - No se generan alertas duplicadas para el mismo evento.
 
-**Estado observado** Sin evidencia. No se halló acumulado mensual/umbral configurable/alerta al cuarto retraso H13.
+**Estado observado** Criterio por verificar. La alerta mensual al cuarto retraso grave y su umbral requieren una prueba y una definición de producto específicas. Fuente SRC-06.
 
 **Prueba** CP-RNF-6.4
 
@@ -2217,7 +2203,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** Reportes distinguen manual/automático. Coordinador recibe pendientes y su decisión queda auditada. Registro incluye ID del instructor y no se aprueba cambiando origin o recognitionResult desde cliente.
 
-**Estado observado** Sin evidencia. Ruta directa existe, pero no flujo manual identificado y pendiente de aprobación H13.
+**Estado observado** Criterio por verificar. El respaldo manual pendiente de aprobación se conserva como objetivo adicional. Esta entrega de capturas no documenta esa ejecución. Fuente SRC-06.
 
 **Prueba** CP-RNF-6.5
 
@@ -2231,7 +2217,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** - Un Aprendiz nunca puede consultar registros de otro usuario. - Un Instructor solo accede a reportes de aprendices en sus fichas asignadas. - El Coordinador accede a reportes de cualquier usuario. - La API rechaza solicitudes no autorizadas con error 403.
 
-**Estado observado** Brecha. Matriz no restringe aprendiz a sus propios registros H01.
+**Estado observado** Criterio por verificar. useAttendance filtra al aprendiz por identidad. La autorización definitiva depende de backend y debe comprobarse con consultas ajenas. Fuente SRC-07.
 
 **Prueba** CP-RNF-7.1
 
@@ -2243,7 +2229,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** - Reporte de hasta 365 días carga en menos de 5 segundos. - Reporte de ficha con 40 aprendices y 90 días carga en menos de 5 segundos. - La paginación muestra máximo 50 registros por página.
 
-**Estado observado** Por probar. Consultas de 365 días y 40 aprendices/90 días <5 s, paginación máxima 50.
+**Estado observado** Criterio por verificar. La consulta de asistencia está operativa. Los volúmenes y tiempos del criterio requieren medición reproducible. Fuente SRC-07.
 
 **Prueba** CP-RNF-7.2
 
@@ -2255,7 +2241,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** - El archivo contiene exactamente los registros del reporte filtrado. - El archivo se genera en menos de 5 segundos. - El archivo no contiene datos de otros usuarios no incluidos en el reporte visible.
 
-**Estado observado** Parcial. XLSX real presente; fuente local en reportes H11, igualdad/filtros y <5 s por probar.
+**Estado observado** Criterio por verificar. INS-01 muestra botones Excel y CSV. La evidencia del archivo es necesaria para cotejar contenido y filtros. Fuente SRC-07.
 
 **Prueba** CP-RNF-7.3
 
@@ -2267,7 +2253,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** - Los aprendices con asistencia < 80% siempre se resaltan en el reporte. - El umbral de alerta es configurable por el Coordinador. - La distinción visual no depende únicamente del color (accesibilidad WCAG 2.1).
 
-**Estado observado** Parcial. Indicadores visuales presentes; umbral configurable y evaluación con datos reales no demostrados.
+**Estado observado** Criterio por verificar. La interfaz tiene indicadores por estado. El umbral de alerta crítica configurable se evalúa como criterio específico. Fuente SRC-07.
 
 **Prueba** CP-RNF-7.4
 
@@ -2279,7 +2265,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** - El calendario del mes actual carga en menos de 2 segundos. - La navegación entre meses no recarga la pantalla completa. - Los estados se distinguen por color e icono simultáneamente para accesibilidad. - El detalle del día seleccionado incluye hora, estado, ambiente e instructor.
 
-**Estado observado** Brecha. Calendario usa asistencia local H11; accesibilidad/tiempos pendientes.
+**Estado observado** Criterio por verificar. Los reportes derivan datos de useAttendance. El calendario debe cotejarse con matriz y archivo para el mismo periodo. Fuente SRC-07.
 
 **Prueba** CP-RNF-7.5
 
@@ -2293,7 +2279,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** - Las notificaciones se generan en menos de 3 segundos tras el evento. - El sistema nunca pierde una notificación generada aunque falle la entrega push. - No se generan notificaciones duplicadas para el mismo evento. - Cada notificación contiene información suficiente para entender el evento sin navegar a otra pantalla.
 
-**Estado observado** Parcial. Algunos eventos/notificaciones persistidos; falta catálogo facial/offline completo, deduplicación y tiempos.
+**Estado observado** Criterio por verificar. COO-07 y APR-06 muestran notificaciones de eventos. Los avisos de sincronización Raspberry pertenecen al alcance futuro. Fuente SRC-08.
 
 **Prueba** CP-RNF-8.1
 
@@ -2305,7 +2291,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** - El centro de notificaciones carga en menos de 1.5 segundos. - En modo offline muestra al menos las últimas 50 notificaciones en caché. - Las notificaciones de más de 30 días se eliminan automáticamente. - El badge de no leídas se actualiza en tiempo real.
 
-**Estado observado** Parcial. Servidor y lectura presentes; retención 30 días/caché durable 50 sin evidencia H13.
+**Estado observado** Criterio por verificar. Las bandejas muestran retención de 30 días y persistencia de lectura. El acceso offline durable necesita prueba específica. Fuente SRC-08.
 
 **Prueba** CP-RNF-8.2
 
@@ -2317,7 +2303,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** - El sistema no supera 5 correos por hora por usuario bajo ninguna circunstancia. - Los correos descartados por límite quedan en cola y se envían en la siguiente ventana. - Ningún correo contiene datos biométricos ni contraseñas. - El estado de cada envío (exitoso/fallido/en cola) queda registrado en auditoría.
 
-**Estado observado** Brecha. Sin máximo 5 correos por usuario/hora H13; revisar política sobre credenciales por correo.
+**Estado observado** Criterio por verificar. SMTP está operativo según el equipo. La cuota de cinco por hora y ausencia de secretos se comprueban mediante evidencia de entrega. Fuente SRC-08.
 
 **Prueba** CP-RNF-8.3
 
@@ -2329,7 +2315,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 **Aceptación** - No se generan notificaciones duplicadas por los reintentos. - Tras 3 fallos de entrega push la notificación sigue disponible en la bandeja. - El backoff exponencial entre reintentos es respetado.
 
-**Estado observado** Brecha. Reintentos SMTP cada 5 min no satisfacen push 1/2/4 s H13.
+**Estado observado** Criterio por verificar. El sistema dispone de entrega SMTP y bandeja. El backoff push especificado en el baseline se conserva como objetivo adicional de canal. Fuente SRC-08.
 
 **Prueba** CP-RNF-8.4
 
@@ -2337,7 +2323,7 @@ Los RNF conservan su numeración y objetivos. Los criterios medibles se verifica
 
 ## 8.1 Condiciones de ejecución
 
-Las pruebas se realizarán con cuentas de cada rol, fichas propias y ajenas, dispositivos autorizados/no autorizados, datos de horario y casos de falla. La base se crea con migraciones del proyecto; se documentan versiones de aplicación, modelo facial, configuración, volumen, dispositivo y conectividad. Los datos biométricos de prueba deben usarse con autorización y protección, y eliminarse conforme a la política de prueba.
+Las pruebas se realizarán con cuentas de cada rol, fichas propias y ajenas, dispositivos autorizados/no autorizados, sesiones vigentes y casos de falla. La base se crea con migraciones del proyecto; se documentan versiones de aplicación, modelo facial, configuración, volumen, dispositivo y conectividad. Los datos biométricos de prueba deben usarse con autorización y protección, y eliminarse conforme a la política de prueba.
 
 ## 8.2 Identificación de pruebas
 
@@ -2348,8 +2334,8 @@ A cada requisito se asocia CP seguido de su ID, por ejemplo CP-RF-7.1 o CP-RNF-5
 | Acceso y sesión | Login válido/inválido repetido; reutilizar token tras logout, rol o desactivación; 30 min inactivo. | Contador durable, bloqueo, permisos vigentes, rechazo del token y cierre por inactividad. |
 | Académico y CSV | Archivo válido, tipos mezclados, tildes/ü/ñ, duplicados, referencias faltantes y fallo antes del commit. | Resumen correcto, integridad, relaciones consistentes, ningún secreto y recuperación sin parcialidad. |
 | Traslado | Destino inválido, falla entre cambios y dos traslados concurrentes. | Origen intacto al fallar; una ficha activa al confirmar; historial de decisión. |
-| Facial | Cero/dos rostros, ángulos similares, fotografía/replay, reto usado/vencido, UUID ajeno. | Rechazo sin registro aprobado; referencia válida y protegida solo para titular autorizado. |
-| Sesión y asistencia | Límites E, E+T, S, A; excepción; duplicado entrada/salida; evento directo sin verificación. | Estados correctos, conflictos controlados, tiempo confiable y ausencia de bypass. |
+| Facial | Cero/dos rostros, secuencias incompletas, fotografía/replay, reto usado/vencido, UUID ajeno. | Rechazo sin registro aprobado; referencia válida y protegida solo para titular autorizado. |
+| Sesión y asistencia | Límites E, E+T, S, A; sesión cancelada; duplicado entrada/salida; evento directo sin verificación. | Estados correctos, conflictos controlados, tiempo confiable y ausencia de bypass. |
 | Consultas y reportes | Mismo evento en matriz/historial/calendario/XLSX; filtros y rol ajeno. | Igualdad de valores, denominadores claros, 403 fuera de alcance y exportación exacta. |
 | Notificaciones | Evento repetido, caída SMTP/push, sexto correo, 30 días, offline y solicitud facial. | Persistencia, no duplicados, límite y backoff/caché, decisión durable independiente de lectura. |
 | Operación y calidad | Volúmenes establecidos, reconexión, recuperación y base nueva. | Umbrales verificables; versiones/configuración registradas; contratos y migraciones coincidentes. |
@@ -2427,286 +2413,171 @@ La versión implantada deberá utilizar secretos externos al código y cliente p
 | RPO y RTO | Objetivos de pérdida de datos y tiempo de recuperación que debe aprobar operación. |
 | Baseline | Versión y configuración usadas como referencia de verificación. |
 
-Referencias documentales: SRS_V3_completo_y_trazable (1).pdf, versión 3.0, 92 páginas; VALIDACION_SRS.md, revisión del 13 de octubre de 2026; repositorios locales FaceLit, FaceLit-Backend, FaceLit-DB y micro-facial. El documento previo cita IEEE 830 como orientación de estructura; esta versión no afirma una certificación normativa. Los lineamientos institucionales de datos, retención y operación se incorporan mediante las decisiones registradas. La justificación no conserva cifras estadísticas sin fuente verificable. Los nombres del equipo, instructor, programa y ficha proceden de la portada suministrada. Se omiten correos personales del equipo porque no son necesarios para evaluar la especificación.
+Referencias documentales: SRS_V3_completo_y_trazable.pdf, versión 3.0, 92 páginas; VALIDACION_SRS.md, revisión del 13 de octubre de 2026; repositorios locales FaceLit, FaceLit-Backend, FaceLit-DB y micro-facial. El documento previo cita IEEE 830 como orientación de estructura; esta versión no afirma una certificación normativa. Los lineamientos institucionales de datos, retención y operación se incorporan mediante las decisiones registradas. La justificación no conserva cifras estadísticas sin fuente verificable. Los nombres del equipo, instructor, programa y ficha proceden de la portada suministrada. Se omiten correos personales del equipo porque no son necesarios para evaluar la especificación.
 
-# 11 Matriz de trazabilidad y estado actual
+# 11 Trazabilidad actual por requisito
 
-Las matrices RF/RNF y los hallazgos H01-H14 de esta sección reflejan la inspección del 13 de octubre de 2026. El documento de trazabilidad del 27 de octubre registra cambios posteriores, pero no contiene una revalidación individual de cada requisito. Por tanto, los estados de esta matriz son un baseline histórico y no deben interpretarse como estado certificado al 27 de octubre. El delta conocido y sus límites se documentan en la sección 12.3. Fecha de referencia 13 de octubre de 2026. La inspección local aporta estados Parcial, Brecha, Por probar, Por verificar o Sin evidencia. No existen estados Conforme certificados por esta revisión. Cada fila conserva el ID y enlaza el requisito con evidencia del componente y su caso CP. Las rutas del anexo son relativas a los repositorios para facilitar la lectura en otro equipo.
+Revisión documental al 4 de noviembre de 2026. Se conservan los 97 identificadores del baseline. RF-C1 está retirado del alcance vigente y RNF-5.7 se identifica como ampliación futura. Los estados distinguen el criterio escrito de la evidencia disponible.
 
-## 11.1 Accesos al sistema
+| Estado | Significado |
+|---|---|
+| Operativo confirmado | El equipo confirmó la función en el sistema. Los criterios especializados se verifican por caso. |
+| Evidencia visual | Las capturas muestran el comportamiento indicado en la fila. |
+| Integrado en código | Se localiza la cadena de interfaz, API o persistencia descrita. |
+| Integrado con criterio adicional | Hay operación implementada y una condición del baseline que requiere trabajo o evidencia adicional. |
+| Criterio por verificar | La aceptación requiere una ejecución, medición o decisión específica. |
+| Diferencia con el criterio | La inspección identifica una diferencia concreta respecto de la exigencia escrita. |
+| Objetivo adicional | La capacidad pertenece al baseline objetivo y necesita definición o implementación adicional. |
+| Retirado del alcance vigente | El identificador se conserva por trazabilidad del alcance anterior. |
+| Ampliación futura | Capacidad prevista para una extensión de la entrega conectada actual. |
 
-Evidencia principal: FaceLit/shared/contexts/AuthContext.tsx; FaceLit-Backend/config/SecurityConfig.java, JwtFilter.java; auth/service/.../LoginServiceImpl.java y JwtServiceImpl.java.
+## 11.1 Fuentes y revisiones
 
-| ID | Estado | Evidencia y pendiente | Prueba |
-|---|---|---|---|
-| RF-1.1 | Parcial | Documento/contraseña, hash, privacidad y sesión implementados; H02/H03. API también admite email: confirmar alcance aprobado. El contrato también admite correo, contrario a RNF-1.10. | CP-RF-1.1 |
-| RF-1.2 | Brecha | Autorización por objeto incompleta y rutas solo protegidas por autenticación; H01/H14. | CP-RF-1.2 |
-| RF-1.3 | Parcial | Rol desde servidor y redirección; discrepancias de roles/guards, H08/H14. | CP-RF-1.3 |
-| RF-1.4 | Parcial | Recuperación con código, expiración, uso único y política; falta prueba integrada y limitación de intentos de código. | CP-RF-1.4 |
-
-## 11.2 Gestión académica
-
-Evidencia principal: FaceLit/features/academic/academicApi.ts; FaceLit-Backend/academic/service/.../CsvAcademicServiceImpl.java y UserChipServiceImpl.java; FaceLit-DB/01_ddl/03_tables/003_create_academic_tables.sql.
-
-| ID | Estado | Evidencia y pendiente | Prueba |
-|---|---|---|---|
-| RF-2.1 | Parcial | CSV institucional, resumen y propuestas de traslado; contraseñas expuestas H06 y pruebas de carga/rollback pendientes. | CP-RF-2.1 |
-| RF-2.1.1 | Por probar | Endpoint de plantilla y descarga presentes; validar guía, encabezados y mensajes con usuarios. | CP-RF-2.1.1 |
-| RF-2.2 | Parcial | CRUD académico y credenciales implementados; H06/H07 y aceptación de ciclo de vida pendiente. | CP-RF-2.2 |
-| RF-2.3 | Por probar | Traslado transaccional, destino activo/mismo programa e historial; falta ensayo de fallo y concurrencia. | CP-RF-2.3 |
-
-## 11.3 Gestión de usuarios
-
-Evidencia principal: FaceLit/app/admin/users; FaceLit-Backend/auth/service/.../UserManagementServiceImpl.java, InitialCredentialServiceImpl.java; auth/model/enums/RoleName.java.
-
-| ID | Estado | Evidencia y pendiente | Prueba |
-|---|---|---|---|
-| RF-3.1 | Parcial | Listado/búsqueda real; validar filtros, estados, tiempos y paginación. | CP-RF-3.1 |
-| RF-3.2 | Parcial | Gestión real; modificación de documento H07 y revocación H03. | CP-RF-3.2 |
-| RF-3.3 | Brecha | Crea COORDINATOR en vez del rol diferenciado exigido; H08. | CP-RF-3.3 |
-| RF-3.4 | Brecha | Generación y hash presentes; CSV expone contraseña H06. | CP-RF-3.4 |
-| RF-3.5 | Brecha | No existe Coordinador de Registro en backend; H08. | CP-RF-3.5 |
-| RF-3.6 | Parcial | Desactivación preserva entidades; token previo sigue válido H03. | CP-RF-3.6 |
-
-## 11.4 Perfil y preferencias
-
-Evidencia principal: FaceLit/app/profile; features/profile/useUserSettings.ts; FaceLit-Backend/auth/service/.../UserConfigurationServiceImpl.java; auth/model/enums/Language.java.
-
-| ID | Estado | Evidencia y pendiente | Prueba |
-|---|---|---|---|
-| RF-4.1 | Parcial | Perfil propio conectado; máscara ausente H12 y tiempos por probar. | CP-RF-4.1 |
-| RF-4.2 | Brecha | Preferencias conectadas; DE incompatible y notificaciones forzadas H14. | CP-RF-4.2 |
-
-## 11.5 Reconocimiento facial
-
-Evidencia principal: FaceLit/features/auth/hooks/useFacialRegistration.ts; FaceLit-Backend/facial/FacialEnrollmentController.java; micro-facial/app/services/facial_embedding_service.py y repositories/facial_embedding_repository.py.
-
-| ID | Estado | Evidencia y pendiente | Prueba |
-|---|---|---|---|
-| RF-5.1 | Brecha | Registro por microservicio existe; contrato Java/DB y autorización desalineados H04/H05. | CP-RF-5.1 |
-| RF-5.2 | Parcial | Sesión persistida, instructor original/reemplazo; validaciones incompletas H09. | CP-RF-5.2 |
-| RF-5.3 | Brecha | No hay configuración institucional versionada del umbral; default efectivo 0.65, rango 0..1. | CP-RF-5.3 |
-| RF-5.4 | Brecha | Solicitud local/decisión sin autorización durable H10. | CP-RF-5.4 |
-
-## 11.6 Configuración de asistencia
-
-Evidencia principal: FaceLit/features/environments/environmentSessionApi.ts; FaceLit-Backend/environment/service/.../EnvironmentServiceImpl.java y facial/service/.../FacialEventServiceImpl.java.
-
-| ID | Estado | Evidencia y pendiente | Prueba |
-|---|---|---|---|
-| RF-6.1 | Parcial | Configuración y captura conectadas; horario/asignación y contrato de reemplazo por completar H09. | CP-RF-6.1 |
-| RF-6.2 | Parcial | Tiempos persistidos, entrada/salida y clasificación; orden de ventana incompleto H09. | CP-RF-6.2 |
-
-## 11.7 Consulta e historial
-
-Evidencia principal: FaceLit/app/admin/attendance; app/apprentice/attendance.tsx; features/attendance/useAttendance.ts y useAttendanceRF6.ts; FaceLit-Backend/facial/service/.../FacialEventServiceImpl.java.
-
-| ID | Estado | Evidencia y pendiente | Prueba |
-|---|---|---|---|
-| RF-7.1 | Parcial | Matriz y consultas por ficha reales; autorización H01 y aceptación visual/exportación por probar. | CP-RF-7.1 |
-| RF-7.2 | Parcial | Matriz usada en consulta individual; búsqueda/alcance deben verificarse, H01. | CP-RF-7.2 |
-| RF-7.3 | Brecha | Historial usa fuente local de asistencia H11. | CP-RF-7.3 |
-
-## 11.8 Notificaciones
-
-Evidencia principal: FaceLit/features/notifications/notificationsStore.ts; FaceLit-Backend/notification/controller/NotificationController.java y service/.../EmailDispatchServiceImpl.java.
-
-| ID | Estado | Evidencia y pendiente | Prueba |
-|---|---|---|---|
-| RF-8.1 | Parcial | Catálogo/eventos persistidos; cobertura completa y deduplicación por probar H13. | CP-RF-8.1 |
-| RF-8.2 | Parcial | Bandeja por destinatario/lectura conectadas; caché/retención pendientes H13. | CP-RF-8.2 |
-| RF-8.3 | Parcial | Correo, estados y reintentos presentes; tiempo y límite horario pendientes H13. | CP-RF-8.3 |
-| RF-8.4 | Brecha | Solicitud del aprendiz solo local; resolución incompleta H10. | CP-RF-8.4 |
-
-## 11.9 Reportes y consultas
-
-Evidencia principal: FaceLit/app/admin/reports y app/instructor/reports; features/attendance/types.ts; shared/utils/export.ts.
-
-| ID | Estado | Evidencia y pendiente | Prueba |
-|---|---|---|---|
-| RF-9.1 | Brecha | Pantallas y exportación presentes, pero reportes usan fuente local H11. | CP-RF-9.1 |
-
-## 11.10 Requisitos complementarios
-
-| ID | Estado | Evidencia y pendiente | Prueba |
-|---|---|---|---|
-| RF-C1 | Parcial | Pantallas/lógica local y mocks; sin API persistente encontrada para horarios/excepciones. | CP-RF-C1 |
-| RF-C2 | Parcial | Sesiones reales y parte del catálogo conectadas; CRUD local restante y validaciones H09. | CP-RF-C2 |
-| RF-C3 | Brecha | Backend conectado; alemán y activación de notificaciones H14. | CP-RF-C3 |
-| RF-C4 | Por probar | WebSocket cliente/servidor presente; alcance, cambios, reconexión y revocación H03 pendientes. | CP-RF-C4 |
-
-## 11.11.1 RNF Accesos y seguridad
-
-| ID | Estado | Evidencia y pendiente | Prueba |
-|---|---|---|---|
-| RNF-1.1 | Parcial | BCrypt/JWT presentes; transporte productivo sin verificar. | CP-RNF-1.1 |
-| RNF-1.2 | Parcial | DTO de recuperación/cambio exige 8..15, mayúscula, número y símbolo; inicial aleatoria de 12. Probar todos los flujos. | CP-RNF-1.2 |
-| RNF-1.3 | Brecha | Contador/bloqueo se guarda antes de excepción transaccional H02. | CP-RNF-1.3 |
-| RNF-1.4 | Brecha | API facial sin permisos de operación/objeto H01; layouts H14. | CP-RNF-1.4 |
-| RNF-1.5 | Brecha | Matriz de ficha accesible sin filtro de aprendiz H01. | CP-RNF-1.5 |
-| RNF-1.6 | Parcial | Perfil propio y aceptación; API facial y biometría H05/H12. | CP-RNF-1.6 |
-| RNF-1.7 | Parcial | Gestión de datos existe; inmutabilidad/documento H07 y auditoría por verificar. | CP-RNF-1.7 |
-| RNF-1.8 | Parcial | Historial académico y sesiones; auditLogger cliente en memoria, fallos transaccionales H02. | CP-RNF-1.8 |
-| RNF-1.9 | Parcial | Código numérico, caducidad y consumo; lookup global por token sin vincular solicitud/usuario, intentos y colisiones por probar. | CP-RNF-1.9 |
-| RNF-1.10 | Brecha | La API admite email en LoginRequestDTO/LoginServiceImpl. La protección visual del correo se trata en RNF-4.2. | CP-RNF-1.10 |
-| RNF-1.11 | Brecha | Token sin revocación/validación de sesión actual H03. | CP-RNF-1.11 |
-| RNF-1.12 | Por probar | Medir 95% de logins en máximo 3 s. | CP-RNF-1.12 |
-| RNF-1.13 | Por probar | Medir disponibilidad según horario y meta aprobados. | CP-RNF-1.13 |
-| RNF-1.14 | Por probar | Pruebas de usabilidad y mensajes con usuarios. | CP-RNF-1.14 |
-| RNF-1.15 | Parcial | Capas separadas; autorización efectiva debe alinearse H01/H14. | CP-RNF-1.15 |
-| RNF-1.16 | Brecha | Cambiar rol no cambia permisos de tokens previos H03; guards H14. | CP-RNF-1.16 |
-
-## 11.11.2 RNF Gestión académica
-
-| ID | Estado | Evidencia y pendiente | Prueba |
-|---|---|---|---|
-| RNF-2.1 | Parcial | API académica restringida al coordinador; verificar alcance de GET disponibles al instructor. | CP-RNF-2.1 |
-| RNF-2.2 | Parcial | DTO, unicidad y relaciones; inconsistencias adicionales H07/H09. | CP-RNF-2.2 |
-| RNF-2.3 | Parcial | ChangeHistory académico; cobertura completa de operaciones y actores por probar. | CP-RNF-2.3 |
-| RNF-2.4 | Parcial | Roles/hash presentes; CSV devuelve secretos H06. | CP-RNF-2.4 |
-| RNF-2.5 | Por probar | Medir CSV de 500 filas en menos de 10 s e indicador de progreso. | CP-RNF-2.5 |
-| RNF-2.6 | Por probar | Disponibilidad académica; SRS requiere definir horario/meta antes de aprobar. | CP-RNF-2.6 |
-| RNF-2.7 | Por probar | Guía y resumen presentes; prueba con usuario no técnico pendiente. | CP-RNF-2.7 |
-| RNF-2.8 | Parcial | Servicios comunes y validaciones; comparar CSV/manual con los mismos datos. | CP-RNF-2.8 |
-| RNF-2.9 | Parcial | Restricciones únicas y validación; probar duplicados y carreras concurrentes. | CP-RNF-2.9 |
-| RNF-2.10 | Por probar | Traslado @Transactional y saveAndFlush; inyección de fallo/concurrencia pendiente. | CP-RNF-2.10 |
-| RNF-2.11 | Parcial | Decisiones CSV y ChangeHistory presentes; verificar vínculo a carga, motivo y datos anteriores/nuevos. | CP-RNF-2.11 |
-| RNF-2.12 | Por probar | Cientos de fichas/miles de aprendices, umbrales aprobados y carga. | CP-RNF-2.12 |
-| RNF-2.13 | Por probar | Carga @Transactional; interrupción/reproceso sin entidades parciales pendiente. | CP-RNF-2.13 |
-| RNF-2.14 | Brecha | UTF-8 CSV presente; regex de edición admite tildes/ñ pero excluye ü/Ü exigidas. | CP-RNF-2.14 |
-
-## 11.11.3 RNF Gestión de usuarios
-
-| ID | Estado | Evidencia y pendiente | Prueba |
-|---|---|---|---|
-| RNF-3.1 | Por probar | Panel conectado; medir menos de 2 s con 500 usuarios. | CP-RNF-3.1 |
-| RNF-3.2 | Parcial | Documento único; probar todas las altas y concurrencia. | CP-RNF-3.2 |
-| RNF-3.3 | Brecha | Hash/generación presentes, pero retorno y exportación CSV H06. | CP-RNF-3.3 |
-| RNF-3.4 | Brecha | Documento editable en servicios H07. | CP-RNF-3.4 |
-| RNF-3.5 | Parcial | Notificaciones de cambio; no equivalen a auditoría íntegra con anterior/nuevo de cada campo. | CP-RNF-3.5 |
-| RNF-3.6 | Brecha | Historial preservado por desactivación; token sigue funcionando H03. | CP-RNF-3.6 |
-| RNF-3.7 | Parcial | Exportación presente; filtros, máscara, tiempo y alcance por probar. | CP-RNF-3.7 |
-
-## 11.11.4 RNF Perfil y sesión
-
-| ID | Estado | Evidencia y pendiente | Prueba |
-|---|---|---|---|
-| RNF-4.1 | Parcial | Perfil del principal conectado; datos actuales y carga <2 s por probar. | CP-RNF-4.1 |
-| RNF-4.2 | Brecha | Correo sin máscara H12. | CP-RNF-4.2 |
-| RNF-4.3 | Brecha | Logout local sin revocación y limpieza integral H03. | CP-RNF-4.3 |
-| RNF-4.4 | Sin evidencia | No se encontró timeout de 30 min H03. | CP-RNF-4.4 |
-| RNF-4.5 | Parcial | Perfil propio de lectura y edición administrativa; probar intentos directos de aprendiz/instructor. | CP-RNF-4.5 |
-
-## 11.11.5 RNF Reconocimiento y privacidad biométrica
-
-| ID | Estado | Evidencia y pendiente | Prueba |
-|---|---|---|---|
-| RNF-5.1 | Parcial | Microservicio rechaza cero/múltiples rostros; probar captura real en ambas plataformas. | CP-RNF-5.1 |
-| RNF-5.2 | Parcial | Captura y chequeos presentes; demostrar calidad mínima real y rechazos. | CP-RNF-5.2 |
-| RNF-5.3 | Parcial | Secuencias multiframe presentes; el micro consolida el último embedding. Ángulos distintos, <60 s y contrato H04 pendientes. | CP-RNF-5.3 |
-| RNF-5.4 | Brecha | Vector sin cifrado de aplicación y flujo Java con foto H12. | CP-RNF-5.4 |
-| RNF-5.5 | Brecha | SRS: default 0.6, rango 0.4..0.9 y coordinador; servicio: default 0.65, rango 0..1, sin panel/versionado. | CP-RNF-5.5 |
-| RNF-5.6 | Parcial | HTTPS exclusivo, rechazo HTTP y firma digital no demostrados H12. | CP-RNF-5.6 |
-| RNF-5.7 | Sin evidencia | Sin cola facial cifrada offline/Raspberry H13. | CP-RNF-5.7 |
-
-## 11.11.6 RNF Asistencia y validaciones
-
-| ID | Estado | Evidencia y pendiente | Prueba |
-|---|---|---|---|
-| RNF-6.1 | Parcial | Registro real y unicidad presentes; bypass directo H01 y <2 s por probar. | CP-RNF-6.1 |
-| RNF-6.2 | Parcial | Clasificación real; rango 0..30, excepciones y <500 ms pendientes H09. | CP-RNF-6.2 |
-| RNF-6.3 | Brecha | Modificación de excusa sin permiso del actor; no se encontró anulación coordinador con motivo H01. | CP-RNF-6.3 |
-| RNF-6.4 | Sin evidencia | No se halló acumulado mensual/umbral configurable/alerta al cuarto retraso H13. | CP-RNF-6.4 |
-| RNF-6.5 | Sin evidencia | Ruta directa existe, pero no flujo manual identificado y pendiente de aprobación H13. | CP-RNF-6.5 |
-
-## 11.11.7 RNF Reportes y consultas
-
-| ID | Estado | Evidencia y pendiente | Prueba |
-|---|---|---|---|
-| RNF-7.1 | Brecha | Matriz no restringe aprendiz a sus propios registros H01. | CP-RNF-7.1 |
-| RNF-7.2 | Por probar | Consultas de 365 días y 40 aprendices/90 días <5 s, paginación máxima 50. | CP-RNF-7.2 |
-| RNF-7.3 | Parcial | XLSX real presente; fuente local en reportes H11, igualdad/filtros y <5 s por probar. | CP-RNF-7.3 |
-| RNF-7.4 | Parcial | Indicadores visuales presentes; umbral configurable y evaluación con datos reales no demostrados. | CP-RNF-7.4 |
-| RNF-7.5 | Brecha | Calendario usa asistencia local H11; accesibilidad/tiempos pendientes. | CP-RNF-7.5 |
-
-## 11.11.8 RNF Notificaciones y entrega
-
-| ID | Estado | Evidencia y pendiente | Prueba |
-|---|---|---|---|
-| RNF-8.1 | Parcial | Algunos eventos/notificaciones persistidos; falta catálogo facial/offline completo, deduplicación y tiempos. | CP-RNF-8.1 |
-| RNF-8.2 | Parcial | Servidor y lectura presentes; retención 30 días/caché durable 50 sin evidencia H13. | CP-RNF-8.2 |
-| RNF-8.3 | Brecha | Sin máximo 5 correos por usuario/hora H13; revisar política sobre credenciales por correo. | CP-RNF-8.3 |
-| RNF-8.4 | Brecha | Reintentos SMTP cada 5 min no satisfacen push 1/2/4 s H13. | CP-RNF-8.4 |
-
-## 11.12 Registro de hallazgos de implementación
-
-Las referencias H de las fichas y matrices corresponden a los hallazgos siguientes. Su detalle técnico se conserva en VALIDACION_SRS.md. Esta tabla permite interpretar la trazabilidad sin depender de ese archivo externo.
-
-| ID | Diferencia observada | Acción necesaria |
+| Fuente | Área | Archivos y evidencia |
 |---|---|---|
-| H01 | Rutas faciales exigen autenticación pero omiten alcance por aprendiz/ficha. Registro directo permite omitir verificación facial. | Proteger operación y objeto; separar automático/manual; verificar solicitudes directas. |
-| H02 | Login guarda intentos fallidos dentro de transacción y después lanza RuntimeException; el rollback puede perder contador/bloqueo. | Persistir fallos de forma independiente y reproducir contra DB. |
-| H03 | Logout elimina token local; firma/expiración no consultan revocación, estado actual ni rol vigente. Sin timeout de 30 min. | Revocar API y canal, verificar estado y limpiar datos locales. |
-| H04 | Cliente usa micro facial; enrolamiento Java usa otro modelo/muestras y columnas ausentes de migraciones. | Unificar flujo, modelo, DTO y esquema desde una base nueva. |
-| H05 | Micro facial usa clave común distribuida al cliente y acepta UUID sin vincularlo al usuario autenticado. | Autenticación y autorización por titular o acceso exclusivo del backend. |
-| H06 | CSV devuelve contrasenasGeneradas y la interfaz contempla exportar el secreto. | Retirar de respuestas, panel, archivos y logs; entrega segura al titular. |
-| H07 | Servicios de edición de usuario/aprendiz cambian documentNumber. | Rechazar cambio ordinario en interfaz y servidor. |
-| H08 | Backend solo tiene APPRENTICE, INSTRUCTOR y COORDINATOR; falta el rol de registro exigido. | Resolver DEC-01 y alinear permisos en todas las capas. |
-| H09 | Validación de salida no compara final de ventana; tolerancia no admite 0 ni limita 30; no demuestra horario/excepción. | Aplicar regla temporal completa, elegibilidad y calendario efectivo. |
-| H10 | Solicitud facial se crea localmente; resolución remota solo marca lectura y devuelve decisión. | Solicitud/decisión durable y autorización temporal consumible. |
-| H11 | Reportes, calendario e historial consultan eventos/horarios locales mientras matriz usa API real. | Fuente común persistente y prueba de igualdad entre vistas/XLSX. |
-| H12 | Correo completo visible y vector legible; flujo Java contempla foto. Transporte/firma productivos sin certificar. | Máscara, protección de descriptor y eliminación de imagen; verificar TLS/integridad. |
-| H13 | Sin cola facial offline ni alertas mensuales/manual aprobable; caché/retención/límite de correo/push incompletos. | Completar ciclo de asistencia, entrega, retención y operación offline. |
-| H14 | Layouts usan guard de autenticación sin rol; DE no existe en enum/DB y notificationsActive se fuerza a true. | Conectar guard de rol; alinear catálogo y guardar preferencias reales. |
+| SRC-01 | Acceso y sesión | FaceLit/shared/contexts/AuthContext.tsx; backend/config/SecurityConfig.java y JwtFilter.java; auth/service/serviceImpl/roleandpermission/LoginServiceImpl.java y JwtServiceImpl.java; SessionSecurityService.java. |
+| SRC-02 | Gestión académica | FaceLit/features/academic/academicApi.ts y useAcademic.ts; backend/academic/controller y service/serviceImpl/academic; Capturas COO-03, COO-04 y COO-07. |
+| SRC-03 | Usuarios y credenciales | FaceLit/app/admin/users; backend/auth/service/serviceImpl/security/UserManagementServiceImpl.java e InitialCredentialServiceImpl.java; academic/dto/response/academic; Captura COO-02. |
+| SRC-04 | Perfil y preferencias | FaceLit/app/profile; features/profile/useUserSettings.ts; backend/auth/model/enums/Language.java y servicios de configuración; Capturas COO-08 y APR-07. |
+| SRC-05 | Registro facial | FaceLit/features/auth/hooks/useFacialRegistration.ts; backend/facial y FaceResetRequestRepository; micro-facial/app/core/config.py y servicios faciales; Capturas APR-04 a APR-06. |
+| SRC-06 | Ambientes y sesiones | FaceLit/features/environments/environmentSessionApi.ts y environmentsStore.ts; backend/environment/controller/EnvironmentController.java; EnvironmentServiceImpl.java; SecurityConfig; Captura COO-05. |
+| SRC-07 | Asistencia y reportes | FaceLit/features/attendance/useAttendance.ts y useAttendanceRF6.ts; shared/services/facialAttendanceService; backend/facial; Capturas COO-06, INS-01, APR-02 y APR-03. |
+| SRC-08 | Notificaciones y tiempo real | FaceLit/features/notifications; shared/services/realtime.ts; backend/notification y realtime; Capturas COO-07 y APR-06. |
 
-Ubicación Java: las familias config, auth, academic, facial, environment y notification se encuentran bajo FaceLit-Backend/src/main/java/com/FaceLit/backend. Las abreviaturas de las matrices identifican familias y clases dentro de esa raíz. Todos los estados requieren volver a verificarse después de cambiar código o configuración.
+Los caminos backend son relativos a FaceLit-Backend/src/main/java/com/FaceLit/backend. Los identificadores de captura se resuelven en el catálogo de la carpeta 07. Las capturas documentan 16 vistas únicas y no identifican por sí solas el SHA del servidor.
 
-# 12 Cambios documentales y resultados de revisión
+## 11.2 Requisitos funcionales
 
-## 12.1 Correcciones respecto a la versión anterior
+| ID | Estado | Evidencia y criterio restante | Caso |
+|---|---|---|---|
+| RF-1.1 | Operativo confirmado | El equipo confirma login en facelit.tech. LoginServiceImpl resuelve documento y también correo. El acceso exclusivamente por documento permanece como criterio por alinear con RNF-1.10. SRC-01. | CP-RF-1.1 |
+| RF-1.2 | Integrado en código | SecurityConfig y los servicios aplican permisos por rol y alcance. La revisión completa de solicitudes con identificadores ajenos requiere CP-RF-1.2. SRC-01. | CP-RF-1.2 |
+| RF-1.3 | Integrado en código | RoleName contiene APPRENTICE, INSTRUCTOR y COORDINATOR. Los layouts redirigen por rol. El perfil de registro diferenciado es una propuesta del baseline. SRC-01. | CP-RF-1.3 |
+| RF-1.4 | Operativo confirmado | El equipo confirma recuperación y correo. Las rutas request-recovery, verify-token y reset-password están conectadas. Los ensayos de abuso y concurrencia se registran por separado. SRC-01. | CP-RF-1.4 |
+| RF-2.1 | Operativo confirmado | El equipo confirma carga CSV y gestión académica. COO-03 muestra programas cargados y COO-07 alertas de referencias inválidas. La captura del formulario no aporta por sí sola un resumen de importación exitosa. SRC-02. | CP-RF-2.1 |
+| RF-2.1.1 | Evidencia visual | COO-04 muestra selección de CSV, guía de columnas y límites de 20 MB y 5.000 filas. El controlador ofrece la descarga de plantilla. SRC-02. | CP-RF-2.1.1 |
+| RF-2.2 | Integrado en código | Programas, fichas, instructores y aprendices usan servicios persistentes. COO-03 muestra consulta. Se conserva el criterio de identidad inmutable frente a la edición administrativa actualmente disponible. SRC-02. | CP-RF-2.2 |
+| RF-2.3 | Integrado en código | UserChipServiceImpl y pending-transfers implementan traslado y resolución. La atomicidad bajo fallo y concurrencia se evalúa con CP-RF-2.3. SRC-02. | CP-RF-2.3 |
+| RF-3.1 | Evidencia visual | COO-02 muestra 3.640 usuarios, buscador y filtros por rol y estado. El volumen visible corresponde al momento de la captura. SRC-03. | CP-RF-3.1 |
+| RF-3.2 | Integrado en código | UserManagementServiceImpl consulta y modifica cuentas. El servicio admite actualizar el documento, por lo que el criterio de inmutabilidad requiere una decisión de producto. SRC-03. | CP-RF-3.2 |
+| RF-3.3 | Objetivo adicional | El alta administrativa actual permite COORDINATOR. El Coordinador de Registro diferenciado del baseline requiere DEC-01 y una implementación propia. SRC-03. | CP-RF-3.3 |
+| RF-3.4 | Integrado con criterio adicional | InitialCredentialServiceImpl genera y cifra la credencial y entrega el acceso tras commit. Persisten campos legacy de contraseña en DTO académicos. Su presencia exige comprobar las respuestas efectivas antes de declarar cumplida la prohibición de exposición. SRC-03. | CP-RF-3.4 |
+| RF-3.5 | Objetivo adicional | Los roles asignables se validan en servidor. El perfil separado de registro no está en RoleName y se conserva como decisión de alcance. SRC-03. | CP-RF-3.5 |
+| RF-3.6 | Integrado en código | El estado de cuenta se conserva y SessionSecurityService comprueba cuenta, credencial, rol y sesión persistida al validar el token. SRC-01. | CP-RF-3.6 |
+| RF-4.1 | Evidencia visual | COO-08 y APR-07 muestran perfil por titular. El perfil presenta el correo completo en el código revisado. El enmascaramiento del baseline es un criterio de privacidad por alinear. SRC-04. | CP-RF-4.1 |
+| RF-4.2 | Integrado en código | useUserSettings y el backend persisten preferencias. El cliente mapea ES, EN, DE y FR. Language incluye esos valores y PR como compatibilidad. SRC-04. | CP-RF-4.2 |
+| RF-5.1 | Operativo confirmado | El equipo confirma cámara y registro facial. APR-04 a APR-06 muestran preparación, validación y aviso de finalización en capturas separadas. El flujo vigente usa dos retos distintos y siete imágenes por reto. SRC-05. | CP-RF-5.1 |
+| RF-5.2 | Integrado en código | environmentSessionApi y EnvironmentServiceImpl preparan ficha, ambiente, dispositivo, responsables y tiempos de una sesión autorizada. SRC-06. | CP-RF-5.2 |
+| RF-5.3 | Integrado con criterio adicional | La configuración del servicio facial usa similitud 0.65 y rango técnico 0..1. La administración institucional versionada y su panel siguen como objetivo de aceptación específico. SRC-05. | CP-RF-5.3 |
+| RF-5.4 | Integrado en código | FaceResetRequest y su repositorio conservan solicitudes. Los servicios gestionan decisión y autorización para reemplazo. APR-06 muestra el aviso de respuesta y registro completado. SRC-05. | CP-RF-5.4 |
+| RF-6.1 | Operativo confirmado | El equipo confirma asistencia facial. El flujo usa sesión y eventos persistidos. La captura de cámara disponible acredita la fase de validación del registro facial del aprendiz. SRC-06. | CP-RF-6.1 |
+| RF-6.2 | Integrado en código | La sesión transmite entryTime, registrationMinutes, exitTime y shutdownTime. El servidor aplica las reglas temporales. Las fronteras exactas y duplicados se verifican en CP-RF-6.2. SRC-06. | CP-RF-6.2 |
+| RF-7.1 | Evidencia visual | INS-01 muestra matriz por ficha para el 4 de noviembre, leyenda de estados y controles de exportación. COO-06 muestra el selector inicial de programa. SRC-07. | CP-RF-7.1 |
+| RF-7.2 | Evidencia visual | APR-03 muestra una consulta individual con un registro de retraso y 100 % de asistencia para el rango seleccionado. APR-02 conserva el estado previo sin fechas. SRC-07. | CP-RF-7.2 |
+| RF-7.3 | Integrado en código | useAttendanceRF6 deriva el historial desde useAttendance, que consulta attendance-matrix. La descripción anterior de fuente exclusivamente local quedó desactualizada. SRC-07. | CP-RF-7.3 |
+| RF-8.1 | Evidencia visual | COO-07 y APR-06 muestran avisos por categorías, seguridad, CSV y registro facial. La cobertura de cada evento se comprueba con su caso de aceptación. SRC-08. | CP-RF-8.1 |
+| RF-8.2 | Evidencia visual | Las bandejas muestran filtros de lectura y categoría, contadores y el aviso de retención de 30 días. SRC-08. | CP-RF-8.2 |
+| RF-8.3 | Operativo confirmado | El equipo confirma correo SMTP. Los listeners de entrega y recuperación están en backend. Las cuotas y tiempos del baseline necesitan mediciones específicas. SRC-08. | CP-RF-8.3 |
+| RF-8.4 | Integrado en código | La solicitud facial se persiste y su decisión produce avisos. APR-06 contiene la respuesta al aprendiz y el aviso de registro completado. SRC-08. | CP-RF-8.4 |
+| RF-9.1 | Integrado en código | Las consultas usan useAttendance y la matriz de API. INS-01 muestra controles Excel y CSV. La igualdad del archivo descargado con filtros y permisos necesita el archivo de evidencia. SRC-07. | CP-RF-9.1 |
+| RF-C1 | Retirado del alcance vigente | Las rutas de gestión de horarios y excepciones fueron retiradas. El ID se conserva para rastrear el baseline. Los tiempos operativos se definen en la sesión de ambiente. SRC-06. | CP-RF-C1 |
+| RF-C2 | Evidencia visual | COO-05 muestra el catálogo de ambientes cargado. SecurityConfig permite GET y POST de ambientes a instructor y coordinador. Editar, desactivar y vincular fichas corresponde al coordinador. Las sesiones corresponden al instructor. SRC-06. | CP-RF-C2 |
+| RF-C3 | Integrado en código | Las preferencias del titular se guardan en API. El mapeo actual incluye alemán y francés. La recuperación en otro dispositivo requiere el caso específico de persistencia. SRC-04. | CP-RF-C3 |
+| RF-C4 | Integrado en código | realtime.ts y el manejador WebSocket intercambian eventos de actualización con autenticación. La prueba técnica de handshake está registrada en despliegue. Recuperación y revocación del canal necesitan su evidencia específica. SRC-08. | CP-RF-C4 |
 
-- Se conservan los 97 IDs y se corrigen referencias de numeraciones anteriores; RF-7.2 comparte reglas con RF-7.1, y traslado corresponde a RF-2.3.
-- Se desarrolla RF-5.1 dentro del SRS maestro, sin depender de un documento de aprendiz no integrado.
-- Se actualiza el baseline: existe captura multiframe y asistencia persistente; reportes e historial aún mantienen fuentes locales.
-- Se separa el umbral del enrolamiento Java 0.45 del default de sesión del microservicio 0.65 y del requisito institucional 0.6.
-- Se corrige RNF-1.10: trata el correo como identificador de login; el enmascaramiento corresponde principalmente a RNF-4.2.
-- Se distingue alta administrativa sin contraseña en DTO del CSV que todavía devuelve/exporta secretos.
-- Se resuelve la contradicción entre CSV con errores por fila y atomicidad técnica mediante clasificación de errores y commit conjunto.
-- Se declara el rol de registro como diferente del rol administrativo y se registra su perfil pendiente; se evita atribuirle permisos inexistentes.
-- Se armoniza la ventana de puntualidad y salida con tolerancia 0 a 30; horarios y excepciones son fuente requerida.
-- Se mantiene la prohibición de almacenar imágenes y se explicita extracción transitoria; cifrado/búsqueda y entrega de credenciales requieren decisiones registradas.
-- Se precisa que excusa es anotación y anulación es decisión auditada, sin sobrescribir el hecho.
-- Se separan funciones requeridas, inventario actual, estados de prueba y compromisos institucionales.
+## 11.3 Requisitos no funcionales
 
-## 12.2 Comprobaciones realizadas
+| ID | Estado | Evidencia y criterio restante | Caso |
+|---|---|---|---|
+| RNF-1.1 | Criterio por verificar | BCrypt, JWT y HTTPS público están presentes. El acceso privado al microservicio usa la red Docker y clave interna. SRC-01. | CP-RNF-1.1 |
+| RNF-1.2 | Criterio por verificar | Existe validación de longitud y complejidad. Revisar cambio inicial, recuperación y rotación con la misma política. SRC-01. | CP-RNF-1.2 |
+| RNF-1.3 | Integrado en código | Login usa bloqueo de credencial y @Transactional(noRollbackFor = LoginException.class). El hallazgo histórico de rollback ya no describe este método. SRC-01. | CP-RNF-1.3 |
+| RNF-1.4 | Criterio por verificar | SecurityConfig diferencia operaciones de coordinación, instructor y aprendiz. Se requieren variantes por recurso ajeno para el criterio completo. SRC-01. | CP-RNF-1.4 |
+| RNF-1.5 | Criterio por verificar | Las rutas de autoservicio y los servicios de asistencia aplican alcance. La comparación de identificadores propios y ajenos pertenece al caso negativo. SRC-01. | CP-RNF-1.5 |
+| RNF-1.6 | Criterio por verificar | Se observan consentimiento, control de sesión y permisos. La política de retención y eliminación biométrica requiere responsable y evidencia propia. SRC-01. | CP-RNF-1.6 |
+| RNF-1.7 | Criterio por verificar | Existe actualización administrativa. El cambio de documento permitido por el servicio debe alinearse con la regla de identidad del baseline. SRC-01. | CP-RNF-1.7 |
+| RNF-1.8 | Criterio por verificar | Hay ChangeHistory y sesiones persistidas. La cobertura de cada campo, motivo y operación debe verificarse por caso. SRC-01. | CP-RNF-1.8 |
+| RNF-1.9 | Criterio por verificar | Hay recuperación, códigos y sesiones de recuperación. Duración, límite, reenvío, titular y consumo se verifican con solicitudes controladas. SRC-01. | CP-RNF-1.9 |
+| RNF-1.10 | Diferencia con el criterio | El login visible solicita documento. LoginServiceImpl también busca por correo. La restricción exclusiva a documento sigue siendo una diferencia concreta. SRC-01. | CP-RNF-1.10 |
+| RNF-1.11 | Integrado en código | JwtServiceImpl valida sid contra SessionSecurityService. Existe revocación de token y comprobación del estado vigente. SRC-01. | CP-RNF-1.11 |
+| RNF-1.12 | Criterio por verificar | La operación del login está confirmada. Falta una serie de mediciones que demuestre el percentil exigido. SRC-01. | CP-RNF-1.12 |
+| RNF-1.13 | Criterio por verificar | La publicación está operativa. Una respuesta HTTP correcta no mide disponibilidad durante el periodo acordado. SRC-01. | CP-RNF-1.13 |
+| RNF-1.14 | Criterio por verificar | Hay formularios y mensajes por rol. La evaluación con usuarios y su registro de tareas corresponde a la aceptación de usabilidad. SRC-01. | CP-RNF-1.14 |
+| RNF-1.15 | Integrado en código | Se observan controladores, servicios, repositorios y un servicio facial separado. SRC-01. | CP-RNF-1.15 |
+| RNF-1.16 | Integrado en código | La validación de sesión coteja el rol persistido y estado actual. Los alias de interfaz deben mantenerse alineados con los tres roles de backend. SRC-01. | CP-RNF-1.16 |
+| RNF-2.1 | Integrado en código | La escritura académica exige COORDINATOR. Los GET académicos autorizados de instructor tienen un alcance distinto. SRC-02. | CP-RNF-2.1 |
+| RNF-2.2 | Criterio por verificar | DTO, servicios y restricciones de la base validan referencias y estados. La batería de errores se documenta por caso. SRC-02. | CP-RNF-2.2 |
+| RNF-2.3 | Criterio por verificar | ChangeHistory conserva operaciones académicas. La cobertura completa del historial es un criterio adicional de revisión. SRC-02. | CP-RNF-2.3 |
+| RNF-2.4 | Criterio por verificar | La interfaz y API manejan datos personales. El resumen y los DTO legacy deben revisarse para confirmar máscara y ausencia de secretos en cada respuesta. SRC-02. | CP-RNF-2.4 |
+| RNF-2.5 | Criterio por verificar | CSV está operativo. COO-04 muestra los límites del formulario. La meta de 500 filas en menos de 10 s requiere cronometraje con condiciones registradas. SRC-02. | CP-RNF-2.5 |
+| RNF-2.6 | Criterio por verificar | Las consultas cargan datos en las capturas. La disponibilidad requiere una ventana de observación y meta aprobadas. SRC-02. | CP-RNF-2.6 |
+| RNF-2.7 | Criterio por verificar | COO-04 muestra guía previa y COO-07 avisos comprensibles de referencias inválidas. La prueba de comprensión requiere participantes y resultados. SRC-02. | CP-RNF-2.7 |
+| RNF-2.8 | Criterio por verificar | CSV y formularios usan servicios de dominio. Comparar una misma entidad por ambos caminos verifica equivalencia. SRC-02. | CP-RNF-2.8 |
+| RNF-2.9 | Criterio por verificar | Se observan validaciones de unicidad y restricciones SQL. La prueba concurrente requiere ejecución controlada. SRC-02. | CP-RNF-2.9 |
+| RNF-2.10 | Criterio por verificar | El traslado se implementa transaccionalmente. La inyección de un fallo y traslados concurrentes comprueban su atomicidad. SRC-02. | CP-RNF-2.10 |
+| RNF-2.11 | Criterio por verificar | Hay decisiones de traslados pendientes y ChangeHistory. Verificar el vínculo de la decisión a su carga y motivo. SRC-02. | CP-RNF-2.11 |
+| RNF-2.12 | Criterio por verificar | COO-01 muestra 402 fichas y 3.640 usuarios. El frontend local consulta aprendices en lotes de hasta 80 fichas. Los tiempos bajo carga requieren medición. SRC-02. | CP-RNF-2.12 |
+| RNF-2.13 | Criterio por verificar | La carga tiene tratamiento de filas y transacciones. Un ensayo de interrupción debe demostrar el estado final de la base. SRC-02. | CP-RNF-2.13 |
+| RNF-2.14 | Criterio por verificar | CSV y capturas presentan tildes. Revisar también diéresis, ñ y normalización en alta y edición con los mismos datos. SRC-02. | CP-RNF-2.14 |
+| RNF-3.1 | Criterio por verificar | COO-02 muestra listado y filtros con 3.640 resultados. Paginación y tiempo del criterio se evalúan aparte. SRC-03. | CP-RNF-3.1 |
+| RNF-3.2 | Criterio por verificar | Existen comprobaciones y unicidad del documento. Probar duplicados por alta administrativa y CSV. SRC-03. | CP-RNF-3.2 |
+| RNF-3.3 | Criterio por verificar | Se generan credenciales y se almacenan hashes. Los DTO conservan campos legacy. Comprobar contenido real de respuestas y exportaciones. SRC-03. | CP-RNF-3.3 |
+| RNF-3.4 | Diferencia con el criterio | UserManagementServiceImpl permite asignar un nuevo documento en edición. El criterio de inmutabilidad sigue por alinear. SRC-03. | CP-RNF-3.4 |
+| RNF-3.5 | Criterio por verificar | Hay avisos de modificaciones e historial académico. La auditoría de todos los campos de usuario requiere inspección y caso específico. SRC-03. | CP-RNF-3.5 |
+| RNF-3.6 | Integrado en código | SessionSecurityService comprueba cuenta y credencial activas. La desactivación preserva relaciones e historial. SRC-03. | CP-RNF-3.6 |
+| RNF-3.7 | Criterio por verificar | La interfaz contiene exportación. Conservar el XLSX, filtros y conteo permite comprobar el resultado. SRC-03. | CP-RNF-3.7 |
+| RNF-4.1 | Criterio por verificar | Los perfiles propios aparecen en COO-08 y APR-07. La API toma la identidad autenticada. SRC-04. | CP-RNF-4.1 |
+| RNF-4.2 | Diferencia con el criterio | El perfil coloca el correo completo en su campo de información. El enmascaramiento sigue siendo una diferencia de privacidad del baseline. SRC-04. | CP-RNF-4.2 |
+| RNF-4.3 | Integrado en código | Existe logout con revocación de sid y limpieza del token del cliente. La limpieza de todos los stores debe comprobarse al cambiar de cuenta. SRC-04. | CP-RNF-4.3 |
+| RNF-4.4 | Criterio por verificar | El JWT tiene expiración. No se aporta una ejecución que demuestre el criterio independiente de 30 minutos de inactividad. SRC-04. | CP-RNF-4.4 |
+| RNF-4.5 | Criterio por verificar | El perfil es de consulta y la edición administrativa está restringida. Probar cambios directos desde los otros roles. SRC-04. | CP-RNF-4.5 |
+| RNF-5.1 | Criterio por verificar | La cámara y el registro funcionan según el equipo. Los controles de uno o varios rostros se verifican en los casos de rechazo. SRC-05. | CP-RNF-5.1 |
+| RNF-5.2 | Criterio por verificar | Existen controles de calidad y vida. El conjunto de iluminación y nitidez aceptado debe quedar identificado en la prueba. SRC-05. | CP-RNF-5.2 |
+| RNF-5.3 | Integrado en código | HU-45 usa dos retos distintos y siete imágenes por reto entre MOVE_UP, MOVE_DOWN, MOVE_CLOSER y MOVE_AWAY. APR-05 muestra la fase de validación. SRC-05. | CP-RNF-5.3 |
+| RNF-5.4 | Diferencia con el criterio | La base usa pgvector y la revisión debe demostrar cifrado en reposo, retención y borrado. El uso de un vector no prueba cifrado. SRC-05. | CP-RNF-5.4 |
+| RNF-5.5 | Diferencia con el criterio | El servicio configura facial_match_threshold=0.65 con rango técnico 0..1. El panel institucional versionado del baseline requiere desarrollo y aceptación específicos. SRC-05. | CP-RNF-5.5 |
+| RNF-5.6 | Diferencia con el criterio | Caddy publica HTTPS válido. La comunicación backend-facial se configura por HTTP en una red privada Docker con clave de servicio. TLS entre todos los saltos es un objetivo adicional. SRC-05. | CP-RNF-5.6 |
+| RNF-5.7 | Ampliación futura | La entrega vigente opera conectada desde navegador y servicios. Raspberry Pi y cola facial offline quedan como ampliación futura. SRC-05. | CP-RNF-5.7 |
+| RNF-6.1 | Criterio por verificar | El equipo confirma asistencia y la API persiste eventos. El tiempo máximo del criterio requiere medición. SRC-06. | CP-RNF-6.1 |
+| RNF-6.2 | Criterio por verificar | La clasificación usa sesiones y ventanas de registro. APR-03 muestra retraso. Las fronteras E, E+T, S y A requieren sus casos específicos. SRC-06. | CP-RNF-6.2 |
+| RNF-6.3 | Criterio por verificar | Existen eventos y gestión de excusas. La anulación con motivo y preservación del hecho original debe demostrarse antes de cerrar el criterio. SRC-06. | CP-RNF-6.3 |
+| RNF-6.4 | Criterio por verificar | La alerta mensual al cuarto retraso grave y su umbral requieren una prueba y una definición de producto específicas. SRC-06. | CP-RNF-6.4 |
+| RNF-6.5 | Criterio por verificar | El respaldo manual pendiente de aprobación se conserva como objetivo adicional. Esta entrega de capturas no documenta esa ejecución. SRC-06. | CP-RNF-6.5 |
+| RNF-7.1 | Criterio por verificar | useAttendance filtra al aprendiz por identidad. La autorización definitiva depende de backend y debe comprobarse con consultas ajenas. SRC-07. | CP-RNF-7.1 |
+| RNF-7.2 | Criterio por verificar | La consulta de asistencia está operativa. Los volúmenes y tiempos del criterio requieren medición reproducible. SRC-07. | CP-RNF-7.2 |
+| RNF-7.3 | Criterio por verificar | INS-01 muestra botones Excel y CSV. La evidencia del archivo es necesaria para cotejar contenido y filtros. SRC-07. | CP-RNF-7.3 |
+| RNF-7.4 | Criterio por verificar | La interfaz tiene indicadores por estado. El umbral de alerta crítica configurable se evalúa como criterio específico. SRC-07. | CP-RNF-7.4 |
+| RNF-7.5 | Criterio por verificar | Los reportes derivan datos de useAttendance. El calendario debe cotejarse con matriz y archivo para el mismo periodo. SRC-07. | CP-RNF-7.5 |
+| RNF-8.1 | Criterio por verificar | COO-07 y APR-06 muestran notificaciones de eventos. Los avisos de sincronización Raspberry pertenecen al alcance futuro. SRC-08. | CP-RNF-8.1 |
+| RNF-8.2 | Criterio por verificar | Las bandejas muestran retención de 30 días y persistencia de lectura. El acceso offline durable necesita prueba específica. SRC-08. | CP-RNF-8.2 |
+| RNF-8.3 | Criterio por verificar | SMTP está operativo según el equipo. La cuota de cinco por hora y ausencia de secretos se comprueban mediante evidencia de entrega. SRC-08. | CP-RNF-8.3 |
+| RNF-8.4 | Criterio por verificar | El sistema dispone de entrega SMTP y bandeja. El backoff push especificado en el baseline se conserva como objetivo adicional de canal. SRC-08. | CP-RNF-8.4 |
 
-| Comprobación | Resultado | Interpretación |
-|---|---|---|
-| Lectura documental | 92 páginas y página biométrica inspeccionada visualmente. | Fuente revisada, sin afirmar aceptación del producto. |
-| Tipos de interfaz | tsc --noEmit completado con salida 0. | Tipos consistentes en la ejecución realizada. |
-| ESLint | 9 errores y 90 advertencias. | Errores de react-hooks/use-memo en tres hooks; no son nueve fallos funcionales demostrados. |
-| Tests Java | No ejecutados por dependencia local faltante de Surefire. | No consta resultado de aceptación ni fallo funcional de tests. |
-| Tests Python | No ejecutados: pytest ausente y referencia de Python local problemática. | No consta resultado de las pruebas del microservicio. |
-| Infraestructura | Motor Docker local no respondió. | No se certificó base desplegada ni flujo integrado. |
+# 12 Cambios de esta revisión y aceptación
 
-No se modificó código del producto como parte de esta consolidación documental. El cambio de especificación no elimina las brechas del baseline. La próxima validación deberá registrar los resultados de CP por requisito después de corregir implementación y configuración.
+Se revisaron individualmente los 34 identificadores funcionales y 63 no funcionales. Se actualizaron los estados del inventario y la matriz a partir del código local y las capturas entregadas. El baseline conserva objetivos adicionales de privacidad, seguridad, rendimiento y operación que deben aceptarse con evidencia propia.
 
-## 12.3 Actualización de estado al 27 de octubre de 2026
+## 12.1 Cambios respecto del documento anterior
 
-Esta actualización conserva intactos los requisitos V4.0 y añade el avance que consta en la trazabilidad del equipo. La inspección de código detallada de las matrices de la sección 11 tiene fecha 13 de octubre; los cambios siguientes no sustituyen una revisión requisito por requisito.
+- Se actualizó el contrato de registro facial a los dos retos y siete imágenes por reto de HU-45.
+- Se documentaron los tres roles actuales y el alcance específico de gestión de ambientes y apertura de sesiones.
+- Se actualizaron las fuentes de historial y reportes, la validación de sesiones JWT y el catálogo de idiomas.
+- Se retiró RF-C1 del alcance operativo y se identificó RNF-5.7 como ampliación futura.
+- Se conservaron las diferencias concretas del baseline sobre login por correo, identidad editable, exposición de datos, parámetros institucionales y métricas sin ejecución documentada.
+- Se registraron los commits locales y los ajustes del paquete de despliegue, con su configuración separada de los repositorios remotos.
 
-| Tema | Avance documentado al 27 de octubre | Alcance de la evidencia y siguiente validación |
-|---|---|---|
-| Retos de registro facial (HU-45) | Catálogo limitado a MOVE_UP, MOVE_DOWN, MOVE_CLOSER y MOVE_AWAY; se retiraron siete códigos. Los flujos descritos usan dos retos distintos y siete imágenes por reto. Se actualizaron pruebas y se reportó rechazo de códigos retirados. | Revalidar el comportamiento en los repositorios y relacionarlo con RF-5.1 y RNF-5.3. Dos retos de movimiento no demuestran por sí solos que se capturaron ángulos distintos ni que se cumplen los criterios de calidad, vida, privacidad y aceptación biométrica. |
-| Alineación de esquema (H-50) | Se reporta coordinación de nombres de columnas y categorías con backend, cambios de expansión/contracción y rollback. El despliegue del 27 de octubre reporta 45 changesets. | Confirmar el esquema resultante desde una base limpia, la aplicación del rollback, integridad de datos y compatibilidad de todos los servicios. La cantidad de changesets no certifica recuperación ni aceptación funcional. |
-| Despliegue | Se documentó la topología de Hostinger y sus controles técnicos. | Permanecen pendientes, según la trazabilidad, la aceptación manual del coordinador, CSV, SMTP y la comprobación física de cámara/asistencia. Desplegar un componente no demuestra el flujo integral ni disponibilidad medida. |
-| Revisión de código asociada al corte | La trazabilidad identifica FaceLit 5f7d6fe, FaceLit-Backend 2ab0bcd, micro-facial 1e12c6c y FaceLit-DB 41a063f. | Son referencias de revisión reportadas; volver a verificar que cada SHA corresponda al artefacto evaluado antes de asignar estados actuales a RF/RNF. |
+## 12.2 Evidencia de la entrega
 
-**Regla de actualización de estados**
+El catálogo visual de la carpeta 07 contiene 8 capturas de coordinación, 1 captura única del instructor y 7 del aprendiz. Las dos imágenes originales del instructor eran idénticas. Las capturas de validación facial y del aviso de finalización se conservan como evidencias separadas. La imagen de CSV muestra el formulario, y las alertas muestran validación de referencias. El equipo confirmó por separado el funcionamiento de la carga.
 
-- Mantener los 97 identificadores V4.0: 30 requisitos funcionales principales, 4 complementarios y 63 no funcionales.
-- Para cada RF/RNF registrar el estado en el SHA inspeccionado, rutas/clases/esquema pertinentes, caso de prueba, resultado, ambiente, limitaciones, fecha y revisor.
-- Conservar como parcial, brecha, por probar o por verificar todo requisito que no tenga evidencia de aceptación adecuada. La presencia de una pantalla, endpoint, migración o prueba aislada no equivale a aceptación integral.
-- Mantener DEC-01 a DEC-06 pendientes hasta contar con la decisión responsable documentada. Los cambios de interfaz facial, esquema y despliegue no resuelven esas decisiones por sí mismos.
+Las cifras de pruebas automatizadas del informe de octubre pertenecen a aquellas ejecuciones. Esta revisión documental no ejecuta una nueva batería del software ni cambia esos conteos. La aceptación de un requisito se registra con su caso, revisión de código, entradas, resultado y evidencia consultable.
 
-La fuente de este delta es el documento interno “Trazabilidad del SRS y backlog vigente”, corte 27 de octubre de 2026. Su detalle y las limitaciones señaladas deben conservarse al derivar manuales, anexos o presentaciones.
+## 12.3 Documentos relacionados
+
+- Diseño conceptual, mapas de navegación e identidad visual en la carpeta 16.
+- Evidencias_Visuales_por_Rol.md y Pruebas_Evidencias_Actualizadas.md en la carpeta 07.
+- Manual de instalación actualizado en la carpeta 11.
+- Despliegue_Hostinger.md y su manifiesto de referencia en la carpeta 17.
+- Anexos A, B y C actualizados en la carpeta 14, con trazabilidad, criterios restantes e inventario funcional.
+
+SRS_V3_completo_y_trazable.pdf conserva el documento histórico. El SRS vigente de esta entrega es SRS_FaceLit_V4.md y su PDF con versión documental 4.1.

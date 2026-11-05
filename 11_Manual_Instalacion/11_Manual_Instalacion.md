@@ -2,7 +2,7 @@
 
 **FaceLit · Aplicación web/móvil, API, servicio facial y base de datos**
 
-*FaceLit | Instalación local de desarrollo | 27 oct 2026*
+*FaceLit | Instalación local de desarrollo | Actualizado el 4 de noviembre de 2026*
 
 ```mermaid
 flowchart LR
@@ -41,6 +41,10 @@ Instala las herramientas requeridas y abre PowerShell. Verifica en cada README l
 
 ### Obtener o actualizar los repositorios
 
+La instalación vigente parte de `main` en los cuatro repositorios. En cada carpeta existente, revisar `git status`, ejecutar `git switch main` y actualizar con `git pull --ff-only` cuando el árbol de trabajo permita hacerlo. Registrar el resultado de `git rev-parse HEAD` para cada componente.
+
+El despliegue de noviembre incluyó ajustes locales de FaceLit y FaceLit-DB. Su reproducción requiere el paquete y el manifiesto de esa entrega o los commits que incorporen esos ajustes. El [informe de despliegue](../17_Despliegue/Despliegue_Hostinger.md) describe las diferencias respecto de GitHub.
+
 Usa las URL de GitHub configuradas para el equipo. No mezcles archivos `.env` locales con cambios de rama; confirma que los cuatro componentes corresponden a la misma entrega.
 
 ```bash
@@ -65,6 +69,8 @@ Inicia PostgreSQL antes de los otros servicios. El Compose de FaceLit-DB crea la
 En PowerShell, desde la carpeta FaceLit-DB:
 
 ```powershell
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
+# Configurar POSTGRES_DB, POSTGRES_USER, POSTGRES_PASSWORD y POSTGRES_PORT.
 docker compose -p facelit-docker-compose up -d postgres
 docker compose -p facelit-docker-compose ps
 docker compose -p facelit-docker-compose --profile tooling build liquibase
@@ -107,7 +113,9 @@ docker compose up -d embedding-service
 docker compose logs --tail=80 embedding-service
 ```
 
-La variable `DATABASE_URL` debe apuntar a la base prevista y `API_KEY` debe coincidir con la credencial privada del backend. El ejemplo del repositorio es una plantilla; configura credenciales propias. No publicar la clave.
+Editar `DATABASE_URL` antes de iniciar el contenedor. Para el Compose anterior, su forma es `postgresql+asyncpg://<usuario>:<contraseña-codificada>@postgres:5432/<base>`. Codificar los caracteres especiales de la contraseña como parte de la URI. La plantilla usa `localhost:5439` para ejecución nativa desde Windows. En el contenedor del servicio facial, `localhost` identifica ese mismo contenedor.
+
+`API_KEY` debe coincidir con `FACIAL_EMBEDDING_API_KEY` del backend. Configurar `ENVIRONMENT=local` en desarrollo y conservar el volumen del modelo entre reinicios.
 
 ### Opción de ejecución nativa
 
@@ -134,12 +142,28 @@ El primer inicio puede tardar por la descarga y carga del modelo. La API expone 
 
 ### Backend FaceLit-Backend
 
-Usa Java 17. El Maven Wrapper del repositorio descarga la versión de Maven necesaria. Configura la conexión JDBC y secretos mediante el mecanismo local del proyecto. Variables de referencia:
+Usa Java 17. El Maven Wrapper del repositorio descarga la versión de Maven necesaria. El backend lee un archivo local `.env` mediante spring-dotenv. Para una instalación nueva, crear ese archivo en FaceLit-Backend y configurar las siguientes variables con valores privados:
 
 - `DB_URL`, `DB_USERNAME`, `DB_PASSWORD`
 - `JWT_SECRET`
 - `FACIAL_EMBEDDING_URL` y `FACIAL_EMBEDDING_API_KEY`
-- `FACELIT_ACCESS_URL`; `MAIL_USERNAME` y `MAIL_PASSWORD` solo si se prueba correo.
+- `FACELIT_ACCESS_URL=http://localhost:8081`.
+- `FACELIT_ALLOWED_ORIGINS=http://localhost:8081,http://localhost:19006`, ajustado a los orígenes exactos usados por Expo.
+- `MAIL_USERNAME` y `MAIL_PASSWORD`. La configuración actual requiere estas variables y usa SMTP Gmail con STARTTLS en el puerto 587.
+
+Con PostgreSQL en Docker y el backend ejecutado desde Windows, usar `DB_URL=jdbc:postgresql://localhost:5439/<base>`. Configurar `FACIAL_EMBEDDING_URL=http://localhost:8090`. El usuario y la contraseña JDBC deben corresponder a la instancia creada en el paso 2.
+
+### Primer coordinador en una instalación nueva
+
+La versión actual del backend dispone de un inicializador de coordinador. Con el esquema y las variables preparados, ejecutar desde FaceLit-Backend:
+
+```powershell
+.\scripts\initialize-coordinator.ps1 -Mode Create -Document "<documento>" -Email "<correo>" -FirstName "<nombre>" -LastName "<apellido>"
+```
+
+El script solicita y confirma la contraseña mediante entrada oculta y cierra su contexto al terminar. El modo Create corresponde a una base que aún requiere su primer coordinador. Para rotar las credenciales de un coordinador existente, usar el modo Rotate según el README del backend y verificar su identidad. Mantener el bootstrap desactivado durante el arranque habitual.
+
+Después, iniciar normalmente el backend:
 
 ```powershell
 .\mvnw.cmd spring-boot:run
@@ -158,6 +182,8 @@ npm run web
 npm run start:lan
 npm run android
 ```
+
+Antes de iniciar Expo, copiar `.env.example` a `.env` cuando corresponda y configurar `EXPO_PUBLIC_API_URL=http://localhost:8080` para el navegador del mismo equipo. Verificar en la salida de Expo el puerto real del frontend y agregar ese origen a `FACELIT_ALLOWED_ORIGINS`. Reiniciar el backend después de cambiar su configuración.
 
 Reinicia Expo después de cambiar la configuración. Para un móvil físico, `localhost` no corresponde al computador; usa una dirección LAN. Android nativo requiere el toolchain correspondiente. Expo Go y los túneles son herramientas de desarrollo; no son el servidor de producción.
 
@@ -190,6 +216,8 @@ Reinicia Expo después de cambiar la configuración. Para un móvil físico, `lo
 | Falla facial pero login funciona | URL/clave backend→FastAPI, logs de ambos servicios, modelo y disponibilidad de la base. |
 | Cámara web no disponible | Permiso del navegador, cámara y HTTPS según el entorno. |
 | Migración inesperada | Detén `update`, revisa `update-sql` y confirma que DATABASE/URL corresponde a la instancia local. |
+| Ambientes devuelve al login | Comprobar el estado HTTP de la API y el rol de la sesión. Confirmar que la imagen activa incorpora las reglas de coordinación de la revisión elegida. Un 401 dispara el rechazo de sesión del cliente. |
+| La web abre, pero login indica error de conexión | Revisar la URL API incorporada al bundle y el origen permitido por el backend. En una exportación web, reconstruir después de cambiar `EXPO_PUBLIC_API_URL`. |
 
 ### Detener el entorno
 
@@ -201,9 +229,11 @@ Ejecuta el comando dentro del repositorio/Compose correspondiente. **No agregues
 
 ---
 
-**Referencia documental:** README y archivos Compose actuales de FaceLit, FaceLit-Backend, micro-facial y FaceLit-DB. Corte del manual: 27 de octubre de 2026. Verifica comandos y versiones contra los SHA de la entrega antes de distribuirlo.
+**Referencia documental:** README, application.yaml y archivos Compose de los cuatro repositorios. Actualización documental del 4 de noviembre de 2026. Los comandos se contrastaron con los archivos locales revisados.
 
 
-## Requisito pendiente para la rama local — 4 de noviembre de 2026
+## Compatibilidad de migraciones y configuración de entrega
 
-El trabajo de registro depende del servicio de correo y el modelo legal requiere esquema compatible. En el árbol local, la migración 025 no forma parte del changelog padre y no se encontró migración para las tablas de consentimiento. No hay aquí pasos de instalación autorizados para activar ese flujo; primero integrar cambios, verificar configuración SMTP de forma privada y validar migraciones en una base desechable.
+El changelog local incluye la migración 025 del aviso de privacidad y la 026 del índice de aceptación por usuario y versión. El changelog maestro enlaza también los cambios de nomenclatura, compatibilidad de versión del aviso y cambio obligatorio de contraseña inicial en `06_migrations`. Ejecutar Liquibase desde el changelog maestro de la revisión seleccionada y revisar su resultado completo.
+
+La instalación local y la publicación en Hostinger tienen configuraciones distintas de red y dominio. Para publicar en `https://facelit.tech`, el build del frontend, el dominio de Caddy y los orígenes del backend deben corresponder al mismo entorno. Conservar el manifiesto y las imágenes de la entrega permite identificar qué versión se instaló. El procedimiento de producción y los ajustes locales de noviembre se detallan en la carpeta 17.

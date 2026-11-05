@@ -1,40 +1,45 @@
-# Justificación de la identidad visual propia de FaceLit
+# Identidad visual de FaceLit
 
-**Fecha de revisión:** 27 de octubre de 2026  
-**Ubicación:** `16_Diseño_Visual`
+Revisión integral del 5 de noviembre de 2026. Se contrastaron los recursos de marca con LandingScreen.tsx y los dos temas del frontend main 6efd92c.
 
-## Propósito
+## Nombre y símbolo
 
-Este documento explica por qué FaceLit utiliza un logotipo propio y no adopta el logotipo del Servicio Nacional de Aprendizaje (SENA) como marca del producto. La decisión busca identificar claramente el software y evitar que su presentación sugiera, sin respaldo formal, que se trata de una aplicación desarrollada, operada o avalada institucionalmente por el SENA.
+La identidad de FaceLit combina un rostro estilizado con líneas y elementos de circuito y el nombre del producto. El rostro relaciona la marca con la identificación facial y los circuitos representan su procesamiento tecnológico. El nombre permanece legible como identificador del software en la entrada y los espacios de trabajo.
 
-## Decisión de diseño
+FaceLit es un proyecto académico del equipo de Análisis y Desarrollo de Software. Los documentos presentan su afiliación al SENA y la ficha 3145555 como contexto formativo. La marca del producto se aplica de manera consistente en los materiales de entrega.
 
-FaceLit cuenta con una identidad visual propia: un rostro estilizado con elementos de circuito y el nombre **FaceLit**. En los recursos del frontend se observan variantes claras y oscuras (`FaceLit/assets/images/logo2.png` y `FaceLit/assets/images/logo.png`), seleccionadas según el tema de la interfaz. Así el producto conserva una marca reconocible en ambos modos de visualización.
+## Variantes verificadas
 
-## Motivos
+| Variante | Archivo del frontend | Aplicación observada |
+|---|---|---|
+| Marca verde | assets/images/logo2.png | LandingScreen la selecciona en tema claro. |
+| Marca clara | assets/images/logo.png | LandingScreen la selecciona en tema oscuro. |
 
-1. **Distinguir el producto de la institución.** FaceLit es un proyecto académico del equipo. La afiliación formativa de sus integrantes no convierte automáticamente al software en un producto institucional ni permite afirmar que el SENA lo respalda o lo opera.
-2. **Evitar confusiones sobre autoría o aval.** Usar el emblema institucional como marca principal podría llevar a interpretar que existe una relación oficial. La identidad propia comunica que FaceLit es el producto del equipo desarrollador.
-3. **Mantener una identidad coherente.** El logo propio está integrado con los colores y los temas claro y oscuro de la interfaz, y permite usar la misma marca en las pantallas y materiales del proyecto.
-4. **Respetar las pautas de identidad institucional.** El Manual de Identidad Visual del SENA establece pautas para la aplicación de sus elementos gráficos y prohíbe alterar su identidad oficial. Si una pieza futura requiere mostrar el logo del SENA o presentar una co-marca, se debe validar previamente el uso con la instancia institucional correspondiente y aplicar la guía vigente.
+Las copias de referencia de esta carpeta están en Recursos/logo_tema_claro.png y Recursos/logo_tema_oscuro.png. Conservan los archivos originales del frontend.
 
-## Alcance de la referencia adjunta
+![Marca FaceLit sobre superficie clara](Recursos/logo_tema_claro.png)
 
-La imagen compartida sirvió como alerta para revisar el uso de la marca. Sin embargo, es una respuesta generada por IA y no constituye por sí sola una fuente normativa. Además, la Resolución 334 de 2012 que menciona aparece como derogada en el Normograma del SENA. Por eso este documento no afirma que exista una prohibición absoluta aplicable a todo contexto: deja constancia de una decisión de diseño prudente y separa esa decisión de cualquier autorización institucional que pudiera existir.
+![Marca FaceLit para superficie oscura](Recursos/logo_tema_oscuro.png)
 
-La Ley 2345 de 2023 establece disposiciones sobre los manuales de identidad visual de entidades estatales. Su alcance y la autorización para una pieza concreta deben verificarse con la entidad; este documento no es un concepto jurídico ni confirma si existe un convenio o permiso específico para FaceLit.
+## Criterios de aplicación
 
-## Aplicación en el proyecto
+- Conservar la proporción del archivo. LandingScreen utiliza resizeMode contain para ajustar la imagen al contenedor.
+- Elegir la variante según la superficie y comprobar la lectura del nombre a tamaño real.
+- Mantener espacio alrededor de la imagen para que los controles vecinos tengan una jerarquía clara.
+- Usar los tokens de marca para botones, estados y detalles de interfaz.
+- Identificar el producto como FaceLit en portada, cabecera y materiales académicos.
+- Registrar la autorización correspondiente cuando una pieza se presente como avalada institucionalmente.
 
-- Usar el logotipo FaceLit como identificador del software.
-- Mantener las variantes disponibles para los temas claro y oscuro, sin deformarlas ni cambiar sus proporciones.
-- No presentar el logo propio como logotipo oficial del SENA.
-- No incorporar el emblema del SENA en la marca de FaceLit ni insinuar aval institucional sin autorización comprobable.
-- Si se necesita incluir la afiliación académica en una portada o sustentación, escribirla como contexto del proyecto y consultar las pautas vigentes antes de usar elementos gráficos institucionales.
+## Relación con las piezas
 
-## Fuentes oficiales consultadas
+| Pieza | Aplicación de identidad |
+|---|---|
+| Entrada y presentación | Logo, nombre y explicación del propósito del sistema. |
+| Cabecera autenticada | Nombre del producto junto al menú y las preferencias globales. |
+| Panel de rol | Bienvenida e información académica que sitúan la tarea del usuario. |
+| Documento técnico | Título específico, fecha, equipo y contexto de formación. |
+| Evidencia de pantalla | Conservación de la interfaz y tratamiento de los datos personales según la finalidad de entrega. |
 
-- [Manual de Identidad Visual del SENA 2024 (PDF)](https://www.sena.edu.co/es-co/Documents/MANUAL_IDENTIDAD_VISUAL_SENA_2024.pdf)
-- [Ley 2345 de 2023 — Normograma del SENA](https://normograma.sena.edu.co/compilacion/docs/ley_2345_2023.htm)
-- [Resolución 334 de 2012 — Normograma del SENA (registro y estado)](https://normograma.sena.edu.co/compilacion/docs/resolucion_sena_0334_2012.htm)
+## Fuentes y mantenimiento
 
+Las fuentes de esta edición son los archivos logo.png y logo2.png, LandingScreen.tsx, colors.ts y ThemeContext.tsx. Si cambian la marca o sus variantes, se actualizan las copias de Recursos, el documento conceptual, el Word y su PDF. La guía de componentes detalla la aplicación de la paleta en los dos temas.

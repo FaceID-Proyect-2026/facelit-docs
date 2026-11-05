@@ -1,5 +1,7 @@
 # FaceLit — plan de pruebas y evidencia disponible
 
+La [evidencia visual por rol](Evidencias_Visuales_por_Rol.md) reúne las capturas aportadas por el equipo y explica qué resultados se observan en cada una.
+
 **Corte:** 27 de octubre de 2026.  
 **Criterio:** cada resultado se asocia a la suite, rama/SHA, entorno y tipo de dependencia utilizado. Los conteos no se suman entre ejecuciones diferentes.
 

@@ -14,16 +14,23 @@
 
 ## Ramas y revisiones fuente
 
-El flujo de publicación toma los cuatro repositorios desde `main`. Los SHA siguientes corresponden a los `main` locales consultados para actualizar este documento; el manifiesto generado por `deploy/package.ps1` debe conservar los SHA exactos que se empaquetan para cada release.
+El paquete del 4 de noviembre se preparó desde la rama `main` local de los cuatro repositorios. El manifiesto generado por `deploy/package.ps1` registra estos commits base:
 
 | Repositorio | Rama | SHA completo |
 |---|---|---|
 | FaceLit | main | 6efd92cdd7e4e358b131cbe860cd8585d13e5550 |
 | FaceLit-Backend | main | 2ba739853a808c8e5902f70eae98706a612f91e6 |
 | micro-facial | main | 166e4a7f2245456277d57015259c678d8febfa9f |
-| FaceLit-DB | main | cd069ae0cb4947d4b7ebbff17e9d6dc280ab86fd |
+| FaceLit-DB | main | 422aac6da27e3b6b7009f6335e9a887763943089 |
 
-Estos SHA identifican el código fuente consultado, no demuestran por sí solos qué imágenes están activas en el VPS. El manifiesto del paquete y los digests de las imágenes usados en cada release son el registro de publicación que se debe conservar.
+### Diferencias entre el paquete y GitHub
+
+- **FaceLit.** El paquete incluye un cambio local sin commit que divide la consulta de aprendices por ficha en lotes de hasta 80. El manifiesto lo registra con `includesLocalChanges: true`. El SHA de la tabla identifica el commit base.
+- **FaceLit-DB.** El commit local `422aac6` contiene el ajuste de compatibilidad de la migración del aviso de privacidad. La revisión remota de referencia era `cd069ae0cb4947d4b7ebbff17e9d6dc280ab86fd`. El manifiesto marca el árbol de trabajo como limpio porque el ajuste ya estaba en un commit local.
+- **FaceLit-Backend y micro-facial.** Se empaquetaron con los commits de la tabla. El backend se reconstruyó desde `2ba7398`, que ya incluía el permiso del coordinador para consultar Ambientes.
+- **Configuración del VPS.** Se configuró `facelit.tech` en Caddy, se recompiló el frontend con ese dominio como URL de la API y se configuró ese origen en el backend. Las credenciales se administran mediante el archivo privado `.env`.
+
+La publicación se hizo por SSH/SCP sin hacer `push` de estos ajustes a GitHub. El despliegue actual usa el paquete instalado en el VPS. Para reproducirlo, se necesita conservar ese paquete y su manifiesto, los digests de las imágenes y la configuración del servidor por separado. Una reconstrucción a partir de GitHub requiere incorporar también los ajustes locales descritos arriba.
 
 ## Procedimiento de despliegue desde `main`
 
@@ -47,7 +54,7 @@ El informe operativo de esa fecha registra respaldo PostgreSQL, validación del 
 
 Los respaldos contienen datos privados y permanecen en el VPS con acceso restringido. No incluir rutas de acceso, credenciales ni respaldos en el paquete público de documentación.
 
-## Resultado de preparación de datos
+## Preparación de datos del 27 de octubre
 
 Después de la limpieza transaccional reportada: 1 usuario coordinador, 1 credencial, 3 roles y 12 permisos; cero instructores, aprendices, programas, fichas, referencias faciales y eventos. La demostración requiere cargar antes el CSV de prueba y preparar instructor/aprendiz y sesión.
 
