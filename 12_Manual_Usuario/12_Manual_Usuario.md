@@ -2,7 +2,7 @@
 
 **FaceLit | Asistencia académica y reconocimiento facial**
 Guía breve para Coordinador, Instructor y Aprendiz
-*Actualizado 27 oct 2026*
+*Actualizado el 4 de noviembre de 2026*
 
 | Coordinador | Instructor | Aprendiz |
 |---|---|---|
@@ -25,7 +25,7 @@ FaceLit reúne la gestión académica y el registro de asistencia de aprendices.
 
 - Las opciones visibles dependen del rol asignado a la cuenta.
 - Las funciones con cámara se realizan desde la versión web en un computador con cámara y permiso del navegador.
-- Las ilustraciones y pasos describen el código de interfaz revisado al 27 de octubre de 2026; la disponibilidad del servicio depende del entorno institucional.
+- El equipo confirma el funcionamiento del inicio de sesión, la carga CSV, el correo, la cámara y el registro de asistencia.
 
 > FaceLit tiene tres roles de usuario: Coordinador, Instructor y Aprendiz. La palabra *admin* en nombres internos de rutas corresponde al área del Coordinador.
 
@@ -33,7 +33,7 @@ FaceLit reúne la gestión académica y el registro de asistencia de aprendices.
 
 ## 1. Acceder a la aplicación
 
-Necesitas una cuenta creada por la institución, tu número de documento y la contraseña asignada. Abre el enlace web o la versión autorizada que te haya indicado el equipo.
+Necesitas una cuenta creada por la institución, tu número de documento y la contraseña asignada. Abre https://facelit.tech/ o el enlace institucional que te haya indicado el equipo.
 
 ### Iniciar sesión
 
@@ -226,4 +226,4 @@ El Instructor consulta la asistencia de sus fichas y aprendices dentro de las op
 - No envíes contraseñas ni fotografías faciales en reportes de soporte.
 - En capturas de pantalla, oculta documentos, correos y datos de otras personas.
 
-Al reportar una falla, indica tu rol, dispositivo/navegador, pantalla, fecha, hora y mensaje visible. Esta guía describe la aplicación revisada al 27 de octubre de 2026; las opciones pueden variar con las versiones desplegadas por la institución.
+Al reportar una falla, indica tu rol, dispositivo/navegador, pantalla, fecha, hora y mensaje visible.

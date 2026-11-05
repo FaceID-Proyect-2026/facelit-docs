@@ -2,17 +2,17 @@
 
 ## Calidad, seguridad y mejoras
 
-**Evidencia disponible y trabajo pendiente**
+**Estado funcional, evidencia y mejoras**
 
 | Corte documental | Referencias de código |
 |---|---|
-| 27 de octubre de 2026 | FaceLit `5f7d6fe` (dev) · Backend `2ab0bcd` (dev) · micro-facial `1e12c6c` (dev) · FaceLit-DB `41a063f` (main) |
+| 4 de noviembre de 2026 | HEAD locales de `main`: FaceLit `6efd92c` · FaceLit-Backend `2ba7398` · micro-facial `166e4a7` · FaceLit-DB `cd069ae` |
 
 **Autores:** María José Rodríguez Oyola · Valery Sinaí Trujillo Quintero · Mariana Valenzuela Penagos
 **Programa:** SENA · Análisis y Desarrollo de Software
 **Instructor:** José de Jesús Motta
 
-> Este informe separa controles observados, resultados automatizados reportados y aceptación manual pendiente. Las incidencias de cámara, persistencia y traducción fueron reportadas como corregidas por el equipo; su cierre formal exige repetir escenarios en la versión y dispositivos de sustentación.
+> El equipo confirma que el inicio de sesión, la carga CSV, el correo SMTP, la cámara y la asistencia funcionan. Los resultados de octubre conservan el alcance de cada ejecución. Los commits de la tabla identifican las copias locales consultadas.
 
 ---
 
@@ -66,7 +66,7 @@ Los siguientes resultados corresponden a ejecuciones separadas; no se suman como
 | micro-facial | 123 aprobadas; 1 prueba PostgreSQL optativa omitida. | Retos activos, secuencia, señales sintéticas y rechazos. No valida la prueba omitida ni precisión en personas reales. |
 | Frontend FaceLit | 120 aprobadas en 13 suites; 6 scripts de regresión aprobados. | Flujos seleccionados, tipos y lint en módulos afectados. No certifica cámara física, SMTP ni lint global. |
 | Integración HTTP | 19 comprobaciones de retos más registro, confirmación, autorización, asistencia, matriz y CSV. | Rutas HTTP y PostgreSQL desechable con 45 migraciones; inferencia determinista y correo simulado. |
-| Producción Hostinger | HTTPS/web 200; health facial 200; API admin sin auth 401; WebSocket 101. | Salud y configuración técnica; no aceptación de login/CSV/cámara/correo reales. |
+| Producción Hostinger | HTTPS/web 200; health facial 200; API admin sin auth 401; WebSocket 101. | Comprobaciones de salud y configuración del 27 de octubre. |
 
 > HU-45 mantiene cuatro retos: `MOVE_UP`, `MOVE_DOWN`, `MOVE_CLOSER` y `MOVE_AWAY`. La secuencia requiere dos retos distintos con siete capturas por reto. Las señales de pruebas son sintéticas; prueban reglas de aceptación/rechazo, no FAR/FRR. El umbral 0.65 es similitud, no 65 % de precisión.
 
@@ -85,7 +85,7 @@ El índice único parcial `uq_facial_event_attendance_once` en FaceLit-DB evita 
 | Configuración del frontend | README conserva `EXPO_PUBLIC_EMBEDDING_API_URL` y `API_KEY` como referencias heredadas. El código revisado usa API de Spring; retirar referencias y verificar bundle antes de afirmar que no hay exposición. |
 | Secretos | Revisar configuración de producción y rotar credenciales si se expusieron. No incluir valores, tokens o capturas con datos personales en documentación. |
 | Backups | Restauración en entorno separado pendiente. Crear un respaldo no prueba que sea recuperable. |
-| Producción y dispositivos | Aceptar login real, carga CSV, correo SMTP real, cámara/asistencia físicas y APK en el dispositivo exacto si se declara esa plataforma. |
+| Dispositivos | Si se presenta Android, documentar el recorrido con el APK exacto y el dispositivo utilizado. |
 | Rendimiento y disponibilidad | No hay medición formal de latencia/carga ni evidencia que sustente tiempos máximos o disponibilidad. |
 | SRS y CI | Revisar requisito por requisito y checks remotos para SHA exactos; una ejecución antigua o un workflow presente no prueba aprobación de la versión final. |
 
@@ -99,7 +99,7 @@ El índice único parcial `uq_facial_event_attendance_once` en FaceLit-DB evita 
 |---|---|---|
 | Alta | Evaluación de biometría y retos con datos autorizados y condiciones diversas. | Protocolo, muestra, criterios y métricas FAR/FRR/errores documentados. |
 | Alta | Medir latencia por captura, transporte, inferencia y persistencia. | Medición repetible con equipo/carga definidos; no prometer antes de medir. |
-| Alta | Completar aceptación manual en producción. | Login, CSV, SMTP, cámara, evento persistido y consulta con evidencia. |
+| Alta | Conservar evidencia de los flujos operativos y repetirlos en cada publicación. | Registrar versión, entorno y resultados para acceso, CSV, correo, cámara, asistencia y consulta. |
 | Alta | Probar restauración y revisar credenciales/endpoints. | Restauración verificada en entorno separado; bundle, permisos, límites y rotación revisados. |
 | Media | Actualizar trazabilidad SRS y validar APK/dispositivos. | Estado por requisito con criterio/evidencia/responsable; artefacto exacto instalado y probado. |
 | Continua | Refactorizar por responsabilidad preservando contratos. | Cambios revisados y pruebas del flujo afectado; no usar reducción de líneas como métrica de calidad. |
@@ -110,6 +110,11 @@ Guardar fecha/responsable, repositorios y SHA, comando/procedimiento, entorno, d
 
 ---
 
-**Conclusión.** El código actual proporciona mecanismos para guiar captura, esperar confirmación remota, manejar errores y centralizar traducciones. El equipo reporta las tres incidencias corregidas y hay suites automatizadas aprobadas en los alcances descritos. El cierre requiere regresión manual, persistencia confirmada y evidencias del SHA que se presentará; no se afirma precisión biométrica, rendimiento ni aceptación completa.
+**Conclusión.** El código actual proporciona mecanismos para guiar captura, esperar confirmación remota, manejar errores y centralizar traducciones. El equipo reporta las tres incidencias corregidas y hay suites automatizadas aprobadas en los alcances descritos. El equipo confirma el funcionamiento de los flujos principales. Las mejoras incluyen medir el rendimiento y la precisión biométrica y ensayar la restauración de respaldos.
 
-**Referencias internas:** `Calidad_Seguridad_Mejoras_Actualizadas_2026-10-27.md`; `Pruebas_Evidencias_Actualizadas.md`; `Implementacion_Realizada_2026-10-27.md`; código de FaceLit, FaceLit-Backend, micro-facial y FaceLit-DB en los SHAs de portada.
+**Referencias internas:** `07_Pruebas/Pruebas_Evidencias_Actualizadas.md`, `09_Implementacion/09_Implementacion.md` y repositorios identificados en la portada.
+
+
+## Antecedente de integración local del 4 de noviembre de 2026
+
+En una revisión anterior de cambios locales ajenos al `main` consultado, el registro público y el consentimiento presentaban brechas que deben resolverse antes de aceptar el flujo: las entidades de consentimiento no tienen migración correspondiente en la cadena inspeccionada; la migración 025 está sin seguimiento y no se incluye desde el changelog padre; el servicio local de aceptación no asigna `noticeVersion`, aunque el modelo la requiere. También falta demostrar autorización efectiva de las operaciones legales. Estos son hallazgos de inspección estática, no resultados de pruebas ejecutadas.

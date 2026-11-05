@@ -1,0 +1,322 @@
+[
+  {
+    "role": "admin",
+    "route": "/admin",
+    "file": "admin-admin.png"
+  },
+  {
+    "role": "admin",
+    "route": "/admin/transfer-requests",
+    "file": "admin-admin-transfer-requests.png"
+  },
+  {
+    "role": "admin",
+    "route": "/admin/academic/assignments",
+    "file": "admin-admin-academic-assignments.png"
+  },
+  {
+    "role": "admin",
+    "route": "/admin/academic/csv-upload",
+    "file": "admin-admin-academic-csv-upload.png"
+  },
+  {
+    "role": "admin",
+    "route": "/admin/academic",
+    "file": "admin-admin-academic.png"
+  },
+  {
+    "role": "admin",
+    "route": "/admin/academic/instructors",
+    "file": "admin-admin-academic-instructors.png"
+  },
+  {
+    "role": "admin",
+    "route": "/admin/attendance/by-ficha",
+    "file": "admin-admin-attendance-by-ficha.png"
+  },
+  {
+    "role": "admin",
+    "route": "/admin/attendance/by-user",
+    "file": "admin-admin-attendance-by-user.png"
+  },
+  {
+    "role": "admin",
+    "route": "/admin/attendance/history",
+    "file": "admin-admin-attendance-history.png"
+  },
+  {
+    "role": "admin",
+    "route": "/admin/attendance",
+    "file": "admin-admin-attendance.png"
+  },
+  {
+    "role": "admin",
+    "route": "/admin/attendance/1bff0bac-9834-4ee6-8e97-7797bb843b77",
+    "file": "admin-admin-attendance-1bff0bac-9834-4ee6-8e97-7797bb843b77.png"
+  },
+  {
+    "role": "admin",
+    "route": "/admin/environments",
+    "file": "admin-admin-environments.png"
+  },
+  {
+    "role": "admin",
+    "route": "/admin/environments/register",
+    "file": "admin-admin-environments-register.png"
+  },
+  {
+    "role": "admin",
+    "route": "/admin/environments/0c699048-1c06-45b8-a961-f00b0b83f2e9",
+    "file": "admin-admin-environments-0c699048-1c06-45b8-a961-f00b0b83f2e9.png"
+  },
+  {
+    "role": "admin",
+    "route": "/admin/reports/by-ficha",
+    "file": "admin-admin-reports-by-ficha.png"
+  },
+  {
+    "role": "admin",
+    "route": "/admin/reports/by-user",
+    "file": "admin-admin-reports-by-user.png"
+  },
+  {
+    "role": "admin",
+    "route": "/admin/reports/calendar",
+    "file": "admin-admin-reports-calendar.png"
+  },
+  {
+    "role": "admin",
+    "route": "/admin/reports/excuses-review",
+    "file": "admin-admin-reports-excuses-review.png"
+  },
+  {
+    "role": "admin",
+    "route": "/admin/reports",
+    "file": "admin-admin-reports.png"
+  },
+  {
+    "role": "admin",
+    "route": "/admin/reports/my-performance",
+    "file": "admin-admin-reports-my-performance.png"
+  },
+  {
+    "role": "admin",
+    "route": "/admin/users/create",
+    "file": "admin-admin-users-create.png"
+  },
+  {
+    "role": "admin",
+    "route": "/admin/users",
+    "file": "admin-admin-users.png"
+  },
+  {
+    "role": "admin",
+    "route": "/admin/users/59bad5fa-b731-4fcb-bf07-877a7e562c4c",
+    "file": "admin-admin-users-59bad5fa-b731-4fcb-bf07-877a7e562c4c.png"
+  },
+  {
+    "role": "admin",
+    "route": "/admin/academic/fichas/register",
+    "file": "admin-admin-academic-fichas-register.png"
+  },
+  {
+    "role": "admin",
+    "route": "/admin/academic/fichas/f941aaf2-3c0a-40d7-ad79-4245296a09b9",
+    "file": "admin-admin-academic-fichas-f941aaf2-3c0a-40d7-ad79-4245296a09b9.png"
+  },
+  {
+    "role": "admin",
+    "route": "/admin/academic/programs/register",
+    "file": "admin-admin-academic-programs-register.png"
+  },
+  {
+    "role": "admin",
+    "route": "/admin/academic/programs/ca16ab45-89a6-4c7c-81d2-62dd369c9cf1",
+    "file": "admin-admin-academic-programs-ca16ab45-89a6-4c7c-81d2-62dd369c9cf1.png"
+  },
+  {
+    "role": "admin",
+    "route": "/profile",
+    "file": "admin-profile.png"
+  },
+  {
+    "role": "admin",
+    "route": "/profile/settings",
+    "file": "admin-profile-settings.png"
+  },
+  {
+    "role": "admin",
+    "route": "/notifications",
+    "file": "admin-notifications.png"
+  },
+  {
+    "role": "instructor",
+    "route": "/instructor",
+    "file": "instructor-instructor.png"
+  },
+  {
+    "role": "instructor",
+    "route": "/instructor/academic",
+    "file": "instructor-instructor-academic.png"
+  },
+  {
+    "role": "instructor",
+    "route": "/instructor/attendance/by-ficha",
+    "file": "instructor-instructor-attendance-by-ficha.png"
+  },
+  {
+    "role": "instructor",
+    "route": "/instructor/attendance/by-user",
+    "file": "instructor-instructor-attendance-by-user.png"
+  },
+  {
+    "role": "instructor",
+    "route": "/instructor/attendance",
+    "file": "instructor-instructor-attendance.png"
+  },
+  {
+    "role": "instructor",
+    "route": "/instructor/attendance/1bff0bac-9834-4ee6-8e97-7797bb843b77",
+    "file": "instructor-instructor-attendance-1bff0bac-9834-4ee6-8e97-7797bb843b77.png"
+  },
+  {
+    "role": "instructor",
+    "route": "/instructor/environments",
+    "file": "instructor-instructor-environments.png"
+  },
+  {
+    "role": "instructor",
+    "route": "/instructor/environments/register",
+    "file": "instructor-instructor-environments-register.png"
+  },
+  {
+    "role": "instructor",
+    "route": "/instructor/environments/0c699048-1c06-45b8-a961-f00b0b83f2e9",
+    "file": "instructor-instructor-environments-0c699048-1c06-45b8-a961-f00b0b83f2e9.png"
+  },
+  {
+    "role": "instructor",
+    "route": "/instructor/facial/camera",
+    "file": "instructor-instructor-facial-camera.png"
+  },
+  {
+    "role": "instructor",
+    "route": "/instructor/facial/exit",
+    "file": "instructor-instructor-facial-exit.png"
+  },
+  {
+    "role": "instructor",
+    "route": "/instructor/facial",
+    "file": "instructor-instructor-facial.png"
+  },
+  {
+    "role": "instructor",
+    "route": "/instructor/facial/settings",
+    "file": "instructor-instructor-facial-settings.png"
+  },
+  {
+    "role": "instructor",
+    "route": "/instructor/reports/by-ficha",
+    "file": "instructor-instructor-reports-by-ficha.png"
+  },
+  {
+    "role": "instructor",
+    "route": "/instructor/reports/by-user",
+    "file": "instructor-instructor-reports-by-user.png"
+  },
+  {
+    "role": "instructor",
+    "route": "/instructor/reports/calendar",
+    "file": "instructor-instructor-reports-calendar.png"
+  },
+  {
+    "role": "instructor",
+    "route": "/instructor/reports/excuses-review",
+    "file": "instructor-instructor-reports-excuses-review.png"
+  },
+  {
+    "role": "instructor",
+    "route": "/instructor/reports",
+    "file": "instructor-instructor-reports.png"
+  },
+  {
+    "role": "instructor",
+    "route": "/instructor/reports/my-performance",
+    "file": "instructor-instructor-reports-my-performance.png"
+  },
+  {
+    "role": "instructor",
+    "route": "/instructor/academic/fichas/register",
+    "file": "instructor-instructor-academic-fichas-register.png"
+  },
+  {
+    "role": "instructor",
+    "route": "/instructor/academic/fichas/f941aaf2-3c0a-40d7-ad79-4245296a09b9",
+    "file": "instructor-instructor-academic-fichas-f941aaf2-3c0a-40d7-ad79-4245296a09b9.png"
+  },
+  {
+    "role": "instructor",
+    "route": "/instructor/academic/programs/register",
+    "file": "instructor-instructor-academic-programs-register.png"
+  },
+  {
+    "role": "instructor",
+    "route": "/instructor/academic/programs/ca16ab45-89a6-4c7c-81d2-62dd369c9cf1",
+    "file": "instructor-instructor-academic-programs-ca16ab45-89a6-4c7c-81d2-62dd369c9cf1.png"
+  },
+  {
+    "role": "instructor",
+    "route": "/profile",
+    "file": "instructor-profile.png"
+  },
+  {
+    "role": "instructor",
+    "route": "/profile/settings",
+    "file": "instructor-profile-settings.png"
+  },
+  {
+    "role": "instructor",
+    "route": "/notifications",
+    "file": "instructor-notifications.png"
+  },
+  {
+    "role": "apprentice",
+    "route": "/apprentice/attendance",
+    "file": "apprentice-apprentice-attendance.png"
+  },
+  {
+    "role": "apprentice",
+    "route": "/apprentice/facial",
+    "file": "apprentice-apprentice-facial.png"
+  },
+  {
+    "role": "apprentice",
+    "route": "/apprentice",
+    "file": "apprentice-apprentice.png"
+  },
+  {
+    "role": "apprentice",
+    "route": "/apprentice/join-ficha",
+    "status": "Pantalla no disponible en esta sesión web"
+  },
+  {
+    "role": "apprentice",
+    "route": "/apprentice/transfer-request",
+    "status": "Pantalla no disponible en esta sesión web"
+  },
+  {
+    "role": "apprentice",
+    "route": "/profile",
+    "file": "apprentice-profile.png"
+  },
+  {
+    "role": "apprentice",
+    "route": "/profile/settings",
+    "file": "apprentice-profile-settings.png"
+  },
+  {
+    "role": "apprentice",
+    "route": "/notifications",
+    "file": "apprentice-notifications.png"
+  }
+]

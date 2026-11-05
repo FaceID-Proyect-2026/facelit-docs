@@ -83,6 +83,11 @@ Los documentos actualizados están organizados dentro de las carpetas numeradas 
 | 14 | 14_Anexos | [Licencias, costos y dependencias](14_Anexos/Licencias_Costos_Dependencias_2026-10-27.md) |
 | 15 | 15_Link_Repositorios | [Repositorios y versiones](15_Link_Repositorios/Repositorios_y_Versiones_2026-10-27.md) |
 | 16 | 16_Diseño_Visual | [Sistema visual e interfaz](16_Diseño_Visual/Sistema_Visual_UI_2026-10-27.md) |
-| 17 | 17_Despliegue | [Despliegue Hostinger](17_Despliegue/Despliegue_Hostinger_2026-10-27.md) |
+| 17 | 17_Despliegue | [Despliegue Hostinger](17_Despliegue/Despliegue_Hostinger.md) |
 
 Los documentos describen el corte reportado, diferencian lo implementado de lo pendiente y conservan el SRS V4 como baseline de requisitos. Los PDF/Word originales permanecen intactos; cuando su contenido describa una plataforma o estado anterior, debe marcarse como histórico antes de distribuir la carpeta. La matriz SRS V4 tiene fecha 13 de octubre y requiere revisión requisito por requisito contra el corte actual. La actualización documental no equivale a aceptación oficial ni a una nueva prueba del sistema.
+
+
+## Nota de actualización — 4 de noviembre de 2026
+
+Se añadieron notas de revisión local en las secciones 01, 03, 04, 05, 06, 07, 08, 09, 10, 11, 12, 14, 15 y 17 sobre el trabajo de registro, correo, consentimiento y versión del aviso. Distinguen el código local sin seguimiento de la funcionalidad integrada o desplegada. La sección 02 (SRS) y sus anexos quedan pendientes para la revisión final solicitada.

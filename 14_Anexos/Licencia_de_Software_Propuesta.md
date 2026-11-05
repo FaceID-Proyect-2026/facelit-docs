@@ -197,3 +197,8 @@ Las ganancias ascienden a $5.000.000, reflejando los gastos generados por la má
 |---|---|
 | Licencia propietaria | $2.797.751.000 |
 | Licencia trabajada por el titular | $301.751.000 |
+
+
+## Consideración de privacidad del trabajo local
+
+El código local incorpora modelos para aceptación del aviso y consentimiento de acudiente, además de identidad/documento y verificación por correo. La presencia de esos modelos no determina por sí sola cumplimiento legal, base de tratamiento, retención o suficiencia del consentimiento. La revisión jurídica y la publicación de avisos vigentes deben ser aprobadas por los responsables institucionales antes de habilitar el flujo.

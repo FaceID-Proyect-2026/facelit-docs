@@ -1,16 +1,15 @@
 # Repositorios del proyecto
 
-**FaceLit | Repositorios oficiales | Corte: 27 oct 2026**
-FaceLit | enlaces oficiales, función y rama principal
+**FaceLit | Revisión local del 4 de noviembre de 2026**
 
-| Repositorio | Responsabilidad y tecnología | Rama |
-|---|---|---|
-| [**FaceLit**](https://github.com/FaceID-Proyect-2026/FaceLit) | Interfaz web/móvil; flujos por rol, gestión, asistencia y facial. <br> Expo Router, React Native, TypeScript | `main` |
-| [**FaceLit-Backend**](https://github.com/FaceID-Proyect-2026/FaceLit-Backend) | API: autenticación, datos académicos, sesiones, asistencia, facial y notificaciones. <br> Java 17, Spring Boot | `main` |
-| [**micro-facial**](https://github.com/FaceID-Proyect-2026/micro-facial) | Embeddings, prueba de vida y comparación facial. <br> Python 3.11, FastAPI | `main` |
-| [**FaceLit-DB**](https://github.com/FaceID-Proyect-2026/FaceLit-DB) | Esquema, datos iniciales y migraciones. <br> PostgreSQL 16, pgvector, Liquibase | `main` |
-| [**facelit-docs**](https://github.com/FaceID-Proyect-2026/facelit-docs) | Repositorio documental: requisitos, diseño, pruebas, manuales, anexos y despliegue. | `main` |
+| Repositorio | Responsabilidad y tecnología | Rama local | HEAD local |
+|---|---|---|---|
+| [**FaceLit**](https://github.com/FaceID-Proyect-2026/FaceLit) | Interfaz web/móvil; flujos por rol, gestión, asistencia y facial. · Expo Router, React Native, TypeScript | `main` | `6efd92c` |
+| [**FaceLit-Backend**](https://github.com/FaceID-Proyect-2026/FaceLit-Backend) | API: autenticación, datos académicos, sesiones, asistencia, facial y notificaciones. · Java 17, Spring Boot | `main` | `2ba7398` |
+| [**micro-facial**](https://github.com/FaceID-Proyect-2026/micro-facial) | Embeddings, prueba de vida y comparación facial. · Python 3.11, FastAPI | `main` | `166e4a7` |
+| [**FaceLit-DB**](https://github.com/FaceID-Proyect-2026/FaceLit-DB) | Esquema, datos iniciales y migraciones. · PostgreSQL 16, pgvector, Liquibase | `main` | `cd069ae` |
+| [**facelit-docs**](https://github.com/FaceID-Proyect-2026/facelit-docs) | Repositorio documental: requisitos, diseño, pruebas, manuales, anexos y despliegue. | `main` | `c3a96d1` |
 
 **Arquitectura:** FaceLit consume la API Spring Boot; el backend coordina el servicio facial FastAPI y consulta PostgreSQL. FaceLit-DB administra las migraciones.
 
-> **Nota:** todos se documentan en la rama principal `main`, según lo solicitado. Esta lista identifica los enlaces y no certifica que los checkouts locales estén cambiados a esa rama ni que sus commits estén desplegados. La carpeta `facelit-docs` tiene reorganización local pendiente de commit.
+Los enlaces coinciden con los remotos `origin` configurados. La tabla registra el commit de cada copia local. Para identificar los commits de una publicación, consulta el manifiesto de esa versión.

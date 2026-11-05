@@ -4,11 +4,11 @@
 
 **Prioridades funcionales y estado técnico del proyecto**
 
-| Fecha de corte | Base actual de código |
+| Fecha de referencia | Base de código consultada |
 |---|---|
-| 27 octubre 2026 | FaceLit `5f7d6fe` (dev); Backend `2ab0bcd`; micro-facial `1e12c6c`; FaceLit-DB `41a063f`. |
+| 4 noviembre 2026 | FaceLit `6efd92c` (`main`); Backend `2ba7398` (`main`); micro-facial `166e4a7` (`main`); FaceLit-DB `cd069ae` (`main`). |
 
-Esta edición añade el estado técnico actualizado y conserva el inventario de 74 elementos como anexo histórico de priorización. Las prioridades no equivalen a estado de cumplimiento; las etiquetas de evidencia del anexo se levantaron en FaceLit `724124e` y no se vuelven a certificar aquí elemento por elemento.
+Esta edición actualiza la referencia de código a `main` y conserva el inventario de 74 elementos como anexo histórico de priorización. El 4 de noviembre el equipo confirmó que los flujos de acceso, CSV, cámara, asistencia y correo funcionan en el sistema. Las prioridades no equivalen por sí solas a estado de cumplimiento. Las etiquetas de evidencia del anexo se levantaron en FaceLit `724124e` y no se vuelven a certificar aquí elemento por elemento.
 
 ---
 
@@ -27,14 +27,14 @@ Esta edición añade el estado técnico actualizado y conserva el inventario de 
 
 ## 2. Estado técnico que afecta las prioridades
 
-| Área de entrega | Estado actual reportado | Qué falta para aceptar |
+| Área de entrega | Estado funcional reportado al 4 de noviembre | Verificación complementaria |
 |---|---|---|
-| Acceso y roles | JWT y rutas por Coordinador, Instructor y Aprendiz; chequeos de rutas/API reportados. | Probar cuentas reales y autorización por rol/recurso. Confirmar contrato de identificador con SRS. |
-| Gestión académica / CSV | Flujo backend de importación CSV con validación y operaciones coordinadas. | Carga de aceptación con plantilla actual y comprobación de relaciones/persistencia. |
-| Enrolamiento y asistencia facial | Cliente envía captura a Spring; Spring coordina FastAPI. 4 retos activos, 2 distintos por secuencia, 7 imágenes por reto. | Demostración con cámara/dispositivo, datos autorizados y persistencia visible. Umbral 0.65 es similitud, no precisión. |
-| Notificaciones / tiempo real | Correo SMTP y WebSocket existen en arquitectura desplegada; algunas pruebas usan correo simulado. | Aceptar entrega SMTP real, notificación, permisos y comportamiento en cliente. |
-| Reportes / persistencia | Pantallas/consultas dependen de integración por área; existencia de UI no basta para probar persistencia. | Validar cada recorrido consultando el dato tras recarga y verificar permisos. |
-| Infraestructura | Hostinger; Caddy publica web/API/WebSocket por HTTPS; DB/backend/facial internos. | Aceptar despliegue de usuario, respaldo/restauración y operación de punta a punta. |
+| Acceso y roles | Funcionan el inicio de sesión y los accesos de Coordinador, Instructor y Aprendiz. | Mantener trazabilidad de requisitos y permisos definidos por el SRS. |
+| Gestión académica / CSV | La carga CSV funciona. | Conservar plantillas y datos de demostración controlados. |
+| Enrolamiento y asistencia facial | Funcionan la cámara, el enrolamiento y la asistencia. El flujo usa 4 retos activos, 2 distintos por secuencia y 7 imágenes por reto. | El umbral 0.65 es similitud, no una medición de precisión biométrica. |
+| Notificaciones / tiempo real | Funcionan correo SMTP y WebSocket en el sistema. | Las pruebas automatizadas que usan correo simulado describen solo su entorno de prueba. |
+| Reportes / persistencia | Funcionan los recorridos de consulta y persistencia reportados por el equipo. | Conservar evidencia de aceptación y verificar permisos según rol. |
+| Infraestructura | Hostinger; Caddy publica web/API/WebSocket por HTTPS; DB/backend/facial internos. | Ensayar restauración en un entorno separado y mantener el respaldo operativo. |
 
 ---
 
@@ -48,25 +48,21 @@ Para cada FE, registrar prioridad, rol, plataforma, precondiciones, pasos, esper
 
 | Evidencia reportada | Interpretación correcta |
 |---|---|
-| Servicio facial: 123 aprobadas; 1 prueba opcional PostgreSQL omitida. Frontend: 120 pruebas en 13 suites y 6 scripts de regresión. | Cobertura automatizada reportada; no sustituye cámara física ni aceptación de usuarios. |
-| Integración HTTP con base desechable, inferencia determinista/mock y correo simulado. | No prueba inferencia biométrica poblacional, SMTP real ni exactitud. |
-| HTTPS/login 200, health facial 200, ruta admin sin token 401, WebSocket 101. | Chequeos técnicos del despliegue; no certifican flujos completos. |
+| Servicio facial: 123 aprobadas; 1 prueba opcional PostgreSQL omitida. Frontend: 120 pruebas en 13 suites y 6 scripts de regresión. | Cobertura automatizada reportada; el equipo confirma además que la cámara y los flujos funcionales sirven en el sistema. |
+| Integración HTTP con base desechable, inferencia determinista/mock y correo simulado. | Describe esa corrida automatizada; el equipo confirma por separado el funcionamiento de asistencia y correo. No mide precisión poblacional. |
+| HTTPS/login 200, health facial 200, ruta admin sin token 401, WebSocket 101. | Chequeos técnicos del despliegue, junto con la confirmación funcional del equipo. |
 
-### Pendientes prioritarios de cierre
+### Aspectos de mejora y operación
 
-1. Inicio de sesión real y reglas por rol.
-2. Importación CSV con datos de prueba.
-3. Enrolamiento/asistencia con cámara autorizada y registro consultable.
-4. SMTP real.
-5. Prueba de respaldo y restauración.
-6. Decisiones documentadas de retención biométrica.
-7. Medición de latencia/errores y evaluación biométrica con protocolo definido.
+1. Ensayar la restauración de un respaldo en un entorno separado.
+2. Documentar retención, acceso y eliminación de datos biométricos.
+3. Medir latencia y errores; evaluar biometría con un protocolo y una muestra autorizados.
 
 ---
 
 ## 5. Trazabilidad y anexo
 
-El anexo conserva las 74 fichas, sus IDs FE, descripciones y prioridades del archivo completo original. Su encabezado de referencia técnica (FaceLit dev `724124e`, octubre 2026) se mantiene como fecha del análisis de cada ficha. Por ello, sus etiquetas API/PAR/LOCAL/UI/FUT son observaciones históricas; no deben citarse como auditoría del commit `5f7d6fe`. La sección actual de este documento es la actualización técnica al 27 de octubre.
+El anexo conserva las 74 fichas, sus IDs FE, descripciones y prioridades del archivo completo original. Su encabezado de referencia técnica (FaceLit `dev` `724124e`, octubre 2026) se mantiene como fecha del análisis de cada ficha. Por ello, sus etiquetas API/PAR/LOCAL/UI/FUT son observaciones históricas; no deben citarse como auditoría del `main` consultado el 4 de noviembre. La confirmación funcional del equipo se refiere al sistema actual y no reescribe las pruebas históricas del anexo.
 
 ### Regla de interpretación
 

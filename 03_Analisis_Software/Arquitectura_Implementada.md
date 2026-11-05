@@ -3,6 +3,8 @@
 **Corte de referencia:** 27 de octubre de 2026.  
 **Distinción:** este documento registra la arquitectura descrita para el sistema actual; la propuesta de Render/Vercel de los documentos previos se conserva como antecedente histórico.
 
+> **Revisión complementaria:** 4 de noviembre de 2026. Se inspeccionó el árbol de trabajo local de `FaceLit-Backend` y `FaceLit-DB`. Los cambios descritos en esta revisión aparecen sin seguimiento en Git en esos repositorios; por ello se documentan como trabajo presente en el árbol local, no como funcionalidad integrada en `main`, desplegada o aceptada.
+
 ## Arquitectura lógica
 
 FaceLit se organiza en cuatro componentes desplegables y una base compartida:
@@ -20,6 +22,14 @@ FaceLit se organiza en cuatro componentes desplegables y una base compartida:
 - Backend → PostgreSQL mediante JPA/JDBC.
 - Servicio facial → PostgreSQL mediante SQLAlchemy asíncrono y asyncpg.
 - Liquibase → PostgreSQL antes de que el backend valide el esquema.
+
+## Autenticación, registro y consentimiento (revisión local del 4 de noviembre)
+
+El backend conserva la autenticación como módulo interno del monolito. En el árbol local inspeccionado se encontró un controlador de registro bajo `/api/auth` con tres operaciones públicas: `POST /register`, `POST /verify-email` y `POST /resend-code`. El registro crea la cuenta en estado pendiente, asigna el rol inicial `APPRENTICE`, guarda una credencial con contraseña codificada y envía un código de verificación de seis dígitos con expiración de cinco minutos. La verificación activa la cuenta de una persona adulta; para una persona menor, marca el correo como verificado y mantiene la cuenta pendiente de consentimiento. El reenvío invalida el código previo.
+
+También hay componentes del dominio legal para aceptación de términos y aviso de privacidad, consentimiento, verificación del consentimiento y datos del acudiente. En la base de datos local aparece la migración `025_terms_acceptance_notice_version`, que agrega una versión del aviso a cada aceptación y una unicidad por usuario y versión. La presencia de estos modelos y migraciones en el árbol no demuestra por sí sola que el flujo legal completo esté conectado, probado de extremo a extremo o desplegado.
+
+El envío de códigos depende del servicio de correo del backend. La configuración y la entrega efectiva de correo deben documentarse y verificarse en el entorno correspondiente antes de considerar operativo el registro. La aceptación de términos y el consentimiento del acudiente son flujos distintos: no se debe describir la verificación del correo como autorización legal.
 
 La guía describe el backend como punto de coordinación del flujo de asistencia. El frontend actual envía registro facial al endpoint del backend bajo /api/facial/embeddings; el servicio Java puede invocar el servicio FastAPI. En el código del frontend revisado, la clave facial no se usa en la llamada del flujo, pero el README de ese repositorio aún menciona variables EXPO_PUBLIC de integración facial heredadas. Eliminar esas referencias de configuración/documentación y revisar el bundle es una tarea de seguridad pendiente; no afirmar que toda credencial histórica fue retirada hasta comprobarlo.
 
@@ -68,7 +78,8 @@ Las tres capas son una separación lógica dentro de las aplicaciones, no tres s
 - No se ha medido rendimiento bajo carga ni tiempo máximo garantizado.
 - La existencia de interfaces, capas o tests no demuestra que cada requisito esté aceptado en producción.
 - El flujo facial y de asistencia físico debe validarse con la versión desplegada y cámara real.
+- Los cambios de registro, consentimiento y versión del aviso vistos el 4 de noviembre aún no están confirmados en Git en los repositorios de aplicación y base de datos; no atribuirlos al despliegue sin una revisión posterior.
 
 ## Referencias de código
 
-SHA de referencia: FaceLit 5f7d6fe, FaceLit-Backend 2ab0bcd, micro-facial 1e12c6c y FaceLit-DB 41a063f. Ejemplos verificables en esos repositorios: FaceLit/features/facial/livenessChallenges.ts; FaceLit-Backend/.../FacialEmbeddingVerificationClient.java; micro-facial/app/services/liveness_validator.py; FaceLit-DB/06_migrations/.
+SHA de referencia de la arquitectura base: FaceLit 5f7d6fe, FaceLit-Backend 2ab0bcd, micro-facial 1e12c6c y FaceLit-DB 41a063f. Ejemplos para la revisión local del 4 de noviembre: `FaceLit-Backend/src/main/java/com/FaceLit/backend/auth/controller/security/RegisterController.java`, `auth/service/serviceImpl/security/RegisterServiceImpl.java`, `auth/model/legal/` y `FaceLit-DB/01_ddl/04_alter/025_terms_acceptance_notice_version.sql`. La revisión local no tiene SHA de commit asociado.

@@ -4,7 +4,6 @@
 
 **Gestión de asistencia académica y reconocimiento facial**
 
-**Autoras:**
 - Maria José Rodriguez Oyola
 - Valery Sinaí Trujillo Quintero
 - Mariana Valenzuela Penagos
@@ -171,7 +170,7 @@ El sistema completo contiene, además, un microservicio facial independiente. Po
 
 ### ¿Para qué funciona Liquibase?
 
-Liquibase no es el motor de base de datos ni una librería de reconocimiento facial. Lee el changelog y ejecuta los changesets pendientes en PostgreSQL. Registra su ejecución en `DATABASECHANGELOG` y utiliza control de bloqueo; los checksums ayudan a detectar cambios en migraciones ya aplicadas. Permite repetir el proceso de preparación del esquema de forma controlada.
+Liquibase no es el motor de base de datos ni una librería de reconocimiento facial. Lee el changelog y ejecuta los changesets pendientes en PostgreSQL. Registra su ejecución en DATABASECHANGELOG y utiliza control de bloqueo; los checksums ayudan a detectar cambios en migraciones ya aplicadas. Permite repetir el proceso de preparación del esquema de forma controlada.
 
 En este proyecto, Liquibase se ejecuta por separado del backend. Spring configura `liquibase.enabled: false` y Hibernate `ddl-auto: validate`: Java comprueba que el esquema coincide con las entidades, pero no lo crea automáticamente. La secuencia es preparar PostgreSQL, aplicar migraciones y arrancar el backend.
 
@@ -257,7 +256,7 @@ Una operación habitual sigue controlador → servicio → repositorio → Postg
 
 La organización facilita localizar cada función, separar interfaz HTTP, reglas y datos, y mantener una unidad de despliegue Java. Resulta adecuada para el alcance del proyecto sin introducir servicios separados para cada función académica. La existencia de paquetes no garantiza aislamiento estricto entre módulos ni demuestra una arquitectura hexagonal.
 
-El microservicio Python sigue siendo independiente del monolito Java. Las referencias a `schedule` no se consideran un módulo activo. No se concluye que todos los paquetes de ambientes estén vacíos a partir de un ejemplo parcial de estructura.
+El microservicio Python sigue siendo independiente del monolito Java. Las referencias a schedule no se consideran un módulo activo. No se concluye que todos los paquetes de ambientes estén vacíos a partir de un ejemplo parcial de estructura.
 
 ---
 
@@ -345,14 +344,7 @@ La configuración CORS revisada es amplia. Para producción conviene restringir 
 
 ## 7. Frontend: pantallas y arquitectura
 
-> **[Imagen — Figura 1]** Captura de la pantalla de presentación de FaceLit (fondo oscuro con acentos verdes). Texto visible en la imagen:
-> - Barra superior: "App", "Seguridad", "Contacto"; selector de idioma "ES" y botón "Tema".
-> - Etiqueta: "SISTEMA INTELIGENTE · SENA".
-> - Título: "Transformando el control de **asistencia académica**".
-> - Descripción: "FaceLit automatiza el registro de asistencia con reconocimiento facial e inteligencia biométrica, garantizando autenticidad, seguridad y eficiencia en cada ingreso."
-> - Botón: "Ya tengo cuenta".
-> - Indicadores: "24/7 Disponibilidad", "IA Reconocimiento", "100% Automatizado", "0 Suplantaciones".
-> - Maqueta de teléfono con la etiqueta "Analizando…", el texto "Identificación biométrica en tiempo real para el SENA" y las insignias "Biometría" y "Seguro".
+> **[Imagen]** Pantalla de presentación de FaceLit: encabezado con navegación (App, Seguridad, Contacto), selector de idioma (ES) y botón de tema; etiqueta "Sistema inteligente · SENA"; título "Transformando el control de asistencia académica"; texto "FaceLit automatiza el registro de asistencia con reconocimiento facial e inteligencia biométrica, garantizando autenticidad, seguridad y eficiencia en cada ingreso."; botón "Ya tengo cuenta"; indicadores promocionales (24/7 Disponibilidad, IA Reconocimiento, 100% Automatizado, 0 Suplantaciones); maqueta de un teléfono con el texto "Analizando..." e "Identificación biométrica en tiempo real para el SENA", con etiquetas "Biometría" y "Seguro".
 
 *Figura 1. Pantalla de presentación proporcionada por el equipo. Los mensajes promocionales de la imagen no se utilizan como métricas verificadas del proyecto.*
 

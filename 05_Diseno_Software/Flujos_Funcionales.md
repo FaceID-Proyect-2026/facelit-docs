@@ -1,12 +1,25 @@
 # FaceLit — diseño funcional y flujos actuales
 
-**Corte documental:** 27 de octubre de 2026. Este documento describe comportamientos del frontend y backend de referencia. Una pantalla existente no garantiza persistencia ni aceptación de todas las operaciones.
+**Corte de revisión:** 4 de noviembre de 2026. Se cotejó el diseño funcional con los árboles limpios de las ramas `main` disponibles localmente. Una pantalla existente no garantiza persistencia ni aceptación de todas las operaciones.
+
+| Repositorio | Rama | HEAD consultado |
+|---|---|---|
+| FaceLit | `main` | `6efd92cdd7e4e358b131cbe860cd8585d13e5550` |
+| FaceLit-Backend | `main` | `2ba739853a808c8e5902f70eae98706a612f91e6` |
+| micro-facial | `main` | `166e4a7f2245456277d57015259c678d8febfa9f` |
+| FaceLit-DB | `main` | `cd069ae0cb4947d4b7ebbff17e9d6dc280ab86fd` |
 
 ## Navegación y perfiles
 
 El cliente presenta funciones según la sesión y el rol. Aprendiz, instructor y coordinador comparten autenticación, perfil, idioma/tema y acceso a notificaciones, con menús distintos. La autorización efectiva se debe resolver también en Spring Security y en los servicios que comprueban el alcance del usuario sobre una ficha, sesión o recurso.
 
 La interfaz se organiza por rutas Expo y áreas de funcionalidad; pantallas delegan coordinación a hooks y a servicios HTTP/estado compartido. Esta organización no debe describirse como cuatro aplicaciones diferentes.
+
+## Autenticación y alta de usuarios en `main`
+
+El login se expone en `POST /api/auth/login`. La administración crea usuarios desde `POST /api/admin/users`, dentro del módulo administrativo; no corresponde a un registro público. La recuperación de acceso usa endpoints bajo `/api/auth` (`request-recovery`, `verify-token`, `reset-password`, entre otros). `POST /api/auth/privacy-acceptance-status` consulta el estado de aceptación de privacidad; por sí solo no registra una nueva aceptación.
+
+En el `main` consultado no aparecen los controladores públicos `/register`, `/verify-email`, `/resend-code` ni las rutas `/api/consent/*` descritas en una revisión local anterior. Por tanto, este documento no presenta la verificación por correo ni el consentimiento de acudiente como flujos disponibles en la versión actual de `main`.
 
 ## Preparación de información académica con CSV
 
@@ -78,4 +91,4 @@ La demostración debe usar HTTPS válido, permiso explícito de cámara, ilumina
 
 ## Evidencia y límites
 
-Los contratos se pueden cotejar con FaceLit/features/facial/livenessChallenges.ts, FaceLit/shared/services/facialEmbeddingService.ts, FaceLit-Backend/facial y micro-facial/app/services/liveness_validator.py. Las pruebas sintéticas verifican reglas y transporte; no miden precisión poblacional ni aceptan la cámara física por sí solas.
+Los contratos faciales se pueden cotejar con `FaceLit/features/facial/livenessChallenges.ts`, `FaceLit/shared/services/facialEmbeddingService.ts`, `FaceLit-Backend/src/main/java/com/FaceLit/backend/facial/` y `micro-facial/app/services/liveness_validator.py`. La administración de usuarios se puede cotejar con `FaceLit-Backend/src/main/java/com/FaceLit/backend/auth/controller/security/UserManagementController.java`; el login, con `auth/controller/roleandpermission/LoginController.java`. El equipo confirma que cámara, CSV, asistencia, acceso y correo funcionan en el sistema actual. Las pruebas sintéticas descritas aquí verifican reglas y transporte; no miden precisión biométrica poblacional.

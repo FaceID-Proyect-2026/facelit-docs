@@ -6,7 +6,7 @@
 
 | Corte de información | Estado |
 |---|---|
-| 27 de octubre de 2026 | Despliegue técnico actualizado; aceptación funcional manual pendiente. |
+| 4 de noviembre de 2026 | Despliegue técnico informado; el equipo confirma el funcionamiento de los flujos del sistema. |
 
 ### Propósito
 
@@ -112,14 +112,14 @@ El corte del 27 de octubre reporta despliegue en un VPS Hostinger con Caddy como
 
 ## 06 Verificación y resultados
 
-Se reportan verificaciones técnicas de servicios, rutas, migraciones y suites automatizadas. Estas comprobaciones aportan evidencia de integración, pero no sustituyen la aceptación de usuarios ni un estudio de exactitud biométrica.
+Se reportan verificaciones técnicas de servicios, rutas, migraciones y suites automatizadas. El equipo confirma que cámara, CSV, login, asistencia y correo funcionan en el sistema actual. Las pruebas automatizadas mantienen el alcance específico de su ejecución y no equivalen a un estudio de exactitud biométrica.
 
 | Verificación reportada | Alcance y límite |
 |---|---|
 | Servicio facial: 123 pruebas aprobadas; 1 prueba opcional de PostgreSQL omitida. | Pruebas del servicio; una integración opcional no se ejecutó. |
-| Frontend: 120 pruebas en 13 suites; 6 scripts de regresión. | No demuestra por sí solo el flujo completo en dispositivos reales. |
-| Integración HTTP con base desechable, inferencia determinista/mock y correo simulado. | No valida cámara física, precisión biométrica ni entrega SMTP real. |
-| Chequeos de salud, HTTPS, autorización y WebSocket en producción. | Verificación técnica reportada; aceptación manual aún pendiente. |
+| Frontend: 120 pruebas en 13 suites; 6 scripts de regresión. | Cobertura automatizada reportada; el equipo confirma el funcionamiento de cámara y flujos reales en el sistema. |
+| Integración HTTP con base desechable, inferencia determinista/mock y correo simulado. | Describe esa ejecución automatizada; no mide precisión biométrica poblacional. El funcionamiento de SMTP fue confirmado por el equipo. |
+| Chequeos de salud, HTTPS, autorización y WebSocket en producción. | Chequeos técnicos reportados, complementados por la confirmación funcional del equipo. |
 
 > No hay resultados medidos de latencia, carga, rendimiento o precisión con población representativa.
 
@@ -134,18 +134,22 @@ Se reportan verificaciones técnicas de servicios, rutas, migraciones y suites a
 - Coordinar migraciones antes de iniciar backend con Hibernate `validate`.
 - Generar y verificar respaldo antes de cambios de esquema.
 
-### Aceptación pendiente
+### Mejoras y comprobaciones complementarias
 
-Probar inicio de sesión real, importación CSV, SMTP real, cámara y asistencia físicas; ejecutar ensayo de restauración; validar APK en dispositivo si se presentará.
+El equipo confirma que login, importación CSV, SMTP, cámara y asistencia funcionan. Como comprobaciones complementarias, ensayar la restauración de un respaldo en un entorno separado y validar el APK en dispositivo si se presentará esa plataforma.
 
 ### Mejoras futuras
 
 Medir latencia, errores y capacidad con un plan de prueba definido; evaluar el comportamiento biométrico con datos autorizados y criterios aprobados; formalizar retención y eliminación de referencias faciales; revisar la matriz SRS frente a los SHA actuales.
 
-### Referencias de código reportadas al corte
+### Referencias de código consultadas al 4 de noviembre de 2026
 
-Frontend `5f7d6fe` (dev) • Backend `2ab0bcd` (dev) • Facial `1e12c6c` (dev) • FaceLit-DB `41a063f` (main)
+Frontend `6efd92c` (main) • Backend `2ba7398` (main) • Facial `166e4a7` (main) • FaceLit-DB `cd069ae` (main)
 
 ---
 
-**Conclusión:** FaceLit cuenta con una arquitectura desplegada que coordina cliente, backend, servicio facial y PostgreSQL. La siguiente etapa es cerrar la aceptación funcional y medir el desempeño con criterios explícitos.
+## Revisión local de registro y consentimiento — 4 de noviembre de 2026
+
+El código local del backend incorpora controladores y servicios de registro, verificación del correo, aceptación de términos y consentimiento del acudiente. Se mantiene como trabajo local pendiente de integración: sus archivos no están confirmados en Git, las tablas de consentimiento no aparecen en la cadena de migraciones inspeccionada y la migración 025 aún no está incluida en el changelog padre. No se considera parte de la arquitectura desplegada hasta cerrar esa integración y verificarla.
+
+**Conclusión:** FaceLit cuenta con una arquitectura desplegada que coordina cliente, backend, servicio facial y PostgreSQL. El equipo confirma el funcionamiento de los flujos del sistema. Las siguientes mejoras son medir el desempeño con criterios explícitos, ensayar restauración y formalizar la política biométrica.

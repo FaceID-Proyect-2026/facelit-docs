@@ -8,13 +8,13 @@
 
 | Corte | Repositorios revisados |
 |---|---|
-| 27 de octubre de 2026 | FaceLit `5f7d6fe` · Backend `2ab0bcd` · micro-facial `1e12c6c` · FaceLit-DB `41a063f` |
+| 4 de noviembre de 2026 | HEAD locales de `main`: FaceLit `6efd92c` · FaceLit-Backend `2ba7398` · micro-facial `166e4a7` · FaceLit-DB `cd069ae` |
 
 **Dirigido a:** desarrollo y soporte técnico
 **Programa:** SENA · Análisis y Desarrollo de Software
 **Instructor:** José de Jesús Motta
 
-> Este manual documenta el estado del código y despliegue reportado. Las credenciales reales se configuran fuera del repositorio. Las instrucciones no certifican aceptación funcional completa ni precisión biométrica.
+> Este manual documenta el estado del código y el despliegue reportado. El equipo confirma que los flujos funcionales operan al 4 de noviembre; este documento no mide precisión biométrica. Las credenciales reales se configuran fuera del repositorio.
 
 ---
 
@@ -28,6 +28,8 @@ flowchart LR
     B -- "JPA / JDBC" --> D
     L["Liquibase: cambios versionados<br/>antes de Hibernate validate"] -.-> D
 ```
+
+El cliente usa HTTPS con Spring Boot. El backend llama a FastAPI por HTTP interno con clave de servicio. Spring y FastAPI acceden a PostgreSQL. Liquibase aplica los cambios de esquema antes de la validación de Hibernate.
 
 ### Responsabilidad por componente
 
@@ -85,7 +87,7 @@ Tras la migración de contrato, los nombres canónicos son `role_name`, `descrip
 
 ### Buenas prácticas para cambios de esquema
 
-Agregar changesets nuevos en el changelog maestro; no editar los ya aplicados; validar y respaldar antes de `update`; aplicar migraciones antes de arrancar el backend; verificar restricciones e índices y ensayar restauración en un entorno separado. El despliegue reporta 45 changesets aplicados.
+Agregar changesets nuevos en el changelog maestro; no editar los ya aplicados; validar y respaldar antes de `update`; aplicar migraciones antes de arrancar el backend; verificar restricciones e índices y ensayar restauración en un entorno separado. El informe de despliegue del 27 de octubre registra 45 changesets aplicados.
 
 ---
 
@@ -170,9 +172,9 @@ Revisar los README y lockfiles actuales para las dependencias exactas antes de e
 
 Docker Compose coordina `postgres`, `migrate`, `facial`, `backend` y `web`. Caddy sirve la web y proxy de API/WebSocket; solo `web` publica 80/443. Los servicios de aplicación y PostgreSQL permanecen internos. Dominio web reportado: `srv2068863.hstgr.cloud`. Healthchecks consideran PostgreSQL y `/health` facial.
 
-### Configuración de APK pendiente de confirmar
+### Configuración del APK para distribución
 
-> La configuración local de `eas.json` apunta a `https://facelit.tech`, mientras la web Hostinger reportada usa `srv2068863.hstgr.cloud`. Confirmar URL/API, SHA de configuración y build EAS antes de distribuir un APK. Esos archivos locales tienen cambios sin commit al corte.
+> El perfil `preview` de `eas.json` en `main` apunta a `https://facelit-backend.onrender.com`. El despliegue web documentado usa `https://facelit.tech/` en Hostinger. Antes de distribuir el APK, confirmar la URL de API del entorno objetivo y probar el artefacto exacto en el dispositivo.
 
 ---
 
@@ -203,21 +205,26 @@ El umbral 0.65 es similitud, no precisión. No hay estudio biométrico represent
 
 ## 8. Verificación y límites operativos
 
-| Evidencia reportada al corte | Alcance / pendiente |
+| Evidencia reportada al corte | Alcance de la evidencia |
 |---|---|
-| Microservicio: 123 aprobadas; 1 prueba PostgreSQL opcional omitida. | Pruebas de reglas/retos con fixtures; no precisión con cámara real. |
-| Frontend: 120 aprobadas en 13 suites; seis scripts de regresión. | No aceptación de cámara física, SMTP ni todo lint global. |
+| Microservicio: 123 aprobadas; 1 prueba PostgreSQL opcional omitida. | Pruebas de reglas/retos con fixtures; el equipo confirma la operación de la cámara. No es un estudio de precisión biométrica. |
+| Frontend: 120 aprobadas en 13 suites; seis scripts de regresión. | Cobertura automatizada parcial; el equipo confirma cámara y SMTP funcionando en el sistema. |
 | Integración HTTP: 19 checks faciales y flujos relacionados. | DB desechable con 45 migraciones; inferencia controlada y correo simulado. |
-| Hostinger: web/login 200, health facial 200, admin sin token 401, WebSocket 101. | Checks técnicos; no aceptación integral de usuario. |
+| Hostinger: web/login 200, health facial 200, admin sin token 401, WebSocket 101. | Chequeos técnicos; el equipo confirma aparte el funcionamiento de login, CSV, SMTP, cámara y asistencia. |
 
-### Aceptación manual que permanece pendiente
+### Estado funcional actualizado al 4 de noviembre
 
-Login real de coordinación; carga CSV y validación de relaciones; entrega SMTP real; registro y asistencia con cámara física y usuario autorizado; persistencia tras recarga; instalación del APK exacto si se afirma soporte Android; restauración de backup en entorno separado; checks CI remotos asociados a los SHA publicados.
+El equipo confirma que login, carga CSV, SMTP, cámara física, registro y asistencia funcionan en el sistema actual. Como verificaciones complementarias se mantienen el ensayo de restauración de backup en un entorno separado y la prueba del APK exacto si se presenta soporte Android. Las suites antiguas conservan el alcance y las limitaciones de su propia ejecución.
 
 Antes de solicitar soporte, registrar repositorio/rama/SHA, entorno (local o VPS), paso reproducible, hora, endpoint, resultado esperado/observado y logs redactados. No adjuntar `.env`, tokens, imágenes faciales, embeddings, documentos ni datos reales.
 
 ---
 
-**Referencias:** FaceLit `5f7d6fe` (dev), FaceLit-Backend `2ab0bcd` (dev), micro-facial `1e12c6c` (dev), FaceLit-DB `41a063f` (main). Los SHA identifican los HEAD revisados; la configuración local Expo tiene cambios sin commit.
+Los SHA de portada identifican los HEAD locales de `main`. Para identificar una publicación concreta, consultar el manifiesto del release y el [procedimiento de despliegue](../17_Despliegue/Despliegue_Hostinger.md).
 
-Este manual describe arquitectura y configuración observadas al 27 de octubre de 2026. Para integraciones o métodos no enumerados, verificar controlador, DTO, permisos y README del SHA que se vaya a compilar.
+Los resultados de pruebas y las comprobaciones del VPS corresponden al informe del 27 de octubre de 2026. Para integraciones o métodos no enumerados, verificar controlador, DTO, permisos y README del SHA que se vaya a compilar.
+
+
+## Antecedente local de registro y consentimiento del 4 de noviembre de 2026
+
+Una revisión anterior de archivos fuera del `main` consultado identificó endpoints públicos de registro/verificación/reenvío bajo `/api/auth`, aceptación de términos y operaciones de consentimiento bajo `/api/consent`. Los códigos de correo y tokens de consentimiento expiran a los cinco minutos según los servicios revisados. La implementación aún requiere completar y verificar el mapeo de `notice_version`, las tablas legales, autorización de endpoints y pruebas de integración. No usar esta nota como contrato de una versión desplegada.

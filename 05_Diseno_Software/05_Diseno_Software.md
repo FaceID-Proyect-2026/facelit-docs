@@ -6,9 +6,9 @@
 
 | Corte | Fuentes técnicas |
 |---|---|
-| 27 octubre 2026 | Código de FaceLit y servicios; flujos funcionales y patrones verificados. Referencias de repositorio al corte indicadas en el cierre. |
+| 4 noviembre 2026 | Repositorios consultados en `main`; referencias de código indicadas en el cierre. Estado de despliegue documentado al 27 de octubre. |
 
-> **Alcance.** Describe el diseño actual observable y distingue implementación, decisiones de diseño y aceptación pendiente. Las pantallas y pruebas automatizadas no se interpretan por sí solas como aceptación operativa.
+> **Alcance.** Describe el diseño actual y distingue implementación, decisiones de diseño y mejoras por validar. El equipo confirma que los flujos funcionales del sistema, incluida cámara, CSV, asistencia y correo, ya operan.
 
 ---
 
@@ -98,7 +98,7 @@ El estado reportado al 27 de octubre corresponde a un VPS Hostinger. Caddy sirve
 | FastAPI facial | Red interna. | Health 200. |
 | PostgreSQL 16 + pgvector | Red interna; no publicar al cliente. | 45 changesets Liquibase reportados; backend usa Hibernate `validate`. |
 
-> Los valores de salud y rutas son chequeos técnicos reportados, no pruebas de aceptación con usuarios. Respaldos/restauración, login real, CSV, SMTP real y cámara/asistencia físicas requieren cierre manual.
+> Los valores de salud y rutas son chequeos técnicos reportados. El equipo confirma que login, CSV, SMTP, cámara y asistencia funcionan en el sistema actual. La restauración de respaldos debe ensayarse por separado; esto no indica una falla del flujo funcional.
 
 ---
 
@@ -148,20 +148,20 @@ El modelo separa cuenta/credencial/rol de vínculos académicos. El dominio incl
 - Ejecutar Liquibase de forma coordinada y respaldar antes de cambios.
 - Aplicar autorización de servidor, incluidos alcance de ficha/sesión.
 
-### Pendientes de diseño / aceptación
+### Mejoras de diseño y operación
 
 | Pendiente | Criterio para cerrarlo |
 |---|---|
 | Login y requisitos de identidad | Confirmar con SRS vigente si documento debe ser exclusivo; la implementación acepta compatibilidad por correo según revisión previa. |
 | Variables faciales heredadas | Revisar referencias `EXPO_PUBLIC` del README/build y comprobar bundle; no declarar eliminadas sin evidencia. |
-| Operación manual | Aceptar login real, importación CSV, SMTP real, cámara, asistencia física y restauración de respaldo. |
+| Operación y recuperación | El equipo confirma login, importación CSV, SMTP, cámara y asistencia funcionando; conservar evidencia de aceptación. Ensayar la restauración de un respaldo en entorno separado. |
 | Privacidad biométrica | Definir retención, acceso, eliminación y autorización institucional; verificar contra operación real. |
 | Calidad cuantitativa | Medir latencia, errores y exactitud con protocolo, muestra autorizada y condiciones documentadas. |
 
-### Repositorios revisados al corte (HEAD informado)
+### Repositorios revisados al 4 de noviembre (HEAD local de `main`)
 
-FaceLit `5f7d6fe` (dev) · FaceLit-Backend `2ab0bcd` (dev) · micro-facial `1e12c6c` (dev) · FaceLit-DB `41a063f` (main)
+FaceLit `6efd92c` (`main`) · FaceLit-Backend `2ba7398` (`main`) · micro-facial `166e4a7` (`main`) · FaceLit-DB `cd069ae` (`main`). Estos identificadores fijan el código consultado; no acreditan por sí solos que esos mismos commits estén activos en producción.
 
 ---
 
-**Conclusión.** El diseño actualizado sitúa Spring como autoridad de dominio y FastAPI como servicio facial interno, sobre despliegue Hostinger con servicios de datos privados. El trabajo pendiente es cerrar aceptación manual, política biométrica y medición reproducible.
+**Conclusión.** El diseño actualizado sitúa Spring como autoridad de dominio y FastAPI como servicio facial interno, sobre despliegue Hostinger con servicios de datos privados. El equipo confirma el funcionamiento de los flujos del sistema. Quedan como mejoras la política biométrica, la restauración ensayada y la medición reproducible.

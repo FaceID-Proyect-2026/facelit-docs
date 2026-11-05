@@ -202,3 +202,8 @@ Ejecuta el comando dentro del repositorio/Compose correspondiente. **No agregues
 ---
 
 **Referencia documental:** README y archivos Compose actuales de FaceLit, FaceLit-Backend, micro-facial y FaceLit-DB. Corte del manual: 27 de octubre de 2026. Verifica comandos y versiones contra los SHA de la entrega antes de distribuirlo.
+
+
+## Requisito pendiente para la rama local — 4 de noviembre de 2026
+
+El trabajo de registro depende del servicio de correo y el modelo legal requiere esquema compatible. En el árbol local, la migración 025 no forma parte del changelog padre y no se encontró migración para las tablas de consentimiento. No hay aquí pasos de instalación autorizados para activar ese flujo; primero integrar cambios, verificar configuración SMTP de forma privada y validar migraciones en una base desechable.

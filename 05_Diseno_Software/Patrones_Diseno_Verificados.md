@@ -1,6 +1,6 @@
 # Patrones de diseño verificados en FaceLit
 
-Fecha de revisión: 27 de octubre de 2026.
+Fecha de revisión de referencias: 4 de noviembre de 2026.
 
 Este documento rectifica la clasificación de patrones mediante inspección del código local. Complementa la sección 6.1 del documento general y la sección de diseño del artículo. Las propuestas del anexo `Introducción a framework.docx` se contrastan como material de referencia, sin asumir que ya estén implementadas.
 
@@ -8,24 +8,24 @@ Este documento rectifica la clasificación de patrones mediante inspección del 
 
 Se revisaron `FaceLit`, `FaceLit-Backend`, `micro-facial` y `FaceLit-DB`. Las referencias son relativas a este archivo y apuntan a los repositorios hermanos del espacio de trabajo; necesitan esa misma disposición para abrirse. Se indican archivos y símbolos para poder localizarlos también en cada repositorio por separado.
 
-| Repositorio | HEAD local al revisar | Alcance |
+| Repositorio | Rama y HEAD consultados | Alcance |
 | --- | --- | --- |
-| FaceLit | `5f7d6fe` (`dev`) | Pantallas, hooks, contextos, stores y servicios compartidos. |
-| FaceLit-Backend | `2ab0bcd` (`dev`) | Controladores, servicios, repositorios, DTO, seguridad, eventos y cliente facial. |
-| micro-facial | `1e12c6c` (`dev`) | Rutas FastAPI, servicio, repositorio, sesiones y trabajador facial. |
-| FaceLit-DB | `41a063f` (`main`) | Changelogs, migraciones e integridad de datos. |
+| FaceLit | `main` · `6efd92c` | Pantallas, hooks, contextos, stores y servicios compartidos. |
+| FaceLit-Backend | `main` · `2ba7398` | Controladores, servicios, repositorios, DTO, seguridad, eventos y cliente facial. |
+| micro-facial | `main` · `166e4a7` | Rutas FastAPI, servicio, repositorio, sesiones y trabajador facial. |
+| FaceLit-DB | `main` · `cd069ae` | Changelogs, migraciones e integridad de datos. |
 
-Los hashes identifican el `HEAD` local al 27 de octubre; no representan por sí solos una instantánea de todos los archivos. FaceLit tenía cambios locales en `app.json` y `eas.json`; esos archivos de configuración no se usan como evidencia de los patrones descritos. Los ejemplos se comprobaron por presencia en el árbol de trabajo de cada repositorio. Es una revisión estática, sin ejecución de la aplicación ni validación del despliegue. Una ausencia de evidencia se expresa como «no verificado», no como prueba absoluta de inexistencia.
+Los hashes identifican los `HEAD` locales consultados el 4 de noviembre en las ramas `main`; no acreditan por sí solos qué revisión está desplegada. Se volvieron a cotejar los archivos enlazados y los ejemplos de código contra estos árboles. Es una revisión estática, sin ejecución de la aplicación ni validación del despliegue. Una ausencia de evidencia se expresa como «no verificado», no como prueba absoluta de inexistencia.
 
-## Actualización del estado del proyecto al 27 de octubre
+## Revisión del estado del proyecto al 4 de noviembre
 
-La revisión de patrones no encontró una razón para reclasificar los ejemplos de código enumerados abajo: los archivos y símbolos citados siguen presentes en los repositorios al corte indicado. Se actualizan aquí la fecha y las referencias de versión para que el alcance de la revisión no se confunda con los commits inspeccionados el 26 de octubre.
+Los archivos y mecanismos citados se cotejaron en los árboles `main` indicados arriba. La revisión no constituye una auditoría completa de patrones ni de comportamiento en ejecución.
 
 La arquitectura de ejecución se documenta como cliente Expo → API Spring Boot → llamada HTTP interna a FastAPI → PostgreSQL con pgvector. El backend y el servicio facial comparten PostgreSQL; esta separación de responsabilidades no convierte automáticamente el sistema en microservicios autónomos ni en una arquitectura distribuida dirigida por eventos. Los eventos Spring citados son locales al proceso. El despliegue reportado usa Hostinger y Caddy, con PostgreSQL, Spring y FastAPI en red interna.
 
 El flujo facial vigente usa los retos `MOVE_UP`, `MOVE_DOWN`, `MOVE_CLOSER` y `MOVE_AWAY`; la secuencia documentada pide dos retos distintos con siete imágenes por reto. El umbral observado `0.65` es de similitud, no una medida de precisión. Estos datos describen el flujo y sus límites, no patrones de diseño adicionales.
 
-Para diseño funcional, consulte [flujos funcionales actualizados](Flujos_Funcionales_Actualizados_2026-10-27.md). Para la propuesta consolidada, consulte [Diseño de Software actualizado (PDF)](05_Diseno_Software_Actualizado_2026-10-27.pdf). La presencia de despliegue y chequeos técnicos no sustituye la aceptación manual pendiente para login real, CSV, SMTP, cámara/asistencia y restauración.
+Para diseño funcional, consulte [Flujos Funcionales](Flujos_Funcionales.md). Para la propuesta consolidada, consulte [Diseño de Software](05_Diseno_Software.md). El equipo confirma que login, CSV, SMTP, cámara y asistencia funcionan. La prueba de restauración y la política de datos biométricos siguen siendo tareas operativas/documentales, no defectos funcionales reportados.
 
 ## Resultado por repositorio
 
