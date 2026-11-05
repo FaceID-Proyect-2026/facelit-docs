@@ -170,11 +170,11 @@ Revisar los README y lockfiles actuales para las dependencias exactas antes de e
 
 ### Despliegue Hostinger
 
-Docker Compose coordina `postgres`, `migrate`, `facial`, `backend` y `web`. Caddy sirve la web y proxy de API/WebSocket; solo `web` publica 80/443. Los servicios de aplicación y PostgreSQL permanecen internos. Dominio web reportado: `srv2068863.hstgr.cloud`. Healthchecks consideran PostgreSQL y `/health` facial.
+Docker Compose coordina `postgres`, `migrate`, `facial`, `backend` y `web` en el VPS Hostinger. Caddy sirve `https://facelit.tech/` y hace proxy de API/WebSocket; solo `web` publica 80/443. PostgreSQL, Spring Boot y FastAPI permanecen en red interna. Healthchecks: PostgreSQL y `/health` facial.
 
 ### Configuración del APK para distribución
 
-> El perfil `preview` de `eas.json` en `main` apunta a `https://facelit-backend.onrender.com`. El despliegue web documentado usa `https://facelit.tech/` en Hostinger. Antes de distribuir el APK, confirmar la URL de API del entorno objetivo y probar el artefacto exacto en el dispositivo.
+> Para generar un APK conectado a Hostinger, configurar `EXPO_PUBLIC_API_URL=https://facelit.tech` en el perfil EAS elegido y reconstruirlo. El perfil `preview` del código revisado conserva una URL heredada; el release web instalado en el VPS usa el dominio de Hostinger. Probar el APK generado en el dispositivo objetivo.
 
 ---
 

@@ -418,30 +418,30 @@ Las comprobaciones de calidad visual o movimiento no demuestran por sí solas un
 
 ## 8.1. Despliegue: herramientas y proceso
 
-El documento de despliegue aportado describe PostgreSQL 16 y el backend Docker en Render, la aplicación web exportada de Expo en Vercel y un APK de Android generado con EAS. Estos son los destinos documentados; esta revisión no realiza una verificación en vivo de su disponibilidad.
+FaceLit está desplegado íntegramente en un VPS de Hostinger y se accede desde [https://facelit.tech/](https://facelit.tech/). Docker Compose coordina web, backend, servicio facial y PostgreSQL. La publicación del 4 de noviembre se preparó desde `main` local de los cuatro repositorios, con los ajustes registrados en el manifiesto. Actualización documental: 5 de noviembre de 2026.
 
-| Componente | Herramienta / destino documentado |
+| Componente | Herramienta / destino vigente |
 |---|---|
-| Base de datos | PostgreSQL en Render; pgvector y migraciones Liquibase. |
-| Backend | Spring Boot empaquetado y ejecutado con Docker en Render. |
-| Web | `npx expo export --platform web`; salida `dist` publicada en Vercel. |
-| Android | EAS Build, perfil preview, para generar APK. |
-| Microservicio Python | Configuración Docker/local disponible. No hay evidencia suficiente aquí para afirmar publicación cloud terminada. |
+| Base de datos | PostgreSQL 16 con pgvector en la red privada Docker del VPS; migraciones Liquibase. |
+| Backend | Spring Boot en un contenedor privado del VPS Hostinger; Caddy conecta la API y WebSocket. |
+| Web | Exportación web de Expo servida por Caddy en `https://facelit.tech/`, dentro del mismo VPS. |
+| Android | EAS genera el APK por separado; su perfil debe configurar la API de Hostinger antes de reconstruirlo. |
+| Microservicio Python | FastAPI desplegado en un contenedor privado del mismo VPS, conectado al backend y a PostgreSQL. |
 
 ### Orden del proceso
 
-1. Crear PostgreSQL y preparar extensión vector.
-2. Ejecutar Liquibase contra la base destino: validar y aplicar cambios.
-3. Configurar credenciales y URLs privadas del backend y arrancarlo con el esquema preparado.
-4. Preparar Python con acceso a la misma base y una URL alcanzable desde sus consumidores.
-5. Configurar las URLs públicas del frontend antes de exportar web y generar APK.
-6. Publicar los artefactos y comprobar acceso, permisos de cámara, enrolamiento, sesión y consulta de asistencia.
+1. Preparar el paquete desde los cuatro checkouts locales de `main`, registrar SHA y ajustes en el manifiesto y respaldar la base.
+2. Transferir el paquete al VPS y configurar dominio y variables privadas del entorno.
+3. Iniciar PostgreSQL, validar el changelog y aplicar migraciones con Liquibase.
+4. Construir y activar los contenedores de FastAPI, Spring Boot y web con Docker Compose.
+5. Publicar la exportación web con Caddy, HTTPS y proxy de API/WebSocket en `facelit.tech`.
+6. Comprobar acceso, CSV, correo, cámara y asistencia; conservar manifiesto, respaldo y resultados del release.
 
 ### Direcciones y puertos
 
-El Compose de desarrollo publica PostgreSQL en 5439 hacia el puerto 5432 del contenedor. Ese 5439 no debe trasladarse automáticamente a producción. Desde un servicio cloud, `localhost` apunta al mismo contenedor: no representa el computador del equipo ni el microservicio remoto. Usar las direcciones reales y SSL según el servicio destino.
+Solo Caddy publica los puertos 80 y 443 del VPS. PostgreSQL, Spring Boot y FastAPI se comunican por la red interna Docker y no exponen sus puertos al exterior. El puerto 5439 del Compose local es una configuración de desarrollo.
 
-El reporte menciona limitaciones operativas como arranque en frío y correo SMTP. Deben verificarse en el entorno de la presentación. La evidencia de despliegue debe incluir versión publicada, configuración sin secretos y resultado de los recorridos centrales.
+El equipo confirma que login, carga CSV, correo SMTP, cámara y asistencia funcionan. El [informe de despliegue](../17_Despliegue/Despliegue_Hostinger.md) detalla el procedimiento, las versiones y las diferencias entre el paquete instalado y GitHub.
 
 ---
 
@@ -456,7 +456,7 @@ El reporte menciona limitaciones operativas como arranque en frío y correo SMTP
 | Expo / React Native / TypeScript | Interfaz compartida, rutas y componentes para web y Android. |
 | Axios / i18next | Intercambio HTTP y recursos de traducción. |
 | FastAPI / InsightFace / ONNX Runtime | API Python y generación de embeddings del rostro. |
-| Docker / Render / Vercel / EAS | Contenedores y destinos/procesos de publicación documentados. |
+| Docker Compose / Caddy / Hostinger / EAS | VPS para la publicación web y servicios; EAS para generar APK por separado. |
 
 Las versiones se toman de declaraciones y configuración del repositorio, no de una instalación validada. En Python se declara FastAPI 0.115.6 e InsightFace 0.7.3; el Dockerfile usa Python 3.12. Conservar los archivos de dependencias y comprobar compatibilidad al reconstruir el entorno.
 

@@ -2,6 +2,8 @@
 
 Repositorio documental del sistema FaceLit para la gestión académica y el control de asistencia con reconocimiento facial. La entrega se organiza en las 17 secciones numeradas del proyecto.
 
+**Despliegue actual:** [FaceLit](https://facelit.tech/) está publicado íntegramente en un VPS de **Hostinger**. Docker Compose coordina la web, el backend Spring Boot, el servicio facial FastAPI y PostgreSQL con pgvector; Caddy publica el dominio por HTTPS y conecta API y WebSocket. El [informe de despliegue](17_Despliegue/Despliegue_Hostinger.md) documenta el paquete preparado desde `main` local de los cuatro repositorios y sus ajustes.
+
 ## Índice de la documentación
 
 | Sección | Contenido principal |
