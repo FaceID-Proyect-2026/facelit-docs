@@ -1,93 +1,43 @@
-# FaceLit — Documentación del proyecto
+# FaceLit — documentación del proyecto
 
-Documentación del sistema de control de asistencia mediante reconocimiento facial.
-Organizada según las 17 secciones de la carpeta de referencia `FaceLit_Docs`.
+Repositorio documental del sistema FaceLit para la gestión académica y el control de asistencia con reconocimiento facial. La entrega se organiza en las 17 secciones numeradas del proyecto.
 
-## Patrones de diseño verificados
+## Índice de la documentación
 
-La [revisión de patrones de diseño](05_Diseno_Software/Patrones_Diseno_Verificados.md)
-contrasta la documentación con el código local de los cuatro repositorios, con
-fecha del 26 de octubre de 2026. Incluye evidencia por archivo, rectificaciones
-de terminología y una redacción corregida para el proyecto. Los PDF y anexos
-conservan su contenido anterior; consultar esta revisión para la clasificación
-actualizada de patrones.
+| Sección | Contenido principal |
+|---|---|
+| [01 — Documento general](01_Documento_General_Proyecto/01_Documento_General_Proyecto.md) | Alcance, estado general y contexto del proyecto. |
+| [02 — Especificación y requerimientos](02_Especificacion_Requisitos/SRS_FaceLit_V4.md) | SRS vigente, requerimientos funcionales (RF) y requerimientos no funcionales (RNF), estados y trazabilidad. |
+| [03 — Análisis de software](03_Analisis_Software/Arquitectura_Implementada.md) | Arquitectura y componentes implementados. |
+| [04 — Propuesta técnica](04_Propuesta_Tecnica/04_Propuesta_Tecnica.md) | Stack, decisiones y propuesta técnica. |
+| [05 — Diseño de software](05_Diseno_Software/05_Diseno_Software.md) | Diseño, flujos funcionales, priorización MoSCoW y patrones verificados. |
+| [06 — Base de datos](06_Base_Datos/Base_Datos_Migraciones.md) | Esquema y migraciones de base de datos. |
+| [07 — Pruebas](07_Pruebas/Pruebas_Evidencias_Actualizadas.md) | Planes, resultados y catálogo de evidencias; incluye [capturas por rol](07_Pruebas/Evidencias_Visuales_por_Rol.md). |
+| [08 — Calidad y mejoras](08_Calidad_Mejoras/08_Calidad_Mejoras.md) | Calidad, seguridad, mejoras y criterios de verificación. |
+| [09 — Implementación](09_Implementacion/09_Implementacion.md) | Componentes y comportamiento implementado. |
+| [10 — Manual técnico](10_Manual_Tecnico/10_Manual_Tecnico.md) | Referencia técnica del sistema. |
+| [11 — Manual de instalación](11_Manual_Instalacion/11_Manual_Instalacion.md) | Preparación e instalación de los componentes. |
+| [12 — Manual de usuario](12_Manual_Usuario/12_Manual_Usuario.md) | Instrucciones de uso para los roles del sistema. |
+| [13 — Artículo del proyecto](13_Articulo_Proyecto/) | Artículo y material académico. |
+| [14 — Anexos](14_Anexos/README.md) | Anexos A, B y C del SRS, trazabilidad complementaria y propuesta de licencias. |
+| [15 — Repositorios](15_Link_Repositorios/Repositorios_del_proyecto.md) | Enlaces a los cuatro repositorios del proyecto. |
+| [16 — Diseño visual](16_Diseño_Visual/README.md) | Arquitectura de información, identidad visual, sistema UI y recursos gráficos. |
+| [17 — Despliegue](17_Despliegue/Despliegue_Hostinger.md) | Procedimiento, infraestructura y versiones declaradas para el despliegue. |
 
-## Estructura
+## Anexos y entregables
 
-```text
-facelit-docs/
-├── 01_Documento_General_Proyecto/
-│   └── Gantt/
-├── 02_Especificacion_Requisitos/
-├── 03_Analisis_Software/
-├── 04_Propuesta_Tecnica/
-├── 05_Diseno_Software/
-├── 06_Base_Datos/
-├── 07_Pruebas/
-├── 08_Calidad_Mejoras/
-├── 09_Implementacion/
-├── 10_Manual_Tecnico/
-├── 11_Manual_Instalacion/
-├── 12_Manual_Usuario/
-├── 13_Articulo_Proyecto/
-├── 14_Anexos/
-│   ├── Presentacion-diapositiva/
-│   └── trabajo de Motta 2026/
-├── 15_Link_Repositorios/
-├── 16_Diseño_Visual/
-│   ├── Diseño web/
-│   └── Manual de marca/
-└── 17_Despliegue/
-```
+- Los anexos en Markdown tienen su PDF correspondiente dentro de [14_Anexos](14_Anexos/README.md).
+- La documentación de diseño visual incluye una versión Markdown, un documento DOCX y un PDF en [16_Diseño_Visual](16_Diseño_Visual/README.md).
+- Las capturas de los roles están organizadas en `07_Pruebas/Capturas_Roles/` y se referencian desde el catálogo de evidencias visuales.
+- Los PDF y documentos editables acompañan a sus fuentes cuando forman parte de la entrega. Consulta cada índice de carpeta para localizar sus versiones.
 
-## Ubicación de los documentos anteriores
+## Criterios para leer la documentación
 
-| Carpeta anterior | Ubicación actual |
-| --- | --- |
-| Anexo | 14_Anexos |
-| Diagramas | 03_Analisis_Software |
-| Diseño web | 16_Diseño_Visual/Diseño web |
-| Gantt | 01_Documento_General_Proyecto/Gantt |
-| Informe técnico | 10_Manual_Tecnico |
-| Manual de marca | 16_Diseño_Visual/Manual de marca |
-| Modelo entidad relación (BD) | 06_Base_Datos |
-| Presentacion-diapositiva | 14_Anexos/Presentacion-diapositiva |
-| Prototipado | 05_Diseno_Software |
-| SRS | 02_Especificacion_Requisitos |
-| trabajo de Motta 2026 | 14_Anexos/trabajo de Motta 2026 |
+- **Requerimientos funcionales (RF)** y **requerimientos no funcionales (RNF)** son las denominaciones usadas en el SRS y sus anexos.
+- La documentación distingue el comportamiento confirmado, la implementación encontrada, la evidencia disponible y los criterios aún por verificar. Una prueba automatizada o una captura aislada no demuestra por sí sola la aceptación completa de un flujo.
+- El documento de despliegue identifica las ramas y versiones fuente declaradas y explica las diferencias entre el estado local, el remoto y el desplegado cuando aplica. Consulta ese documento antes de inferir que un cambio local ya está publicado.
+- Las fechas que aparecen en nombres de archivos pueden corresponder a cortes anteriores; cada documento indica su propio alcance y fecha de actualización.
 
-Se incorporaron los 37 archivos de referencia y se conservaron los documentos
-anteriores, incluidos los enlaces de diseño. El diagrama anterior cuyo nombre
-coincidía con uno de los archivos importados se conserva como
-`03_Analisis_Software/Diagrama de Transición de estado__anterior`.
+## Repositorios del sistema
 
-## Documentación Markdown actualizada — orden oficial 01–17
-
-Los documentos actualizados están organizados dentro de las carpetas numeradas originales, en el mismo orden de la carpeta de entrega. La fecha de corte es 27 de octubre de 2026.
-
-| Orden | Carpeta | Documento Markdown actualizado |
-|---:|---|---|
-| 01 | 01_Documento_General_Proyecto | [Estado general y alcance](01_Documento_General_Proyecto/Estado_General_Actualizado_2026-10-27.md) |
-| 02 | 02_Especificacion_Requisitos | [Trazabilidad del SRS V4](02_Especificacion_Requisitos/Trazabilidad_SRS_V4_Actualizada_2026-10-27.md) · [SRS V4 baseline editable](02_Especificacion_Requisitos/SRS_V4_Base_2026-10-13.md) |
-| 03 | 03_Analisis_Software | [Arquitectura implementada](03_Analisis_Software/Arquitectura_Implementada_2026-10-27.md) |
-| 04 | 04_Propuesta_Tecnica | [Propuesta técnica actualizada](04_Propuesta_Tecnica/Propuesta_Tecnica_Actualizada_2026-10-27.md) |
-| 05 | 05_Diseno_Software | [Diseño funcional y flujos](05_Diseno_Software/Flujos_Funcionales_Actualizados_2026-10-27.md) |
-| 06 | 06_Base_Datos | [Base de datos y migraciones](06_Base_Datos/Base_Datos_Migraciones_Actualizadas_2026-10-27.md) |
-| 07 | 07_Pruebas | [Pruebas y evidencias](07_Pruebas/Pruebas_Evidencias_Actualizadas_2026-10-27.md) |
-| 08 | 08_Calidad_Mejoras | [Calidad, seguridad y mejoras](08_Calidad_Mejoras/Calidad_Seguridad_Mejoras_Actualizadas_2026-10-27.md) |
-| 09 | 09_Implementacion | [Implementación realizada](09_Implementacion/Implementacion_Realizada_2026-10-27.md) |
-| 10 | 10_Manual_Tecnico | [Manual técnico](10_Manual_Tecnico/Manual_Tecnico_Actualizado_2026-10-27.md) |
-| 11 | 11_Manual_Instalacion | [Manual de instalación](11_Manual_Instalacion/Manual_Instalacion_Actualizado_2026-10-27.md) |
-| 12 | 12_Manual_Usuario | [Manual de usuario](12_Manual_Usuario/Manual_Usuario_Actualizado_2026-10-27.md) |
-| 13 | 13_Articulo_Proyecto | [Artículo: resultados y límites](13_Articulo_Proyecto/Articulo_Resultados_Actualizados_2026-10-27.md) |
-| 14 | 14_Anexos | [Licencias, costos y dependencias](14_Anexos/Licencias_Costos_Dependencias_2026-10-27.md) |
-| 15 | 15_Link_Repositorios | [Repositorios y versiones](15_Link_Repositorios/Repositorios_y_Versiones_2026-10-27.md) |
-| 16 | 16_Diseño_Visual | [Sistema visual e interfaz](16_Diseño_Visual/Sistema_Visual_UI_2026-10-27.md) |
-| 17 | 17_Despliegue | [Despliegue Hostinger](17_Despliegue/Despliegue_Hostinger.md) |
-
-Los documentos describen el corte reportado, diferencian lo implementado de lo pendiente y conservan el SRS V4 como baseline de requisitos. Los PDF/Word originales permanecen intactos; cuando su contenido describa una plataforma o estado anterior, debe marcarse como histórico antes de distribuir la carpeta. La matriz SRS V4 tiene fecha 13 de octubre y requiere revisión requisito por requisito contra el corte actual. La actualización documental no equivale a aceptación oficial ni a una nueva prueba del sistema.
-
-
-## Nota de actualización — 4 de noviembre de 2026
-
-Se añadieron notas de revisión local en las secciones 01, 03, 04, 05, 06, 07, 08, 09, 10, 11, 12, 14, 15 y 17 sobre el trabajo de registro, correo, consentimiento y versión del aviso. Distinguen el código local sin seguimiento de la funcionalidad integrada o desplegada. La sección 02 (SRS) y sus anexos quedan pendientes para la revisión final solicitada.
+La solución está distribuida en los repositorios FaceLit (frontend), FaceLit-Backend, micro-facial (servicio facial) y FaceLit-DB (esquema y migraciones). Los enlaces y detalles están en [15_Link_Repositorios](15_Link_Repositorios/Repositorios_del_proyecto.md); las referencias de despliegue están en [17_Despliegue](17_Despliegue/Despliegue_Hostinger.md).
